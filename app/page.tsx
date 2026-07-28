@@ -34,6 +34,7 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [sourceState, setSourceState] = useState<"loading" | "ok" | "error">("loading");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mapReady, setMapReady] = useState(false);
 
   const selected = useMemo(
     () => communes.find((commune) => commune.code === selectedCode),
@@ -77,6 +78,7 @@ export default function Home() {
         attribution: "© OpenStreetMap · © CARTO",
       }).addTo(map);
       mapRef.current = map;
+      setMapReady(true);
     };
     const existing = document.querySelector<HTMLScriptElement>('script[data-leaflet="true"]');
     if (existing) {
@@ -114,7 +116,7 @@ export default function Home() {
     }).addTo(map);
     communeLayerRef.current = layer;
     if (!selectedCode) map.fitBounds(layer.getBounds(), { padding: [20, 20] });
-  }, [communes, selectedCode]);
+  }, [communes, selectedCode, mapReady]);
 
   useEffect(() => {
     if (!selected || !mapRef.current || !communeLayerRef.current) return;
@@ -149,6 +151,7 @@ export default function Home() {
           <a href="#territoire">Le territoire</a>
           <a href="#thematiques">Les thématiques</a>
           <a href="#liens-utiles">Liens utiles</a>
+          <a className="weather-nav" href="https://ddt95.github.io/observatoire_meteo/" target="_blank" rel="noreferrer">Météo ↗</a>
           <a href="#sources">Les sources</a>
         </nav>
       </header>
@@ -156,6 +159,7 @@ export default function Home() {
       <section className="hero" id="accueil">
         <div className="hero-copy">
           <p className="eyebrow">Observer · comprendre · décider</p>
+          <a className="hero-weather" href="https://ddt95.github.io/observatoire_meteo/" target="_blank" rel="noreferrer"><span>Donnée associée</span><strong>Consulter la météo du Val-d’Oise</strong><b>↗</b></a>
           <h1>Le Val-d’Oise,<br /><span>carte après carte.</span></h1>
           <p className="hero-lead">Un accès commun aux données territoriales de la DDT 95 et à onze observatoires thématiques alimentés par des sources publiques.</p>
           <form className="territory-search" onSubmit={submitSearch}>
