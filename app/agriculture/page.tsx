@@ -65,7 +65,7 @@ export default function AgriculturePage() {
         overlaysRef.current[item.id] = layer;
         if (item.active) layer.addTo(map);
       });
-      fetch("/data/cartobio-val-doise.geojson").then((response) => response.json()).then((data) => {
+      fetch(`${(import.meta.env.BASE_URL || "/").replace(/\/$/, "")}/data/cartobio-val-doise.geojson`).then((response) => response.json()).then((data) => {
         bioDataRef.current = data;
         const totals = new Map<string, number>();
         data.features?.forEach((feature: any) => {
@@ -208,4 +208,3 @@ export default function AgriculturePage() {
     </div></aside>}
   </main>;
 }
-

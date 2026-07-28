@@ -24,6 +24,7 @@ const themes = [
 ];
 
 export default function Home() {
+  const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
   const mapNode = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
   const communeLayerRef = useRef<any>(null);
@@ -134,7 +135,7 @@ export default function Home() {
     <main className="atlas-shell">
       <header className="atlas-header">
         <a className="republique" href="#accueil" aria-label="Préfet du Val-d’Oise — retour à l’accueil">
-          <img src="/prefet-val-doise-logo.png" alt="Préfet du Val-d’Oise — Liberté, Égalité, Fraternité" />
+          <img src={`${basePath}/prefet-val-doise-logo.png`} alt="Préfet du Val-d’Oise — Liberté, Égalité, Fraternité" />
         </a>
         <div className="brand-copy">
           <span>Direction départementale des territoires</span>
@@ -198,7 +199,7 @@ export default function Home() {
               <div className="theme-top"><span className="theme-index">{theme.index}</span><span className="theme-status">{theme.status}</span></div>
               <h3>{theme.title}</h3><p>{theme.text}</p>
               {theme.href ? (
-                <a href={theme.href} target={theme.href.startsWith("http") ? "_blank" : undefined} rel={theme.href.startsWith("http") ? "noreferrer" : undefined} aria-label={`Ouvrir ${theme.title}`}>Ouvrir l’observatoire <span aria-hidden="true">{theme.href.startsWith("http") ? "↗" : "→"}</span></a>
+                <a href={theme.href.startsWith("/") ? `${basePath}${theme.href}` : theme.href} target={theme.href.startsWith("http") ? "_blank" : undefined} rel={theme.href.startsWith("http") ? "noreferrer" : undefined} aria-label={`Ouvrir ${theme.title}`}>Ouvrir l’observatoire <span aria-hidden="true">{theme.href.startsWith("http") ? "↗" : "→"}</span></a>
               ) : (
                 <span className="theme-action">Emplacement préparé <b aria-hidden="true">→</b></span>
               )}
