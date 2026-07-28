@@ -72,3 +72,11 @@ body{font-family:"Marianne",Arial,sans-serif}
 
 /* Observatoire Sécurité routière */
 .road-safety-page{min-height:100vh;background:#f6f6fe}.road-safety-intro{max-width:850px;margin:0 auto;padding:clamp(70px,10vw,150px) 28px}.road-safety-intro h1{font-size:clamp(2.5rem,6vw,5.7rem);line-height:.95;color:var(--navy);margin:18px 0 28px;letter-spacing:-.055em}.road-safety-intro>p:not(.eyebrow){font-size:1.2rem;line-height:1.65;color:var(--muted);max-width:720px}.road-safety-status{margin-top:42px;padding:25px 28px;border-left:5px solid #e1000f;background:#fff;display:grid;gap:8px}.road-safety-status span{text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;font-weight:700;color:#e1000f}.road-safety-status strong{font-size:1.05rem;color:var(--navy)}
+
+/* Calage définitif du bloc-marque préfectoral */
+.atlas-header{height:104px;padding-top:0;padding-bottom:0}
+.atlas-header .republique{width:142px;height:104px;justify-content:flex-start;align-items:center;overflow:visible}
+.atlas-header .republique img{width:122px;height:88px;object-fit:contain;object-position:left center;transform:translateY(-1px)}
+.atlas-header .brand-copy{min-height:64px;justify-content:center;padding-left:24px}
+@media(max-width:820px){.atlas-header{height:88px}.atlas-header .republique{width:108px;height:88px}.atlas-header .republique img{width:96px;height:72px}.atlas-header .brand-copy{min-height:54px;padding-left:14px}.top-nav{top:88px}}
+@media(max-width:540px){.atlas-header .republique{width:92px}.atlas-header .republique img{width:84px;height:66px}}
