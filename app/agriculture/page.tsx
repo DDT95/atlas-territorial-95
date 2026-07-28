@@ -136,6 +136,22 @@ export default function AgriculturePage() {
     setMessage(mode === "bio" ? "Les parcelles certifiées bio sont affichées en vert." : "Commencez par afficher les informations qui répondent à votre question.");
   }
 
+  function closeDetails() {
+    const map = mapRef.current;
+    if (map && markerRef.current) map.removeLayer(markerRef.current);
+    if (map && parcelRef.current) map.removeLayer(parcelRef.current);
+    markerRef.current = null;
+    parcelRef.current = null;
+    setDetailsOpen(false);
+    setQuery("");
+    setLocation("Val-d’Oise");
+    setCropHistory([]);
+    setEnvironment([]);
+    setBioParcel(null);
+    setAnalysisLoading(false);
+    setMessage(agricultureMode === "bio" ? "Les parcelles certifiées bio sont affichées en vert." : "Commencez par afficher les informations qui répondent à votre question.");
+  }
+
   async function loadEnvironment(lon: number, lat: number) {
     const geom = encodeURIComponent(JSON.stringify({ type: "Point", coordinates: [lon, lat] }));
     const sources = [
@@ -202,7 +218,7 @@ export default function AgriculturePage() {
       </aside>
       <section className="agri-map-wrap"><div className="agri-zoom-level"><strong>{mapZoom >= 14 ? "Détail agricole" : "Vue départementale"}</strong><span>zoom {mapZoom}</span></div><div className="agri-map-note"><strong>{mapZoom >= 12 ? "Cliquez sur une parcelle" : "Zoomez pour explorer"}</strong><span>{mapZoom >= 12 ? "La fiche détaillée s’ouvre à droite." : "Les cultures et les parcelles bio deviennent plus lisibles."}</span></div><div ref={mapNode} className="agri-map" aria-label="Carte interactive des espaces agricoles du Val-d’Oise" /></section>
     </div>
-    {detailsOpen && <aside className="observatory-drawer" aria-label="Détail agricole"><div className="observatory-drawer-head"><button onClick={() => setDetailsOpen(false)} aria-label="Fermer">×</button><small>Secteur observé</small><h2>{location}</h2><p>{message}</p></div><div className="observatory-drawer-body">
+    {detailsOpen && <aside className="observatory-drawer" aria-label="Détail agricole"><div className="observatory-drawer-head"><button onClick={closeDetails} aria-label="Fermer et effacer la sélection">×</button><small>Secteur observé</small><h2>{location}</h2><p>{message}</p></div><div className="observatory-drawer-body">
       {(analysisLoading || cropHistory.length > 0 || bioParcel) && <section className="crop-analysis"><div className="agri-section-title"><span>Lecture de la parcelle</span><small>{bioParcel ? "CartoBio · anonymisé" : "RPG public · anonymisé"}</small></div>{analysisLoading ? <p className="agri-loading">Analyse des millésimes agricoles…</p> : <>{bioParcel ? <div className="crop-primary"><small>Parcelle certifiée bio · {bioParcel.year}</small><strong>{bioParcel.culture}</strong><span>{bioParcel.surface.toLocaleString("fr-FR")} ha · {bioParcel.group}</span></div> : <><div className="crop-primary"><small>Culture déclarée en 2024</small><strong>{cropHistory[0]?.name}</strong><span>{cropHistory[0]?.surface.toLocaleString("fr-FR")} ha · code {cropHistory[0]?.code}</span></div><div className="crop-history"><strong>Historique cultural</strong>{cropHistory.map((crop) => <div key={crop.year}><b>{crop.year}</b><span>{crop.name}</span><i><em style={{ width: `${Math.min(100, Math.max(12, crop.surface * 5))}%` }} /></i><small>{crop.surface.toLocaleString("fr-FR")} ha</small></div>)}</div></>}<p className="ownership-note"><b>Exploitant non publié.</b> Les données parcellaires sont anonymisées.</p></>}</section>}
       {environment.length > 0 && <section className="agri-environment"><div className="agri-section-title"><span>Contexte environnemental</span><small>au point sélectionné</small></div>{environment.map((item) => <div key={item.label}><span>{item.label}</span><b className={item.names.length ? "inside" : ""}>{item.names.length ? item.names.join(" · ") : "Hors zone"}</b></div>)}</section>}
     </div></aside>}

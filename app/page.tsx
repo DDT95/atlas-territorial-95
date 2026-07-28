@@ -14,7 +14,7 @@ const themes = [
   { path: "01_Urbanisme_Parcelle", href: "/urbanisme", index: "01", title: "Urbanisme à la parcelle", text: "Cadastre, PLU, prescriptions, servitudes et risques.", tone: "blue", status: "Nouvel observatoire" },
   { path: "02_Artificialisation_ZAN", index: "02", title: "Artificialisation & ZAN", text: "Occupation du sol, consommation d’espace et friches.", tone: "violet", status: "À construire" },
   { path: "03_Agriculture", href: "https://ddt95.github.io/agriculture95/", index: "03", title: "Agriculture", text: "Cultures, bio, prairies, haies et enjeux environnementaux.", tone: "green", status: "Observatoire en ligne" },
-  { path: "04_Eau", index: "04", title: "Eau", text: "Cours d’eau, zones humides, nappes, stations et débits.", tone: "cyan", status: "Priorité 2" },
+  { path: "04_Eau", href: "https://ddt95.github.io/eau95/", index: "04", title: "Eau", text: "Cours d’eau, zones humides, nappes, stations et débits.", tone: "cyan", status: "Observatoire en ligne" },
   { path: "05_Risques", href: "https://ddt95.github.io/observatoire_risques_95/", index: "05", title: "Risques majeurs", text: "Inondations, mouvements de terrain et retrait-gonflement des argiles.", tone: "orange", status: "Observatoire en ligne" },
   { path: "06_Habitat", href: "https://ddt95.github.io/observatoire_bati/", index: "06", title: "Habitat", text: "DPE, parc social, vacance, construction et foncier.", tone: "pink", status: "Observatoire en ligne" },
   { path: "07_Biodiversite", index: "07", title: "Biodiversité", text: "ZNIEFF, Natura 2000, SRCE et observations d’espèces.", tone: "leaf", status: "À construire" },
@@ -222,6 +222,7 @@ export default function Home() {
         </a>
         <div className="external-grid">
           <a className="external-card featured" href="https://ddt95.github.io/agriculture95/" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Agriculture</strong><p>Lire les cultures, les parcelles bio et les espaces agricoles du Val-d’Oise.</p><b>Ouvrir le service ↗</b></a>
+          <a className="external-card" href="https://ddt95.github.io/eau95/" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Eau</strong><p>Explorer les ressources en eau, les milieux aquatiques et les données de suivi.</p><b>Ouvrir le service ↗</b></a>
           <a className="external-card" href="https://ddt95.github.io/observatoire_risques_95/" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Risques majeurs</strong><p>Explorer les risques naturels et technologiques du département.</p><b>Ouvrir le service ↗</b></a>
           <a className="external-card" href="https://ddt95.github.io/observatoire_bati/" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Observatoire du bâti</strong><p>Explorer le bâti, le logement et les dynamiques territoriales du Val-d’Oise.</p><b>Ouvrir le service ↗</b></a>
           <a className="external-card" href="https://ddt95.github.io/transport95/?v=1ac3c80" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Transports</strong><p>Comprendre les réseaux, les déplacements et l’offre de transport.</p><b>Ouvrir le service ↗</b></a>
