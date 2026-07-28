@@ -211,6 +211,11 @@ export default function Home() {
 
       <section className="external-section" id="liens-utiles">
         <div className="external-heading"><p className="eyebrow">Ressources et services</p><h2>Prolonger l’exploration</h2><p>Accédez aux observatoires de la DDT 95 et aux services publics de référence. Cette bibliothèque s’enrichira au fil des nouvelles cartes.</p></div>
+        <a className="associated-data-card" href="https://ddt95.github.io/observatoire_meteo/" target="_blank" rel="noreferrer">
+          <span><small>Donnée associée</small><strong>Météo du Val-d’Oise</strong></span>
+          <p>Consulter les conditions et observations météorologiques utiles à la lecture transversale du territoire.</p>
+          <b>Accéder aux données météo ↗</b>
+        </a>
         <div className="external-grid">
           <a className="external-card featured" href="https://ddt95.github.io/agriculture95/" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Agriculture</strong><p>Lire les cultures, les parcelles bio et les espaces agricoles du Val-d’Oise.</p><b>Ouvrir le service ↗</b></a>
           <a className="external-card" href="https://ddt95.github.io/observatoire_risques_95/" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Risques majeurs</strong><p>Explorer les risques naturels et technologiques du département.</p><b>Ouvrir le service ↗</b></a>
