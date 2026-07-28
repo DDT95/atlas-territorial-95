@@ -5,6 +5,7 @@ import UrbanismePage from "./urbanisme/page";
 import AgriculturePage from "./agriculture/page";
 import RisquesPage from "./risques/page";
 import HabitatPage from "./habitat/page";
+import SecuriteRoutierePage from "./securite-routiere/page";
 import "./globals.css";
 
 const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
@@ -15,6 +16,7 @@ const routes: Record<string, React.ComponentType> = {
   "/agriculture": AgriculturePage,
   "/risques": RisquesPage,
   "/habitat": HabitatPage,
+  "/securite-routiere": SecuriteRoutierePage,
 };
 const Page = routes[pathname.replace(/\/$/, "") || "/"] || Home;
 

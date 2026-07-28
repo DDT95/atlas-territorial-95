@@ -18,9 +18,10 @@ const themes = [
   { path: "05_Risques", href: "https://ddt95.github.io/observatoire_risques_95/", index: "05", title: "Risques majeurs", text: "Inondations, mouvements de terrain et retrait-gonflement des argiles.", tone: "orange", status: "Observatoire en ligne" },
   { path: "06_Habitat", href: "https://ddt95.github.io/observatoire_bati/", index: "06", title: "Habitat", text: "DPE, parc social, vacance, construction et foncier.", tone: "pink", status: "Observatoire en ligne" },
   { path: "07_Biodiversite", index: "07", title: "Biodiversité", text: "ZNIEFF, Natura 2000, SRCE et observations d’espèces.", tone: "leaf", status: "À construire" },
-  { path: "08_Securite_Routiere", href: "https://ddt95.github.io/transport95/?v=1ac3c80", index: "08", title: "Transports et sécurité routière", text: "Réseaux, offre de transport, accidents et points de vigilance.", tone: "red", status: "Observatoire en ligne" },
-  { path: "09_Transition_Energetique", index: "09", title: "Transition énergétique", text: "Consommations, production, DPE et qualité de l’air.", tone: "gold", status: "À construire" },
-  { path: "10_Portrait_Communal", index: "10", title: "Portrait communal", text: "Une lecture transversale et automatique de chaque commune.", tone: "slate", status: "Produit transversal" },
+  { path: "08_Transports", href: "https://ddt95.github.io/transport95/?v=1ac3c80", index: "08", title: "Transports", text: "Réseaux, offre de transport et accessibilité du territoire.", tone: "red", status: "Observatoire en ligne" },
+  { path: "09_Securite_Routiere", href: "/securite-routiere", index: "09", title: "Sécurité routière", text: "Accidents, gravité, réseau et points de vigilance.", tone: "orange", status: "Observatoire dédié" },
+  { path: "10_Transition_Energetique", index: "10", title: "Transition énergétique", text: "Consommations, production, DPE et qualité de l’air.", tone: "gold", status: "À construire" },
+  { path: "11_Portrait_Communal", index: "11", title: "Portrait communal", text: "Une lecture transversale et automatique de chaque commune.", tone: "slate", status: "Produit transversal" },
 ];
 
 export default function Home() {
@@ -156,7 +157,7 @@ export default function Home() {
         <div className="hero-copy">
           <p className="eyebrow">Observer · comprendre · décider</p>
           <h1>Le Val-d’Oise,<br /><span>carte après carte.</span></h1>
-          <p className="hero-lead">Un accès commun aux données territoriales de la DDT 95 et à dix observatoires thématiques alimentés par des sources publiques.</p>
+          <p className="hero-lead">Un accès commun aux données territoriales de la DDT 95 et à onze observatoires thématiques alimentés par des sources publiques.</p>
           <form className="territory-search" onSubmit={submitSearch}>
             <label htmlFor="commune-search">Rechercher une commune</label>
             <div>
@@ -167,7 +168,7 @@ export default function Home() {
           </form>
           <div className="hero-metrics" aria-label="Chiffres clés">
             <div><strong>{sourceState === "ok" ? communes.length : "—"}</strong><span>communes</span></div>
-            <div><strong>10</strong><span>thématiques</span></div>
+            <div><strong>11</strong><span>thématiques</span></div>
             <div><strong className={`source-dot ${sourceState}`} /> <span>{sourceState === "ok" ? "Référentiel connecté" : sourceState === "error" ? "Connexion à rétablir" : "Connexion…"}</span></div>
           </div>
         </div>
@@ -190,7 +191,7 @@ export default function Home() {
 
       <section className="themes-section" id="thematiques">
         <div className="section-heading">
-          <div><p className="eyebrow">Les observatoires</p><h2>Dix lectures du territoire</h2></div>
+          <div><p className="eyebrow">Les observatoires</p><h2>Onze lectures du territoire</h2></div>
           <p>Chaque carte propose ses propres couches et indicateurs tout en conservant la même navigation, les mêmes références territoriales et la même exigence de traçabilité.</p>
         </div>
         <div className="themes-grid">
