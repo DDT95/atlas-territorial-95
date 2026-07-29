@@ -206,9 +206,9 @@ export default function Home() {
               <div className="theme-top"><span className="theme-index">{theme.index}</span><span className="theme-status">{theme.status}</span></div>
               <h3>{theme.title}</h3><p>{theme.text}</p>
               {theme.links ? (
-                <div className="theme-links">{theme.links.map((link) => <a key={link.label} href={link.href.startsWith("/") ? `${basePath}${link.href}` : link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noreferrer" : undefined}>{link.label}<span aria-hidden="true">{link.href.startsWith("http") ? "↗" : "→"}</span></a>)}</div>
+                <div className="theme-links">{theme.links.map((link) => <a key={link.label} href={link.href.startsWith("/") ? `${basePath}${link.href}` : link.href} target="_blank" rel="noreferrer">{link.label}<span aria-hidden="true">↗</span></a>)}</div>
               ) : theme.href ? (
-                <a href={theme.href.startsWith("/") ? `${basePath}${theme.href}` : theme.href} target={theme.href.startsWith("http") ? "_blank" : undefined} rel={theme.href.startsWith("http") ? "noreferrer" : undefined} aria-label={`Ouvrir ${theme.title}`}>Ouvrir l’observatoire <span aria-hidden="true">{theme.href.startsWith("http") ? "↗" : "→"}</span></a>
+                <a href={theme.href.startsWith("/") ? `${basePath}${theme.href}` : theme.href} target="_blank" rel="noreferrer" aria-label={`Ouvrir ${theme.title} dans un nouvel onglet`}>Ouvrir l’observatoire <span aria-hidden="true">↗</span></a>
               ) : (
                 <span className="theme-action">Emplacement préparé <b aria-hidden="true">→</b></span>
               )}
