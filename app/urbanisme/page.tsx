@@ -71,6 +71,7 @@ function mosColor(code: number) {
   return "#e1000f";
 }
 function publicLandColor(code: string) { return ({ "1":"#e1000f", "2":"#6f4c9b", "3":"#000091", "4":"#18753c", "5":"#0098d8", "6":"#e3b341", "9":"#7b61a8" } as Record<string,string>)[code] || "#687787"; }
+function zoneColor(feature: any) { const zone=firstValue(feature?.properties,["typezone","libelle","libelle_zone"],"").toUpperCase(); if(zone.startsWith("AU"))return "#e3a008"; if(zone.startsWith("U"))return "#df4f70"; if(zone.startsWith("A"))return "#d6a721"; if(zone.startsWith("N"))return "#27864d"; return "#3478b8"; }
 
 export default function UrbanismePage() {
   const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
@@ -85,6 +86,7 @@ export default function UrbanismePage() {
   const publicLandLayerRef = useRef<any>(null);
   const publicLandDataRef = useRef<Record<string,[string,string,string]> | null>(null);
   const mosRequestRef = useRef<AbortController | null>(null);
+  const gpuRequestRef = useRef<AbortController | null>(null);
   const markerRef = useRef<any>(null);
   const communeFocusLayerRef = useRef<any>(null);
   const selectionPointRef = useRef<[number, number] | null>(null);
@@ -118,24 +120,41 @@ export default function UrbanismePage() {
       L.control.zoom({ position: "bottomright" }).addTo(map);
       L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", { className: "urban-base-tiles", maxZoom: 20, subdomains: "abcd", attribution: "© OpenStreetMap · © CARTO" }).addTo(map);
       parcelTilesRef.current = L.tileLayer("https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=CADASTRALPARCELS.PARCELLAIRE_EXPRESS&STYLE=PCI%20vecteur&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png", {
-        className: "parcel-tiles", minZoom: 13, maxZoom: 19, opacity: .82, attribution: "© IGN · DGFiP",
+        className: "parcel-tiles", minZoom: 11, maxZoom: 19, opacity: .82, attribution: "© IGN · DGFiP",
       }).addTo(map);
       buildingTilesRef.current = L.tileLayer("https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=BUILDINGS.BUILDINGS&STYLE=normal&TILEMATRIXSET=PM_6_18&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png", {
-        className: "building-tiles", minZoom: 13, maxZoom: 18, opacity: .95, attribution: "© IGN · BD TOPO",
+        className: "building-tiles", minZoom: 11, maxZoom: 18, opacity: .95, attribution: "© IGN · BD TOPO",
       }).addTo(map);
-      pluTilesRef.current = L.tileLayer.wms("https://data.geopf.fr/wms-v/ows", {
-        layers: "zone_secteur", format: "image/png", transparent: true, version: "1.3.0",
-        className: "plu-tiles", minZoom: 13, maxZoom: 20, opacity: .72, attribution: "© Géoportail de l’urbanisme",
-      });
-      supTilesRef.current = L.tileLayer.wms("https://data.geopf.fr/wms-v/ows", {
-        layers: "sup", format: "image/png", transparent: true, version: "1.3.0",
-        className: "sup-tiles", minZoom: 13, maxZoom: 20, opacity: .82, attribution: "© Géoportail de l’urbanisme",
-      });
+      const refreshGpuLayers = async () => {
+        const wantsZones=layersStateRef.current.plu, wantsSup=layersStateRef.current.servitudes;
+        if (!wantsZones && pluTilesRef.current) { map.removeLayer(pluTilesRef.current); pluTilesRef.current=null; }
+        if (!wantsSup && supTilesRef.current) { map.removeLayer(supTilesRef.current); supTilesRef.current=null; }
+        if (!wantsZones && !wantsSup) return;
+        if (map.getZoom() < 11) return;
+        const bounds=map.getBounds();
+        const geometry=encodeURIComponent(JSON.stringify({type:"Polygon",coordinates:[[[bounds.getWest(),bounds.getSouth()],[bounds.getEast(),bounds.getSouth()],[bounds.getEast(),bounds.getNorth()],[bounds.getWest(),bounds.getNorth()],[bounds.getWest(),bounds.getSouth()]]]}));
+        gpuRequestRef.current?.abort(); const controller=new AbortController(); gpuRequestRef.current=controller;
+        try {
+          const [zoneResponse,supResponse]=await Promise.all([
+            wantsZones?fetch(`https://apicarto.ign.fr/api/gpu/zone-urba?geom=${geometry}`,{signal:controller.signal}):Promise.resolve(null),
+            wantsSup?fetch(`https://apicarto.ign.fr/api/gpu/assiette-sup-s?geom=${geometry}`,{signal:controller.signal}):Promise.resolve(null),
+          ]);
+          const zoneData:FeatureCollection=zoneResponse?.ok?await zoneResponse.json():emptyCollection;
+          const supData:FeatureCollection=supResponse?.ok?await supResponse.json():emptyCollection;
+          if(pluTilesRef.current)map.removeLayer(pluTilesRef.current);
+          if(supTilesRef.current)map.removeLayer(supTilesRef.current);
+          if(wantsZones){ pluTilesRef.current=L.geoJSON(zoneData,{style:(feature:any)=>({color:zoneColor(feature),weight:1.5,fillColor:zoneColor(feature),fillOpacity:.26}),onEachFeature:(feature:any,layer:any)=>layer.bindTooltip(`<b>Zone ${firstValue(feature.properties,["libelle","typezone","libelle_zone"],"GPU")}</b><br>${firstValue(feature.properties,["partition","nomfic"],"Document d’urbanisme")}`,{sticky:true})}).addTo(map); }
+          if(wantsSup){ supTilesRef.current=L.geoJSON(supData,{style:{color:"#6f4c9b",weight:2.2,fillColor:"#6f4c9b",fillOpacity:.035,dashArray:"7 5"},onEachFeature:(feature:any,layer:any)=>layer.bindTooltip(`<b>${firstValue(feature.properties,["libelle","nom_sup","categorie"],"Servitude d’utilité publique")}</b><br>${firstValue(feature.properties,["categorie","idass"],"GPU")}`,{sticky:true})}).addTo(map); }
+          parcelTilesRef.current?.bringToFront(); buildingTilesRef.current?.bringToFront();
+          const parts=[]; if(wantsZones)parts.push(`${zoneData.features.length} zone${zoneData.features.length>1?"s":""}`); if(wantsSup)parts.push(`${supData.features.length} servitude${supData.features.length>1?"s":""}`); setLayerFeedback(`${parts.join(" · ")} dans cette vue. Survolez une géométrie puis cliquez sur une parcelle pour le détail.`);
+        } catch(error:any){ if(error?.name!=="AbortError")setLayerFeedback("Le Géoportail de l’urbanisme ne répond pas momentanément."); }
+      };
       const refreshMos = async () => {
         if (!layersStateRef.current.mos) {
           if (mosLayerRef.current && map.hasLayer(mosLayerRef.current)) map.removeLayer(mosLayerRef.current);
           return;
         }
+        if (map.getZoom() < 11) return;
         const bounds = map.getBounds();
         mosRequestRef.current?.abort();
         const controller = new AbortController(); mosRequestRef.current = controller;
@@ -155,6 +174,7 @@ export default function UrbanismePage() {
           if (publicLandLayerRef.current && map.hasLayer(publicLandLayerRef.current)) map.removeLayer(publicLandLayerRef.current);
           return;
         }
+        if (map.getZoom() < 13) { setLayerFeedback("Foncier public conservé à l’écran. Rapprochez-vous pour actualiser les parcelles de la nouvelle vue."); return; }
         try {
           if (!publicLandDataRef.current) publicLandDataRef.current = await fetch(`${basePath}/data/foncier-public-95.json`).then((response) => response.json());
           const bounds = map.getBounds();
@@ -169,8 +189,8 @@ export default function UrbanismePage() {
           parcelTilesRef.current?.bringToFront(); buildingTilesRef.current?.bringToFront();
         } catch (error) { console.warn("Foncier public indisponible", error); }
       };
-      map.on("zoomend", () => { setMapZoom(map.getZoom()); refreshMos(); refreshPublicLand(); });
-      map.on("moveend", () => { refreshMos(); refreshPublicLand(); });
+      map.on("zoomend", () => { setMapZoom(map.getZoom()); refreshMos(); refreshPublicLand(); refreshGpuLayers(); });
+      map.on("moveend", () => { refreshMos(); refreshPublicLand(); refreshGpuLayers(); });
       fetch("https://geo.api.gouv.fr/departements/95/communes?fields=nom,code,contour&format=geojson&geometry=contour")
         .then((response) => response.json())
         .then((communes) => {
@@ -199,11 +219,11 @@ export default function UrbanismePage() {
     const toggleMapLayer = (layer: any, visible: boolean) => { if (!layer) return; if (visible && !map.hasLayer(layer)) layer.addTo(map); if (!visible && map.hasLayer(layer)) map.removeLayer(layer); };
     toggleMapLayer(parcelTilesRef.current, layers.parcels);
     toggleMapLayer(buildingTilesRef.current, layers.buildings);
-    toggleMapLayer(pluTilesRef.current, layers.plu);
-    toggleMapLayer(supTilesRef.current, layers.servitudes);
     if (!layers.mos && mosLayerRef.current && map.hasLayer(mosLayerRef.current)) map.removeLayer(mosLayerRef.current);
     if (!layers.publicLand && publicLandLayerRef.current && map.hasLayer(publicLandLayerRef.current)) map.removeLayer(publicLandLayerRef.current);
-    if (layers.mos || layers.publicLand) map.fire("moveend");
+    if (!layers.plu && pluTilesRef.current) { map.removeLayer(pluTilesRef.current); pluTilesRef.current=null; }
+    if (!layers.servitudes && supTilesRef.current) { map.removeLayer(supTilesRef.current); supTilesRef.current=null; }
+    if (layers.mos || layers.publicLand || layers.plu || layers.servitudes) map.fire("moveend");
     if (result && selectionPointRef.current) {
       const [lon, lat] = selectionPointRef.current;
       drawResults(lon, lat, result.parcel ? { type: "FeatureCollection", features: [result.parcel] } : emptyCollection, { type: "FeatureCollection", features: result.zones }, { type: "FeatureCollection", features: result.servitudes });
@@ -285,7 +305,7 @@ export default function UrbanismePage() {
     ] as const;
     configs.forEach(([data, style]) => { if (data.features.length) { const layer = L.geoJSON(data, { style }).addTo(map); layersRef.current.push(layer); } });
     markerRef.current = L.circleMarker([lat, lon], { radius: 6, color: "#e1000f", fillColor: "#fff", fillOpacity: 1, weight: 3 }).addTo(map);
-    map.setMinZoom(13);
+    map.setMinZoom(11);
     const parcelLayer = layersRef.current.at(-1); if (parcelLayer?.getBounds?.().isValid()) map.fitBounds(parcelLayer.getBounds(), { padding: [40, 40], maxZoom: 19 }); else map.setView([lat, lon], 17);
     setLayerFeedback(`Parcelle sélectionnée · niveau ${Math.max(13, map.getZoom())}. Les couches activées restent affichées.`);
   }
@@ -320,22 +340,27 @@ export default function UrbanismePage() {
     if (communeFocusLayerRef.current) map.removeLayer(communeFocusLayerRef.current);
     communeFocusLayerRef.current = L.geoJSON(feature, { style: { color: "#000091", weight: 3, fillColor: "#000091", fillOpacity: .04 }, interactive: false }).addTo(map);
     const bounds = communeFocusLayerRef.current.getBounds();
-    if (bounds.isValid()) { map.setMinZoom(13); map.fitBounds(bounds, { padding: [45,45], maxZoom: 15 }); }
+    if (bounds.isValid()) { map.setMinZoom(11); map.fitBounds(bounds, { padding: [45,45], maxZoom: 15 }); }
     setActiveCommune(feature.properties?.nom || "Commune choisie");
     setCommuneQuery(feature.properties?.nom || ""); setCommuneSuggestionsOpen(false);
     setResult(null); setDetailsOpen(false); setMessage("Commune cadrée : cliquez directement sur une parcelle.");
-    setLayerFeedback("Échelle parcellaire verrouillée : les couches actives restent visibles.");
+    setLayerFeedback("Vue communale active : vous pouvez prendre du recul sans perdre les couches affichées.");
   }
 
   function toggleLayer(key: keyof typeof layers) {
     const enable = !layers[key]; const map = mapRef.current;
     if (enable && map) {
-      const target = key === "publicLand" ? 14 : 13;
-      map.setMinZoom(13);
+      const target = key === "publicLand" ? 14 : key === "mos" ? 12 : 11;
+      map.setMinZoom(11);
       if (map.getZoom() < target) map.setZoom(target);
       setLayerFeedback(key === "plu" ? "Zonage PLU affiché en continu — cliquez sur une parcelle pour lire la zone opposable." : key === "servitudes" ? "Servitudes affichées en continu — cliquez sur une parcelle pour obtenir leur détail." : "Couche activée. L’échelle utile reste verrouillée pour éviter toute disparition.");
     }
-    setLayers((current) => ({ ...current, [key]: !current[key] }));
+    setLayers((current) => {
+      const next={...current,[key]:!current[key]};
+      if(enable && key==="plu")next.servitudes=false;
+      if(enable && key==="servitudes")next.plu=false;
+      return next;
+    });
   }
 
   async function searchAddress(event: React.FormEvent) {
@@ -356,22 +381,45 @@ export default function UrbanismePage() {
     const viewer = window.open("", "_blank");
     const { jsPDF } = await import("jspdf");
     const pdf = new jsPDF({ unit:"mm", format:"a4", orientation:"portrait" });
-    const navy:[number,number,number]=[0,0,145], ink:[number,number,number]=[30,39,58], muted:[number,number,number]=[91,103,123];
-    pdf.setFillColor(247,248,252); pdf.rect(0,0,210,297,"F"); pdf.setFillColor(...navy); pdf.rect(0,0,210,7,"F");
-    pdf.setTextColor(...navy); pdf.setFont("helvetica","bold"); pdf.setFontSize(17); pdf.text("Fiche d'identité parcellaire",14,21);
-    pdf.setFontSize(12); pdf.text(streetOnly(result.address),14,30); pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(8); pdf.text(`${result.commune} · Parcelle ${firstValue(parcelProps,["section"],"")} ${firstValue(parcelProps,["numero"],"—")} · ${new Date().toLocaleDateString("fr-FR")}`,14,36);
-    const blocks:[string,[string,string][]][] = [
-      ["01  Parcelle",[["Référence",`${firstValue(parcelProps,["section"],"")} ${firstValue(parcelProps,["numero"],"—")}`],["Contenance",`${firstValue(parcelProps,["contenance"],"—")} m²`]]],
-      ["02  Bâti",[["Bâtiments",String(buildingCount)],["Emprise",formatNumber(builtFootprint," m²")],["Taux",formatNumber(coverageRatio," %")],["Usage",uniqueValues(result.buildings.map((b)=>b.usage_principal_bdnb_open)).join(", ")||"Non renseigné"],["Construction",String(oldestBuilding||"Non renseignée")]]],
-      ["03  Propriété",[["Lecture",ownerCategory]]],
-      ["04  MOS 2025",[["Occupation",result.mos?.mos2025 ? mosLabels[result.mos.mos2025] || `Poste ${result.mos.mos2025}` : "Non renseignée"]]],
-      ["05  Urbanisme",[["Zonage",result.zones.map((z)=>firstValue(z.properties,["libelle","typezone"],"Zone GPU")).join(", ")||"Non retourné"],["Servitudes",`${result.servitudes.length} assiette(s)`]]],
-      ["06  Risques",[["Risques",uniqueValues(result.risks.map((r)=>r.libelle_risque_long||r.libelle_risque)).join(", ")||"Aucun risque retourné"]]],
-    ];
-    const heights = blocks.map(([,rows]) => Math.max(28,15+rows.reduce((sum,row)=>sum+Math.max(6,pdf.splitTextToSize(row[1],52).length*4),0)));
-    let leftY=44,rightY=44;
-    blocks.forEach(([title,rows],index)=>{ const left=index%2===0, x=left?14:107, y=left?leftY:rightY, h=heights[index]; pdf.setFillColor(index%3===0?238:245,index%3===1?246:248,index%3===2?241:252); pdf.roundedRect(x,y,89,h,3,3,"F"); pdf.setTextColor(...navy); pdf.setFont("helvetica","bold"); pdf.setFontSize(9); pdf.text(title,x+5,y+8); let ry=y+15; rows.forEach(([label,value])=>{ pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(6.5); pdf.text(label,x+5,ry); pdf.setTextColor(...ink); pdf.setFont("helvetica","bold"); const lines=pdf.splitTextToSize(value,52); pdf.text(lines,x+32,ry); ry+=Math.max(6,lines.length*4); }); if(left)leftY+=h+4; else rightY+=h+4; });
-    pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(6.5); pdf.text("Sources : DGFiP, IGN, GPU, BDNB, Institut Paris Region, Géorisques. Lecture indicative ; les documents opposables restent la référence.",14,286,{maxWidth:182});
+    const navy:[number,number,number]=[0,0,145], deep:[number,number,number]=[7,0,71], ink:[number,number,number]=[30,39,58], muted:[number,number,number]=[91,103,123];
+    const logoData = await fetch(`${basePath}/prefet-val-doise-logo.png`).then((response)=>response.blob()).then((blob)=>new Promise<string>((resolve,reject)=>{ const reader=new FileReader(); reader.onload=()=>resolve(String(reader.result)); reader.onerror=reject; reader.readAsDataURL(blob); })).catch(()=>"");
+    pdf.setFillColor(246,248,253); pdf.rect(0,0,210,297,"F");
+    pdf.setFillColor(...navy); pdf.rect(0,0,210,5,"F");
+    pdf.setFillColor(255,255,255); pdf.rect(0,5,210,39,"F");
+    if (logoData) pdf.addImage(logoData,"PNG",14,10,28,25,undefined,"FAST");
+    pdf.setDrawColor(214,221,233); pdf.line(48,11,48,37);
+    pdf.setTextColor(...muted); pdf.setFont("helvetica","bold"); pdf.setFontSize(7); pdf.text("DIRECTION DÉPARTEMENTALE DES TERRITOIRES",55,17);
+    pdf.setTextColor(...deep); pdf.setFontSize(17); pdf.text("Fiche d’identité parcellaire",55,27);
+    pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(7); pdf.text("Val-d’Oise · lecture foncière et réglementaire",55,34);
+    pdf.setTextColor(...navy); pdf.setFont("helvetica","bold"); pdf.setFontSize(7); pdf.text("DOCUMENT DE CONSULTATION",196,15,{align:"right"});
+    pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.text(new Date().toLocaleDateString("fr-FR"),196,21,{align:"right"});
+
+    pdf.setFillColor(0,0,145); pdf.roundedRect(14,51,182,29,4,4,"F");
+    pdf.setTextColor(198,220,255); pdf.setFont("helvetica","bold"); pdf.setFontSize(7); pdf.text("PARCELLE SÉLECTIONNÉE",21,60);
+    pdf.setTextColor(255,255,255); pdf.setFontSize(16); pdf.text(pdf.splitTextToSize(streetOnly(result.address),118),21,69);
+    pdf.setFontSize(9); pdf.text(`${result.commune} · ${firstValue(parcelProps,["section"],"")} ${firstValue(parcelProps,["numero"],"—")}`,188,68,{align:"right"});
+    pdf.setFont("helvetica","normal"); pdf.setFontSize(7); pdf.text(`${firstValue(parcelProps,["contenance"],"—")} m²`,188,74,{align:"right"});
+
+    const metric=(x:number,value:string,label:string,color:[number,number,number])=>{ pdf.setFillColor(255,255,255); pdf.roundedRect(x,86,57.3,23,3,3,"F"); pdf.setDrawColor(226,231,239); pdf.roundedRect(x,86,57.3,23,3,3,"S"); pdf.setFillColor(...color); pdf.roundedRect(x+5,91,3,13,1.5,1.5,"F"); pdf.setTextColor(...deep); pdf.setFont("helvetica","bold"); pdf.setFontSize(12); pdf.text(value,x+12,96); pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(6.5); pdf.text(label,x+12,103); };
+    metric(14,`${buildingCount}`,`bâtiment${buildingCount>1?"s":""} recensé${buildingCount>1?"s":""}`,[74,85,104]);
+    metric(76.3,formatNumber(builtFootprint," m²"),"emprise bâtie estimée",[0,0,145]);
+    metric(138.6,formatNumber(coverageRatio," %"),"taux d’emprise",[24,117,60]);
+
+    const block=(x:number,y:number,w:number,h:number,title:string,index:string,accent:[number,number,number],background:[number,number,number],rows:[string,string][])=>{ pdf.setFillColor(...background); pdf.roundedRect(x,y,w,h,3,3,"F"); pdf.setFillColor(...accent); pdf.circle(x+8,y+9,4,"F"); pdf.setTextColor(255,255,255); pdf.setFont("helvetica","bold"); pdf.setFontSize(6); pdf.text(index,x+8,y+10.8,{align:"center"}); pdf.setTextColor(...deep); pdf.setFontSize(10); pdf.text(title,x+15,y+11); let ry=y+20; rows.forEach(([label,value])=>{ pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(6.2); pdf.text(label,x+6,ry); pdf.setTextColor(...ink); pdf.setFont("helvetica","bold"); const lines=pdf.splitTextToSize(value,w-38); pdf.text(lines,x+31,ry); ry+=Math.max(7,lines.length*3.4); }); };
+    const zoneLabel=result.zones.map((z)=>firstValue(z.properties,["libelle","typezone","libelle_zone"],"Zone GPU")).join(", ")||"Non retourné";
+    const riskLabel=uniqueValues(result.risks.map((r)=>r.libelle_risque_long||r.libelle_risque)).join(" · ")||"Aucun risque retourné";
+    const useLabel=uniqueValues(result.buildings.map((b)=>b.usage_principal_bdnb_open)).join(", ")||"Non renseigné";
+    block(14,115,88,35,"Parcelle","01",navy,[239,246,255],[["Référence",`${firstValue(parcelProps,["section"],"")} ${firstValue(parcelProps,["numero"],"—")}`],["Contenance",`${firstValue(parcelProps,["contenance"],"—")} m²`],["Commune",result.commune]]);
+    block(108,115,88,45,"Bâti","02",[74,85,104],[241,244,249],[["Usage",useLabel],["Construction",String(oldestBuilding||"Non renseignée")],["Hauteur",maxHeight?formatNumber(maxHeight," m"):"Non renseignée"],["Logements",String(dwellingCount||"Non renseigné")]]);
+    block(14,156,88,42,"Propriété","03",[24,117,60],[238,248,241],[["Lecture",ownerCategory],["Référentiel",result.publicLand?"DGFiP FPMU 2025":"Donnée privée non diffusée"]]);
+    block(108,166,88,32,"MOS 2025","04",[227,179,65],[255,248,231],[["Occupation",result.mos?.mos2025?mosLabels[result.mos.mos2025]||`Poste ${result.mos.mos2025}`:"Non renseignée"],["Évolution",result.mos?.mos2021===result.mos?.mos2025?"Stable depuis 2021":"Changement depuis 2021"]]);
+    block(14,204,88,38,"Urbanisme","05",[24,117,60],[240,248,243],[["Zonage",zoneLabel],["Servitudes",`${result.servitudes.length} assiette(s) intersectée(s)`]]);
+    block(108,204,88,38,"Risques","06",[225,0,15],[255,241,240],[["Synthèse",riskLabel]]);
+
+    pdf.setFillColor(255,255,255); pdf.roundedRect(14,248,182,25,3,3,"F"); pdf.setDrawColor(226,231,239); pdf.roundedRect(14,248,182,25,3,3,"S");
+    pdf.setTextColor(...deep); pdf.setFont("helvetica","bold"); pdf.setFontSize(8); pdf.text("Sources et portée de la fiche",20,256);
+    pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(6.3); pdf.text(pdf.splitTextToSize("DGFiP · IGN Cadastre et BD TOPO · Géoportail de l’urbanisme · BDNB · Institut Paris Region · Géorisques. Cette lecture est indicative : les documents opposables et les services officiels restent la référence.",168),20,263);
+    pdf.setDrawColor(214,221,233); pdf.line(14,282,196,282); pdf.setTextColor(...muted); pdf.setFontSize(6); pdf.text("DDT du Val-d’Oise · Atlas territorial",14,288); pdf.setTextColor(...navy); pdf.setFont("helvetica","bold"); pdf.text("Géoportail de l’urbanisme · Géorisques · Cadastre",196,288,{align:"right"});
     const url = URL.createObjectURL(pdf.output("blob"));
     if (viewer) viewer.location.href = url;
     else window.open(url, "_blank", "noopener,noreferrer");
@@ -403,7 +451,7 @@ export default function UrbanismePage() {
           <div className="commune-autocomplete"><label htmlFor="urban-commune">Explorer directement une commune</label><div><input id="urban-commune" value={communeQuery} placeholder="Commencez à saisir : Pontoise…" autoComplete="off" onFocus={()=>setCommuneSuggestionsOpen(true)} onChange={(event)=>{setCommuneQuery(event.target.value);setCommuneSuggestionsOpen(true);setCommuneCode("");}}/>{communeSuggestionsOpen && communeQuery.trim().length>0 && <div className="commune-suggestions">{communes.filter((item)=>String(item.properties?.nom||"").toLocaleLowerCase("fr").includes(communeQuery.toLocaleLowerCase("fr"))).slice(0,6).map((item)=><button key={item.properties?.code} type="button" onClick={()=>{setCommuneCode(item.properties.code);exploreCommune(item.properties.code);}}><strong>{item.properties?.nom}</strong><small>Val-d’Oise · {item.properties?.code}</small></button>)}</div>}</div>{activeCommune && <p><i/>Vous explorez <strong>{activeCommune}</strong><button type="button" onClick={resetSearch}>Quitter</button></p>}</div>
           <div className={`urban-message ${loading ? "loading" : ""}`}><i />{message}</div>
           {(result || query) && !loading && <button className="reset-search" type="button" onClick={resetSearch}><span aria-hidden="true">↺</span> Nouvelle recherche</button>}
-          <div className="map-reading-card"><strong>Lecture de la carte</strong><p>Choisissez une information puis cliquez sur une parcelle. Si une couche exige plus de détail, la carte s’approche automatiquement.</p></div>
+          <div className="map-reading-card"><strong>Lecture de la carte</strong><p>Choisissez une information puis cliquez sur une parcelle. PLU et servitudes s’affichent séparément pour garder une carte lisible ; la fiche réunit les deux.</p></div>
           <section className="urban-layer-panel" aria-labelledby="urban-layer-title">
             <div className="urban-layer-head"><span><small>Lecture de la carte</small><strong id="urban-layer-title">Informations affichées</strong></span><b>Niveau {mapZoom}</b></div>
             <div className="urban-layer-list">
@@ -417,6 +465,8 @@ export default function UrbanismePage() {
               ] as const).map(([key,label,description,color]) => <button key={key} type="button" role="switch" className="urban-layer-toggle" onClick={() => toggleLayer(key)} aria-checked={layers[key]}><i style={{background:color}}/><span><strong>{label}</strong><small>{description}</small></span><b aria-hidden="true"><em/></b></button>)}
             </div>
             {layers.mos && <div className="mos-mini-legend"><span><i style={{background:"#18753c"}}/>Nature</span><span><i style={{background:"#e3b341"}}/>Agriculture</span><span><i style={{background:"#e07a9a"}}/>Habitat</span><span><i style={{background:"#a05a9c"}}/>Activités</span></div>}
+            {layers.plu && <div className="zone-mini-legend"><span><i style={{background:"#df4f70"}}/>U · urbaine</span><span><i style={{background:"#e3a008"}}/>AU · à urbaniser</span><span><i style={{background:"#d6a721"}}/>A · agricole</span><span><i style={{background:"#27864d"}}/>N · naturelle</span></div>}
+            {layers.servitudes && <p className="sup-reading-note"><i/>Les contours violets représentent les assiettes de servitudes. Survolez-les pour les identifier.</p>}
             {layers.publicLand && <div className="public-mini-legend"><span><i style={{background:"#e1000f"}}/>État</span><span><i style={{background:"#6f4c9b"}}/>Région</span><span><i style={{background:"#000091"}}/>Département</span><span><i style={{background:"#18753c"}}/>Commune</span><span><i style={{background:"#0098d8"}}/>HLM</span><span><i style={{background:"#7b61a8"}}/>Établissement</span></div>}
             <p className="public-land-note"><i/>Référentiel présumé : parcelles de personnes morales classées État, région, département, communes, HLM, SEM et établissements publics — millésime 2025.</p>
           </section>
