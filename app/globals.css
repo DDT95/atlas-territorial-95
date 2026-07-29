@@ -11,6 +11,7 @@
 @media(max-width:820px){.atlas-header{height:74px;padding-inline:18px}.brand-copy span{display:none}.brand-copy strong{font-size:15px}.menu-button{display:block}.top-nav{display:none;position:absolute;top:74px;left:0;right:0;background:#fff;padding:20px;flex-direction:column;border-bottom:1px solid var(--line);box-shadow:0 18px 35px rgba(15,23,42,.12)}.top-nav.open{display:flex}.hero{grid-template-columns:1fr;padding:48px 18px}.hero h1{font-size:56px}.hero-map-card{margin-top:10px}.section-heading,.source-section{grid-template-columns:1fr}.source-note{grid-column:auto}.themes-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:540px){.republique span:last-child{display:none}.brand-copy{padding-left:12px}.hero h1{font-size:46px}.hero-lead{font-size:16px}.hero-metrics{gap:12px;flex-wrap:wrap}.atlas-map{height:390px}.themes-section{padding:65px 16px}.themes-grid{grid-template-columns:1fr}.theme-card{min-height:230px}.section-heading{gap:22px}.map-card-head{padding:0 14px}.map-card-head select{max-width:150px}.source-section{padding:60px 20px}footer{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.theme-card{transition:none}}
+.theme-links{margin-top:auto;padding-top:16px;display:grid;gap:5px}.theme-links a{margin:0;padding:8px 0;border-top:1px solid var(--line)}
 .theme-action{margin-top:auto;color:var(--tone);font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:space-between;padding-top:22px;opacity:.72}.theme-action b{font-size:20px}
 
 /* Identité visuelle de l'État */

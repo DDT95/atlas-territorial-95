@@ -11,17 +11,19 @@ type Commune = {
 };
 
 const themes = [
-  { path: "01_Urbanisme_Parcelle", href: "/urbanisme", index: "01", title: "Urbanisme à la parcelle", text: "Cadastre, PLU, prescriptions, servitudes et risques.", tone: "blue", status: "Nouvel observatoire" },
-  { path: "02_Artificialisation_ZAN", index: "02", title: "Artificialisation & ZAN", text: "Occupation du sol, consommation d’espace et friches.", tone: "violet", status: "À construire" },
-  { path: "03_Agriculture", href: "https://ddt95.github.io/agriculture95/", index: "03", title: "Agriculture", text: "Cultures, bio, prairies, haies et enjeux environnementaux.", tone: "green", status: "Observatoire en ligne" },
-  { path: "04_Eau", href: "https://ddt95.github.io/eau95/", index: "04", title: "Eau", text: "Cours d’eau, zones humides, nappes, stations et débits.", tone: "cyan", status: "Observatoire en ligne" },
-  { path: "05_Risques", href: "https://ddt95.github.io/observatoire_risques_95/", index: "05", title: "Risques majeurs", text: "Inondations, mouvements de terrain et retrait-gonflement des argiles.", tone: "orange", status: "Observatoire en ligne" },
-  { path: "06_Habitat", href: "https://ddt95.github.io/observatoire_bati/", index: "06", title: "Habitat", text: "DPE, parc social, vacance, construction et foncier.", tone: "pink", status: "Observatoire en ligne" },
-  { path: "07_Biodiversite", index: "07", title: "Biodiversité", text: "ZNIEFF, Natura 2000, SRCE et observations d’espèces.", tone: "leaf", status: "À construire" },
-  { path: "08_Transports", href: "https://ddt95.github.io/transport95/?v=1ac3c80", index: "08", title: "Transports", text: "Réseaux, offre de transport et accessibilité du territoire.", tone: "red", status: "Observatoire en ligne" },
-  { path: "09_Securite_Routiere", href: "/securite-routiere", index: "09", title: "Sécurité routière", text: "Accidents, gravité, réseau et points de vigilance.", tone: "orange", status: "Observatoire dédié" },
-  { path: "10_Transition_Energetique", index: "10", title: "Transition énergétique", text: "Consommations, production, DPE et qualité de l’air.", tone: "gold", status: "À construire" },
-  { path: "11_Portrait_Communal", index: "11", title: "Portrait communal", text: "Une lecture transversale et automatique de chaque commune.", tone: "slate", status: "Produit transversal" },
+  { path: "01_Portail_Communal", href: "https://ddt95.github.io/portail-communal95/", index: "01", title: "Portail communal", text: "Une entrée unique par commune : chiffres clés, cartes, enjeux et accès aux dix lectures.", tone: "slate", status: "Page de préfiguration" },
+  { path: "02_Urbanisme_Parcelle", href: "/urbanisme", index: "02", title: "Urbanisme à la parcelle", text: "Cadastre, PLU, prescriptions, servitudes et risques réunis au même endroit.", tone: "blue", status: "Outil disponible" },
+  { path: "03_Artificialisation_ZAN", href: "https://ddt95.github.io/artificialisation-zan95/", index: "03", title: "Artificialisation & ZAN", text: "Occupation du sol, consommation d’espace, trajectoire ZAN et friches.", tone: "violet", status: "Page de préfiguration" },
+  { path: "04_Agriculture", href: "https://ddt95.github.io/agriculture95/", index: "04", title: "Agriculture", text: "Cultures, bio, prairies, haies et enjeux environnementaux.", tone: "green", status: "Observatoire en ligne" },
+  { path: "05_Eau", href: "https://ddt95.github.io/eau95/", index: "05", title: "Eau", text: "Cours d’eau, zones humides, nappes, stations et débits.", tone: "cyan", status: "Observatoire en ligne" },
+  { path: "06_Risques", href: "https://ddt95.github.io/observatoire_risques_95/", index: "06", title: "Risques majeurs", text: "Inondations, argiles, cavités, ICPE et sites et sols pollués.", tone: "orange", status: "Observatoire en ligne" },
+  { path: "07_Habitat", href: "https://ddt95.github.io/observatoire_bati/", index: "07", title: "Habitat & bâti", text: "DPE, parc social, vacance, construction et marchés fonciers.", tone: "pink", status: "Observatoire en ligne" },
+  { path: "08_Biodiversite", href: "https://ddt95.github.io/biodiversite95/", index: "08", title: "Biodiversité", text: "ZNIEFF, Natura 2000, continuités écologiques et observations d’espèces.", tone: "leaf", status: "Page de préfiguration" },
+  { path: "09_Mobilites", index: "09", title: "Mobilités, transports & sécurité routière", text: "Deux entrées complémentaires : se déplacer et comprendre l’accidentalité.", tone: "red", status: "Deux outils", links: [
+    { label: "Transports et mobilités", href: "https://ddt95.github.io/transport95/?v=1ac3c80" },
+    { label: "Sécurité routière", href: "/securite-routiere" },
+  ] },
+  { path: "10_Transition_Energetique", href: "https://ddt95.github.io/transition-energetique95/", index: "10", title: "Transition énergétique", text: "Consommation, production, rénovation énergétique et qualité de l’air.", tone: "gold", status: "Page de préfiguration" },
 ];
 
 export default function Home() {
@@ -161,7 +163,7 @@ export default function Home() {
           <p className="eyebrow">Observer · comprendre · décider</p>
           <a className="hero-weather" href="https://ddt95.github.io/observatoire_meteo/" target="_blank" rel="noreferrer"><span>Donnée associée</span><strong>Consulter la météo du Val-d’Oise</strong><b>↗</b></a>
           <h1>Le Val-d’Oise,<br /><span>carte après carte.</span></h1>
-          <p className="hero-lead">Un accès commun aux données territoriales de la DDT 95 et à onze observatoires thématiques alimentés par des sources publiques.</p>
+          <p className="hero-lead">Un accès commun aux données territoriales de la DDT 95 et à dix lectures thématiques alimentées par des sources publiques.</p>
           <form className="territory-search" onSubmit={submitSearch}>
             <label htmlFor="commune-search">Rechercher une commune</label>
             <div>
@@ -172,7 +174,7 @@ export default function Home() {
           </form>
           <div className="hero-metrics" aria-label="Chiffres clés">
             <div><strong>{sourceState === "ok" ? communes.length : "—"}</strong><span>communes</span></div>
-            <div><strong>11</strong><span>thématiques</span></div>
+            <div><strong>10</strong><span>lectures</span></div>
             <div><strong className={`source-dot ${sourceState}`} /> <span>{sourceState === "ok" ? "Référentiel connecté" : sourceState === "error" ? "Connexion à rétablir" : "Connexion…"}</span></div>
           </div>
         </div>
@@ -195,7 +197,7 @@ export default function Home() {
 
       <section className="themes-section" id="thematiques">
         <div className="section-heading">
-          <div><p className="eyebrow">Les observatoires</p><h2>Onze lectures du territoire</h2></div>
+          <div><p className="eyebrow">Les observatoires</p><h2>Dix lectures du territoire</h2></div>
           <p>Chaque carte propose ses propres couches et indicateurs tout en conservant la même navigation, les mêmes références territoriales et la même exigence de traçabilité.</p>
         </div>
         <div className="themes-grid">
@@ -203,7 +205,9 @@ export default function Home() {
             <article className={`theme-card ${theme.tone}`} key={theme.path}>
               <div className="theme-top"><span className="theme-index">{theme.index}</span><span className="theme-status">{theme.status}</span></div>
               <h3>{theme.title}</h3><p>{theme.text}</p>
-              {theme.href ? (
+              {theme.links ? (
+                <div className="theme-links">{theme.links.map((link) => <a key={link.label} href={link.href.startsWith("/") ? `${basePath}${link.href}` : link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noreferrer" : undefined}>{link.label}<span aria-hidden="true">{link.href.startsWith("http") ? "↗" : "→"}</span></a>)}</div>
+              ) : theme.href ? (
                 <a href={theme.href.startsWith("/") ? `${basePath}${theme.href}` : theme.href} target={theme.href.startsWith("http") ? "_blank" : undefined} rel={theme.href.startsWith("http") ? "noreferrer" : undefined} aria-label={`Ouvrir ${theme.title}`}>Ouvrir l’observatoire <span aria-hidden="true">{theme.href.startsWith("http") ? "↗" : "→"}</span></a>
               ) : (
                 <span className="theme-action">Emplacement préparé <b aria-hidden="true">→</b></span>
@@ -214,18 +218,19 @@ export default function Home() {
       </section>
 
       <section className="external-section" id="liens-utiles">
-        <div className="external-heading"><p className="eyebrow">Ressources et services</p><h2>Prolonger l’exploration</h2><p>Accédez aux observatoires de la DDT 95 et aux services publics de référence. Cette bibliothèque s’enrichira au fil des nouvelles cartes.</p></div>
+        <div className="external-heading"><p className="eyebrow">Services publics de référence</p><h2>Vérifier, approfondir, télécharger</h2><p>Des accès directs vers les portails officiels utiles après la lecture d’une carte de l’Atlas.</p></div>
         <a className="associated-data-card" href="https://ddt95.github.io/observatoire_meteo/" target="_blank" rel="noreferrer">
           <span><small>Donnée associée</small><strong>Météo du Val-d’Oise</strong></span>
           <p>Consulter les conditions et observations météorologiques utiles à la lecture transversale du territoire.</p>
           <b>Accéder aux données météo ↗</b>
         </a>
         <div className="external-grid">
-          <a className="external-card featured" href="https://ddt95.github.io/agriculture95/" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Agriculture</strong><p>Lire les cultures, les parcelles bio et les espaces agricoles du Val-d’Oise.</p><b>Ouvrir le service ↗</b></a>
-          <a className="external-card" href="https://ddt95.github.io/eau95/" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Eau</strong><p>Explorer les ressources en eau, les milieux aquatiques et les données de suivi.</p><b>Ouvrir le service ↗</b></a>
-          <a className="external-card" href="https://ddt95.github.io/observatoire_risques_95/" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Risques majeurs</strong><p>Explorer les risques naturels et technologiques du département.</p><b>Ouvrir le service ↗</b></a>
-          <a className="external-card" href="https://ddt95.github.io/observatoire_bati/" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Observatoire du bâti</strong><p>Explorer le bâti, le logement et les dynamiques territoriales du Val-d’Oise.</p><b>Ouvrir le service ↗</b></a>
-          <a className="external-card" href="https://ddt95.github.io/transport95/?v=1ac3c80" target="_blank" rel="noreferrer"><span>Observatoire DDT 95</span><strong>Transports</strong><p>Comprendre les réseaux, les déplacements et l’offre de transport.</p><b>Ouvrir le service ↗</b></a>
+          <a className="external-card featured" href="https://cartes.gouv.fr/" target="_blank" rel="noreferrer"><span>IGN · service public</span><strong>Cartes.gouv.fr</strong><p>Explorer les cartes et données géographiques publiques de référence.</p><b>Explorer les cartes ↗</b></a>
+          <a className="external-card" href="https://www.geoportail-urbanisme.gouv.fr/" target="_blank" rel="noreferrer"><span>Urbanisme</span><strong>Géoportail de l’urbanisme</strong><p>Consulter les documents opposables, zonages, prescriptions et servitudes.</p><b>Consulter le GPU ↗</b></a>
+          <a className="external-card" href="https://www.georisques.gouv.fr/" target="_blank" rel="noreferrer"><span>Prévention</span><strong>Géorisques</strong><p>Éditer un état des risques et approfondir les aléas d’un terrain.</p><b>Consulter Géorisques ↗</b></a>
+          <a className="external-card" href="https://www.cadastre.gouv.fr/" target="_blank" rel="noreferrer"><span>Parcelles</span><strong>Cadastre</strong><p>Rechercher une parcelle et consulter le plan cadastral officiel.</p><b>Consulter le cadastre ↗</b></a>
+          <a className="external-card" href="https://www.data.gouv.fr/" target="_blank" rel="noreferrer"><span>Données ouvertes</span><strong>data.gouv.fr</strong><p>Trouver et télécharger les jeux de données produits par les services publics.</p><b>Rechercher des données ↗</b></a>
+          <a className="external-card" href="https://www.observatoire-des-territoires.gouv.fr/les-outils-interactifs/cartographie-interactive" target="_blank" rel="noreferrer"><span>Indicateurs territoriaux</span><strong>Observatoire des territoires</strong><p>Comparer les territoires à partir d’indicateurs nationaux documentés.</p><b>Ouvrir la cartographie ↗</b></a>
         </div>
       </section>
 
