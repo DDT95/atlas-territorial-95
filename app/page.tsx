@@ -12,7 +12,7 @@ type Commune = {
 
 const themes = [
   { path: "01_Portail_Communal", href: "https://ddt95.github.io/portail-communal95/", index: "01", title: "Portail communal", text: "Une entrée unique par commune : chiffres clés, cartes, enjeux et accès aux dix lectures.", tone: "slate", status: "Page de préfiguration" },
-  { path: "02_Urbanisme_Parcelle", href: "/urbanisme", index: "02", title: "Urbanisme à la parcelle", text: "Cadastre, PLU, prescriptions, servitudes et risques réunis au même endroit.", tone: "blue", status: "Outil disponible" },
+  { path: "02_Urbanisme_Parcelle", href: "https://ddt95.github.io/urbanisme95/", index: "02", title: "Urbanisme à la parcelle", text: "Cadastre, PLU, prescriptions, servitudes et risques réunis au même endroit.", tone: "blue", status: "Observatoire en ligne" },
   { path: "03_Artificialisation_ZAN", href: "https://ddt95.github.io/artificialisation-zan95/", index: "03", title: "Artificialisation & ZAN", text: "Occupation du sol, consommation d’espace, trajectoire ZAN et friches.", tone: "violet", status: "Page de préfiguration" },
   { path: "04_Agriculture", href: "https://ddt95.github.io/agriculture95/", index: "04", title: "Agriculture", text: "Cultures, bio, prairies, haies et enjeux environnementaux.", tone: "green", status: "Observatoire en ligne" },
   { path: "05_Eau", href: "https://ddt95.github.io/eau95/", index: "05", title: "Eau", text: "Cours d’eau, zones humides, nappes, stations et débits.", tone: "cyan", status: "Observatoire en ligne" },
