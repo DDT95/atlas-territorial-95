@@ -72,8 +72,17 @@ export default function Home() {
     const startMap = () => {
       const L = (window as any).L;
       if (!L || !mapNode.current || mapRef.current) return;
-      const map = L.map(mapNode.current, { zoomControl: false, attributionControl: true }).setView([49.075, 2.105], 9);
-      L.control.zoom({ position: "bottomright" }).addTo(map);
+      const map = L.map(mapNode.current, {
+        zoomControl: false,
+        attributionControl: true,
+        dragging: false,
+        touchZoom: false,
+        scrollWheelZoom: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: false,
+        tap: false,
+      }).setView([49.075, 2.105], 9);
       L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
         maxZoom: 19,
         subdomains: "abcd",
@@ -119,12 +128,6 @@ export default function Home() {
     communeLayerRef.current = layer;
     if (!selectedCode) map.fitBounds(layer.getBounds(), { padding: [20, 20] });
   }, [communes, selectedCode, mapReady]);
-
-  useEffect(() => {
-    if (!selected || !mapRef.current || !communeLayerRef.current) return;
-    const target = communeLayerRef.current.getLayers().find((layer: any) => layer.feature?.properties?.code === selected.code);
-    if (target) mapRef.current.fitBounds(target.getBounds(), { padding: [46, 46], maxZoom: 13 });
-  }, [selected]);
 
   function submitSearch(event: React.FormEvent) {
     event.preventDefault();
