@@ -415,19 +415,19 @@ export default function UrbanismePage() {
 
   function toggleLayer(key: keyof typeof layers) {
     const enable = !layers[key]; const map = mapRef.current;
-    if (enable && map) {
-      const target = ["plu","servitudes","publicLand","mos"].includes(key) ? 10 : 11;
-      map.setMinZoom(10);
-      if (map.getZoom() < target) map.setZoom(target);
-      setLayerFeedback(key === "plu" ? "Zonage PLU affiché immédiatement — survolez une zone ou cliquez sur une parcelle." : key === "servitudes" ? "Servitudes affichées immédiatement — survolez chaque emprise pour connaître sa nature." : "Couche affichée dès cette échelle. Survolez les objets pour lire leurs informations.");
-    }
     setLayers((current) => {
       const next={...current,[key]:!current[key]};
       if (enable && ["mos","plu","servitudes","publicLand"].includes(key)) {
         (["mos","plu","servitudes","publicLand"] as const).forEach((theme) => { if (theme !== key) next[theme] = false; });
       }
+      layersStateRef.current=next;
       return next;
     });
+    if (enable && map) {
+      map.setMinZoom(10);
+      setLayerFeedback("Passage automatique au niveau 13 : chargement de la couche détaillée…");
+      window.requestAnimationFrame(() => map.flyTo(map.getCenter(), 13, { duration:.65 }));
+    }
   }
 
   async function searchAddress(event: React.FormEvent) {
