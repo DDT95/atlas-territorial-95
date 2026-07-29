@@ -109,6 +109,7 @@ export default function UrbanismePage() {
   const [communeSuggestionsOpen, setCommuneSuggestionsOpen] = useState(false);
   const [activeCommune, setActiveCommune] = useState("");
   const [layers, setLayers] = useState({ parcels: true, buildings: true, mos: false, plu: false, servitudes: false, publicLand: false });
+  const [layerLoading, setLayerLoading] = useState({ mos:false, plu:false, servitudes:false, publicLand:false });
   const [services, setServices] = useState<Record<string,"checking"|"online"|"error">>({ Adresse:"checking", Cadastre:"checking", Urbanisme:"checking", Risques:"checking", Bâti:"checking", MOS:"checking", Foncier:"checking" });
   const [message, setMessage] = useState("Recherchez une adresse ou cliquez sur la carte.");
   const layersStateRef = useRef(layers);
@@ -138,6 +139,7 @@ export default function UrbanismePage() {
         if (!wantsSup && supTilesRef.current) { map.removeLayer(supTilesRef.current); supTilesRef.current=null; }
         if (!wantsZones && !wantsSup) return;
         if (map.getZoom() < 11) return;
+        setLayerLoading((current)=>({...current,plu:wantsZones,servitudes:wantsSup}));
         const bounds=map.getBounds();
         const geometry=encodeURIComponent(JSON.stringify({type:"Polygon",coordinates:[[[bounds.getWest(),bounds.getSouth()],[bounds.getEast(),bounds.getSouth()],[bounds.getEast(),bounds.getNorth()],[bounds.getWest(),bounds.getNorth()],[bounds.getWest(),bounds.getSouth()]]]}));
         gpuRequestRef.current?.abort(); const controller=new AbortController(); gpuRequestRef.current=controller;
@@ -153,11 +155,12 @@ export default function UrbanismePage() {
           const supData:FeatureCollection={type:"FeatureCollection",features:supCollections.flatMap((collection:any)=>collection.features||[])};
           if(pluTilesRef.current)map.removeLayer(pluTilesRef.current);
           if(supTilesRef.current)map.removeLayer(supTilesRef.current);
-          if(wantsZones){ pluTilesRef.current=L.geoJSON(zoneData,{style:(feature:any)=>({color:zoneColor(feature),weight:1.5,fillColor:zoneColor(feature),fillOpacity:.26}),onEachFeature:(feature:any,layer:any)=>layer.bindTooltip(`<b>Zone ${firstValue(feature.properties,["libelle","typezone","libelle_zone"],"GPU")}</b><br>${firstValue(feature.properties,["partition","nomfic"],"Document d’urbanisme")}`,{sticky:true})}).addTo(map); }
+          if(wantsZones){ pluTilesRef.current=L.geoJSON(zoneData,{style:(feature:any)=>({color:zoneColor(feature),weight:1.5,fillColor:zoneColor(feature),fillOpacity:.26}),onEachFeature:(feature:any,layer:any)=>layer.bindTooltip(`<div class="simple-map-tooltip"><b>Zone ${escapeHtml(firstValue(feature.properties,["libelle","typezone","libelle_zone"],"GPU"))}</b><span>${escapeHtml(firstValue(feature.properties,["partition","nomfic"],"Document d’urbanisme"))}</span></div>`,{sticky:true,className:"urban-map-tooltip"})}).addTo(map); }
           if(wantsSup){ supTilesRef.current=L.geoJSON(supData,{style:(feature:any)=>({color:supColor(feature),weight:2.5,fillColor:supColor(feature),fillOpacity:.10,dashArray:feature.geometry?.type?.includes("Polygon")?"7 5":undefined}),pointToLayer:(feature:any,latlng:any)=>L.circleMarker(latlng,{radius:6,color:supColor(feature),weight:2,fillColor:supColor(feature),fillOpacity:.65}),onEachFeature:(feature:any,layer:any)=>{const p=feature.properties||{},code=supCode(feature);layer.bindTooltip(`<div class="sup-tooltip"><b>${escapeHtml(code)} · ${escapeHtml(supTitle(feature))}</b><span>${escapeHtml(supFamily(code))}</span><small>${escapeHtml(firstValue(p,["typeass"],"Assiette de servitude"))}${p.srcgeoass?` · Source géométrique : ${escapeHtml(p.srcgeoass)}`:""}</small><small>Identifiant : ${escapeHtml(firstValue(p,["idass"],"non renseigné"))}</small></div>`,{sticky:true,className:"sup-map-tooltip"});}}).addTo(map); }
           parcelTilesRef.current?.bringToFront(); buildingTilesRef.current?.bringToFront();
           const parts=[]; if(wantsZones)parts.push(`${zoneData.features.length} zone${zoneData.features.length>1?"s":""}`); if(wantsSup)parts.push(`${supData.features.length} servitude${supData.features.length>1?"s":""}`); setLayerFeedback(`${parts.join(" · ")} dans cette vue. Survolez une géométrie puis cliquez sur une parcelle pour le détail.`);
         } catch(error:any){ if(error?.name!=="AbortError")setLayerFeedback("Le Géoportail de l’urbanisme ne répond pas momentanément."); }
+        finally { setLayerLoading((current)=>({...current,plu:false,servitudes:false})); }
       };
       const refreshMos = async () => {
         if (!layersStateRef.current.mos) {
@@ -165,6 +168,7 @@ export default function UrbanismePage() {
           return;
         }
         if (map.getZoom() < 11) return;
+        setLayerLoading((current)=>({...current,mos:true}));
         const bounds = map.getBounds();
         mosRequestRef.current?.abort();
         const controller = new AbortController(); mosRequestRef.current = controller;
@@ -178,13 +182,15 @@ export default function UrbanismePage() {
           mosLayerRef.current.bringToBack();
           parcelTilesRef.current?.bringToFront(); buildingTilesRef.current?.bringToFront();
         } catch (error: any) { if (error?.name !== "AbortError") console.warn("MOS indisponible", error); }
+        finally { setLayerLoading((current)=>({...current,mos:false})); }
       };
       const refreshPublicLand = async () => {
         if (!layersStateRef.current.publicLand) {
           if (publicLandLayerRef.current && map.hasLayer(publicLandLayerRef.current)) map.removeLayer(publicLandLayerRef.current);
           return;
         }
-        if (map.getZoom() < 13) { setLayerFeedback("Foncier public conservé à l’écran. Rapprochez-vous pour actualiser les parcelles de la nouvelle vue."); return; }
+        if (map.getZoom() < 13) { setLayerFeedback("Foncier public disponible à partir du niveau 13 : rapprochez-vous d’un cran pour charger les parcelles."); return; }
+        setLayerLoading((current)=>({...current,publicLand:true}));
         try {
           if (!publicLandDataRef.current) publicLandDataRef.current = await fetch(`${basePath}/data/foncier-public-95.json`).then((response) => response.json());
           const bounds = map.getBounds();
@@ -195,9 +201,10 @@ export default function UrbanismePage() {
           const publicFeatures = (data.features || []).filter((feature:any) => publicLandDataRef.current?.[String(feature.properties?.idu || feature.id || "")]);
           setLayerFeedback(publicFeatures.length ? `Foncier public : ${publicFeatures.length} parcelle${publicFeatures.length > 1 ? "s" : ""} visible${publicFeatures.length > 1 ? "s" : ""} dans cette vue.` : "Foncier public : aucune parcelle repérée dans cette vue. Déplacez la carte ou choisissez une autre commune.");
           if (publicLandLayerRef.current && map.hasLayer(publicLandLayerRef.current)) map.removeLayer(publicLandLayerRef.current);
-          publicLandLayerRef.current = L.geoJSON({ type:"FeatureCollection", features:publicFeatures }, { style:(feature:any) => { const info=publicLandDataRef.current?.[String(feature.properties?.idu || feature.id || "")]; return { color:publicLandColor(info?.[0] || ""), weight:2, fillColor:publicLandColor(info?.[0] || ""), fillOpacity:.48 }; }, onEachFeature:(feature:any,layer:any) => { const info=publicLandDataRef.current?.[String(feature.properties?.idu || feature.id || "")]; if(info) layer.bindTooltip(`<b>${info[1]}</b><br>${info[2] || "Propriétaire public"}`,{sticky:true}); } }).addTo(map);
+          publicLandLayerRef.current = L.geoJSON({ type:"FeatureCollection", features:publicFeatures }, { style:(feature:any) => { const info=publicLandDataRef.current?.[String(feature.properties?.idu || feature.id || "")]; return { color:publicLandColor(info?.[0] || ""), weight:2, fillColor:publicLandColor(info?.[0] || ""), fillOpacity:.48 }; }, onEachFeature:(feature:any,layer:any) => { const info=publicLandDataRef.current?.[String(feature.properties?.idu || feature.id || "")]; if(info) layer.bindTooltip(`<div class="simple-map-tooltip"><b>${escapeHtml(info[1])}</b><span>${escapeHtml(info[2] || "Propriétaire public")}</span></div>`,{sticky:true,className:"urban-map-tooltip"}); } }).addTo(map);
           parcelTilesRef.current?.bringToFront(); buildingTilesRef.current?.bringToFront();
-        } catch (error) { console.warn("Foncier public indisponible", error); }
+        } catch (error) { console.warn("Foncier public indisponible", error); setLayerFeedback("Le référentiel du foncier public ne répond pas momentanément."); }
+        finally { setLayerLoading((current)=>({...current,publicLand:false})); }
       };
       const adaptLayerReadability=()=>{const zoom=map.getZoom();parcelTilesRef.current?.setOpacity(zoom>=15?.92:zoom>=13?.68:.48);buildingTilesRef.current?.setOpacity(zoom>=16?.9:zoom>=14?.62:.38);if(mosLayerRef.current?.setStyle)mosLayerRef.current.setStyle((feature:any)=>({color:mosColor(numberValue(feature?.properties?.mos2025)),weight:zoom>=14?.8:.5,fillColor:mosColor(numberValue(feature?.properties?.mos2025)),fillOpacity:zoom>=14?.52:.34}));if(pluTilesRef.current?.setStyle)pluTilesRef.current.setStyle((feature:any)=>({color:zoneColor(feature),weight:zoom>=14?1.5:1,fillColor:zoneColor(feature),fillOpacity:zoom>=14?.26:.18}));if(supTilesRef.current?.setStyle)supTilesRef.current.setStyle((feature:any)=>({color:supColor(feature),weight:zoom>=14?2.5:1.7,fillColor:supColor(feature),fillOpacity:zoom>=14?.10:.055,dashArray:feature.geometry?.type?.includes("Polygon")?"7 5":undefined}));};
       map.on("zoomend", () => { setMapZoom(map.getZoom()); adaptLayerReadability(); refreshMos(); refreshPublicLand(); refreshGpuLayers(); });
@@ -364,7 +371,7 @@ export default function UrbanismePage() {
   function toggleLayer(key: keyof typeof layers) {
     const enable = !layers[key]; const map = mapRef.current;
     if (enable && map) {
-      const target = key === "publicLand" ? 14 : 11;
+      const target = key === "publicLand" ? 13 : 11;
       map.setMinZoom(11);
       if (map.getZoom() < target) map.setZoom(target);
       setLayerFeedback(key === "plu" ? "Zonage PLU affiché immédiatement — survolez une zone ou cliquez sur une parcelle." : key === "servitudes" ? "Servitudes affichées immédiatement — survolez chaque emprise pour connaître sa nature." : "Couche affichée dès cette échelle. Survolez les objets pour lire leurs informations.");
@@ -481,7 +488,7 @@ export default function UrbanismePage() {
                 ["plu","Zonage PLU","Carte GPU continue + détail au clic","#18753c"],
                 ["servitudes","Servitudes","Carte GPU continue + détail au clic","#6f4c9b"],
                 ["publicLand","Foncier public","État, collectivités, HLM et établissements","#008941"],
-              ] as const).map(([key,label,description,color]) => <button key={key} type="button" role="switch" className="urban-layer-toggle" onClick={() => toggleLayer(key)} aria-checked={layers[key]}><i style={{background:color}}/><span><strong>{label}</strong><small>{description}</small></span><b aria-hidden="true"><em/></b></button>)}
+              ] as const).map(([key,label,description,color]) => {const waiting=key in layerLoading&&layerLoading[key as keyof typeof layerLoading];return <button key={key} type="button" role="switch" className={`urban-layer-toggle ${waiting?"is-loading":""}`} onClick={() => toggleLayer(key)} aria-checked={layers[key]} aria-busy={waiting}><i style={{background:color}}/><span><strong>{label}{waiting&&<em className="layer-spinner" aria-hidden="true"/>}</strong><small>{waiting?"Chargement des données…":description}</small></span><b aria-hidden="true"><em/></b></button>})}
             </div>
             {(layers.parcels||layers.buildings)&&<div className="base-layer-legend"><strong>Repères cadastraux</strong>{layers.parcels&&<span><i className="parcel-symbol"/>Limite parcellaire bleue</span>}{layers.buildings&&<span><i className="building-symbol"/>Bâtiment en gris plein</span>}<small>Ces formes grises sont uniquement les empreintes bâties, jamais du zonage. Cliquez dans une parcelle pour afficher sa fiche complète.</small></div>}
             {layers.mos && <div className="mos-mini-legend"><strong>MOS 2025</strong><span><i style={{background:"#18753c"}}/>Nature et forêts</span><span><i style={{background:"#e3b341"}}/>Agriculture</span><span><i style={{background:"#0098d8"}}/>Eau</span><span><i style={{background:"#62b467"}}/>Espaces ouverts</span><span><i style={{background:"#e07a9a"}}/>Habitat</span><span><i style={{background:"#a05a9c"}}/>Activités</span><span><i style={{background:"#5576b9"}}/>Équipements</span><span><i style={{background:"#737b87"}}/>Transports</span><small>Survolez une surface pour lire le poste détaillé parmi les 79 catégories et son évolution depuis 2021.</small></div>}
