@@ -165,7 +165,7 @@ export default function Home() {
           <a href="#thematiques">Les thématiques</a>
           <a href="#liens-utiles">Liens utiles</a>
           <a className="weather-nav" href="https://ddt95.github.io/observatoire_meteo/" target="_blank" rel="noreferrer">Météo ↗</a>
-          <a href="#sources">Les sources</a>
+          <a className="info-nav" href={`${basePath}/donnees`}><i aria-hidden="true">i</i><span>Données</span></a>
         </nav>
       </header>
 
@@ -248,10 +248,10 @@ export default function Home() {
       <section className="source-section" id="sources">
         <div><p className="eyebrow">Données publiques</p><h2>Des sources identifiées et datées</h2></div>
         <div className="source-list"><span>IGN</span><span>INSEE</span><span>Géorisques</span><span>Eaufrance</span><span>ADEME</span><span>DRIEAT</span></div>
-        <p className="source-note">Chaque observatoire indiquera le producteur, le millésime, la dernière synchronisation et l’état de disponibilité de ses sources.</p>
+        <p className="source-note">Chaque observatoire indique le producteur, le millésime, la dernière synchronisation et l’état de disponibilité de ses sources. <a href={`${basePath}/donnees`}>Comprendre les données et les connexions →</a></p>
       </section>
 
-      <footer><span>DDT du Val-d’Oise · Atlas territorial</span><span>Version socle · 2026</span></footer>
+      <footer><span>DDT du Val-d’Oise – Pôle géomatique</span></footer>
     </main>
   );
 }
