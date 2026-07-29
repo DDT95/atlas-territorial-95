@@ -89,9 +89,14 @@ export default function UrbanismePage() {
   const buildingTilesRef = useRef<any>(null);
   const pluTilesRef = useRef<any>(null);
   const supTilesRef = useRef<any>(null);
+  const pluOverviewLayerRef = useRef<any>(null);
+  const supOverviewLayerRef = useRef<any>(null);
   const mosLayerRef = useRef<any>(null);
   const publicLandLayerRef = useRef<any>(null);
+  const publicOverviewLayerRef = useRef<any>(null);
   const publicLandDataRef = useRef<Record<string,[string,string,string]> | null>(null);
+  const communesDataRef = useRef<FeatureCollection | null>(null);
+  const departmentMaskRef = useRef<any>(null);
   const mosRequestRef = useRef<AbortController | null>(null);
   const gpuRequestRef = useRef<AbortController | null>(null);
   const markerRef = useRef<any>(null);
@@ -108,7 +113,7 @@ export default function UrbanismePage() {
   const [communeQuery, setCommuneQuery] = useState("");
   const [communeSuggestionsOpen, setCommuneSuggestionsOpen] = useState(false);
   const [activeCommune, setActiveCommune] = useState("");
-  const [layers, setLayers] = useState({ parcels: true, buildings: true, mos: false, plu: false, servitudes: false, publicLand: false });
+  const [layers, setLayers] = useState({ parcels: false, buildings: false, mos: false, plu: true, servitudes: false, publicLand: false });
   const [layerLoading, setLayerLoading] = useState({ mos:false, plu:false, servitudes:false, publicLand:false });
   const [services, setServices] = useState<Record<string,"checking"|"online"|"error">>({ Adresse:"checking", Cadastre:"checking", Urbanisme:"checking", Risques:"checking", Bâti:"checking", MOS:"checking", Foncier:"checking" });
   const [message, setMessage] = useState("Recherchez une adresse ou cliquez sur la carte.");
@@ -125,6 +130,7 @@ export default function UrbanismePage() {
       const L = (window as any).L;
       if (!L || !mapNode.current || mapRef.current) return;
       const map = L.map(mapNode.current, { zoomControl: false, maxBoundsViscosity: .65 }).setView([49.075, 2.105], 10);
+      map.createPane("departmentMaskPane"); map.getPane("departmentMaskPane").style.zIndex="350";
       L.control.zoom({ position: "bottomright" }).addTo(map);
       L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", { className: "urban-base-tiles", maxZoom: 20, subdomains: "abcd", attribution: "© OpenStreetMap · © CARTO" }).addTo(map);
       parcelTilesRef.current = L.tileLayer("https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=CADASTRALPARCELS.PARCELLAIRE_EXPRESS&STYLE=PCI%20vecteur&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png", {
@@ -133,12 +139,25 @@ export default function UrbanismePage() {
       buildingTilesRef.current = L.tileLayer("https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=BUILDINGS.BUILDINGS&STYLE=normal&TILEMATRIXSET=PM_6_18&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png", {
         className: "building-tiles", minZoom: 11, maxZoom: 18, opacity: .95, attribution: "© IGN · BD TOPO",
       }).addTo(map);
+      pluOverviewLayerRef.current=L.tileLayer.wms("https://data.geopf.fr/wms-v/ows",{layers:"document",format:"image/png",transparent:true,version:"1.3.0",opacity:.72,attribution:"© Géoportail de l’urbanisme"});
+      supOverviewLayerRef.current=L.tileLayer.wms("https://data.geopf.fr/wms-v/ows",{layers:"sup",format:"image/png",transparent:true,version:"1.3.0",opacity:.48,attribution:"© Géoportail de l’urbanisme"});
+      pluOverviewLayerRef.current.on("loading",()=>setLayerLoading((current)=>({...current,plu:true})));pluOverviewLayerRef.current.on("load",()=>setLayerLoading((current)=>({...current,plu:false})));
+      supOverviewLayerRef.current.on("loading",()=>setLayerLoading((current)=>({...current,servitudes:true})));supOverviewLayerRef.current.on("load",()=>setLayerLoading((current)=>({...current,servitudes:false})));
       const refreshGpuLayers = async () => {
         const wantsZones=layersStateRef.current.plu, wantsSup=layersStateRef.current.servitudes;
         if (!wantsZones && pluTilesRef.current) { map.removeLayer(pluTilesRef.current); pluTilesRef.current=null; }
         if (!wantsSup && supTilesRef.current) { map.removeLayer(supTilesRef.current); supTilesRef.current=null; }
+        if(!wantsZones&&pluOverviewLayerRef.current&&map.hasLayer(pluOverviewLayerRef.current))map.removeLayer(pluOverviewLayerRef.current);
+        if(!wantsSup&&supOverviewLayerRef.current&&map.hasLayer(supOverviewLayerRef.current))map.removeLayer(supOverviewLayerRef.current);
         if (!wantsZones && !wantsSup) return;
-        if (map.getZoom() < 11) return;
+        if (map.getZoom() < 10) return;
+        if(map.getZoom()===10){
+          if(wantsZones&&!map.hasLayer(pluOverviewLayerRef.current))pluOverviewLayerRef.current.addTo(map);
+          if(wantsSup&&!map.hasLayer(supOverviewLayerRef.current))supOverviewLayerRef.current.addTo(map);
+          setLayerFeedback(wantsZones?"Vue départementale : couverture des documents d’urbanisme. Zoomez d’un seul cran pour afficher les zones PLU détaillées.":"Vue départementale : aperçu des servitudes. Zoomez d’un seul cran pour afficher les géométries et leurs infobulles détaillées.");return;
+        }
+        if(pluOverviewLayerRef.current&&map.hasLayer(pluOverviewLayerRef.current))map.removeLayer(pluOverviewLayerRef.current);
+        if(supOverviewLayerRef.current&&map.hasLayer(supOverviewLayerRef.current))map.removeLayer(supOverviewLayerRef.current);
         setLayerLoading((current)=>({...current,plu:wantsZones,servitudes:wantsSup}));
         const bounds=map.getBounds();
         const geometry=encodeURIComponent(JSON.stringify({type:"Polygon",coordinates:[[[bounds.getWest(),bounds.getSouth()],[bounds.getEast(),bounds.getSouth()],[bounds.getEast(),bounds.getNorth()],[bounds.getWest(),bounds.getNorth()],[bounds.getWest(),bounds.getSouth()]]]}));
@@ -167,7 +186,7 @@ export default function UrbanismePage() {
           if (mosLayerRef.current && map.hasLayer(mosLayerRef.current)) map.removeLayer(mosLayerRef.current);
           return;
         }
-        if (map.getZoom() < 11) return;
+        if (map.getZoom() < 10) return;
         setLayerLoading((current)=>({...current,mos:true}));
         const bounds = map.getBounds();
         mosRequestRef.current?.abort();
@@ -187,12 +206,20 @@ export default function UrbanismePage() {
       const refreshPublicLand = async () => {
         if (!layersStateRef.current.publicLand) {
           if (publicLandLayerRef.current && map.hasLayer(publicLandLayerRef.current)) map.removeLayer(publicLandLayerRef.current);
+          if (publicOverviewLayerRef.current && map.hasLayer(publicOverviewLayerRef.current)) map.removeLayer(publicOverviewLayerRef.current);
           return;
         }
-        if (map.getZoom() < 13) { setLayerFeedback("Foncier public disponible à partir du niveau 13 : rapprochez-vous d’un cran pour charger les parcelles."); return; }
         setLayerLoading((current)=>({...current,publicLand:true}));
         try {
           if (!publicLandDataRef.current) publicLandDataRef.current = await fetch(`${basePath}/data/foncier-public-95.json`).then((response) => response.json());
+          if(map.getZoom()<13){
+            if(publicLandLayerRef.current&&map.hasLayer(publicLandLayerRef.current))map.removeLayer(publicLandLayerRef.current);
+            const counts:Record<string,number>={};Object.keys(publicLandDataRef.current||{}).forEach((parcelId)=>{const code=parcelId.slice(0,5);counts[code]=(counts[code]||0)+1;});
+            if(publicOverviewLayerRef.current&&map.hasLayer(publicOverviewLayerRef.current))map.removeLayer(publicOverviewLayerRef.current);
+            if(communesDataRef.current){publicOverviewLayerRef.current=L.geoJSON(communesDataRef.current,{style:(feature:any)=>{const count=counts[String(feature.properties?.code)]||0;return{color:"#087a45",weight:1,fillColor:"#00a95f",fillOpacity:count?Math.min(.62,.16+Math.log10(count+1)*.18):.03};},onEachFeature:(feature:any,layer:any)=>{const count=counts[String(feature.properties?.code)]||0;layer.bindTooltip(`<div class="simple-map-tooltip"><b>${escapeHtml(feature.properties?.nom||"Commune")}</b><span>${count.toLocaleString("fr-FR")} parcelle${count>1?"s":""} de personne morale publique présumée${count>1?"s":""}</span><small>Vue communale agrégée · DGFiP FPMU 2025</small></div>`,{sticky:true,className:"urban-map-tooltip"});}}).addTo(map);}
+            setLayerFeedback("Foncier public : vue départementale agrégée par commune. Rapprochez-vous jusqu’au niveau 13 pour afficher les parcelles exactes.");return;
+          }
+          if(publicOverviewLayerRef.current&&map.hasLayer(publicOverviewLayerRef.current))map.removeLayer(publicOverviewLayerRef.current);
           const bounds = map.getBounds();
           const geom = encodeURIComponent(JSON.stringify({ type:"Polygon", coordinates:[[[bounds.getWest(),bounds.getSouth()],[bounds.getEast(),bounds.getSouth()],[bounds.getEast(),bounds.getNorth()],[bounds.getWest(),bounds.getNorth()],[bounds.getWest(),bounds.getSouth()]]] }));
           const response = await fetch(`https://apicarto.ign.fr/api/cadastre/parcelle?geom=${geom}`);
@@ -212,14 +239,17 @@ export default function UrbanismePage() {
       fetch("https://geo.api.gouv.fr/departements/95/communes?fields=nom,code,contour&format=geojson&geometry=contour")
         .then((response) => response.json())
         .then((communes) => {
+          communesDataRef.current=communes;
           setCommunes([...(communes.features || [])].sort((a:any,b:any) => String(a.properties?.nom || "").localeCompare(String(b.properties?.nom || ""), "fr")));
           const territory = L.geoJSON(communes, { style: { color: "#64748b", weight: .7, fillColor: "#000091", fillOpacity: .025 }, interactive: false }).addTo(map);
           const bounds = territory.getBounds();
           if (bounds.isValid()) { map.fitBounds(bounds, { padding: [25, 25] }); map.setMaxBounds(bounds.pad(.28)); }
+          if(layersStateRef.current.publicLand)map.fire("moveend");
         }).catch(() => undefined);
+      fetch("https://data.geopf.fr/wfs/ows?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetFeature&TYPENAMES=ADMINEXPRESS-COG-CARTO-PE.LATEST%3Adepartement&outputFormat=application%2Fjson&CQL_FILTER=code_insee%3D%2795%27&srsName=EPSG%3A4326").then((response)=>response.json()).then((data)=>{const geometry=data.features?.[0]?.geometry;if(!geometry)return;const polygons=geometry.type==="MultiPolygon"?geometry.coordinates:[geometry.coordinates];const holes=polygons.map((polygon:any)=>polygon[0].map(([lon,lat]:number[])=>[lat,lon]));const world=[[-85,-180],[-85,180],[85,180],[85,-180]];departmentMaskRef.current=L.polygon([world,...holes],{pane:"departmentMaskPane",stroke:false,fillColor:"#f4f6fb",fillOpacity:.82,fillRule:"evenodd",interactive:false}).addTo(map);L.geoJSON(data,{pane:"departmentMaskPane",style:{color:"#000091",weight:3,fill:false},interactive:false}).addTo(map);}).catch(()=>undefined);
       map.on("click", (event: any) => inspectMapPoint(event.latlng.lng, event.latlng.lat));
       mapRef.current = map;
-      refreshMos();
+      refreshMos(); refreshGpuLayers();
     };
     if ((window as any).L) launch();
     else {
@@ -239,8 +269,11 @@ export default function UrbanismePage() {
     toggleMapLayer(buildingTilesRef.current, layers.buildings);
     if (!layers.mos && mosLayerRef.current && map.hasLayer(mosLayerRef.current)) map.removeLayer(mosLayerRef.current);
     if (!layers.publicLand && publicLandLayerRef.current && map.hasLayer(publicLandLayerRef.current)) map.removeLayer(publicLandLayerRef.current);
+    if (!layers.publicLand && publicOverviewLayerRef.current && map.hasLayer(publicOverviewLayerRef.current)) map.removeLayer(publicOverviewLayerRef.current);
     if (!layers.plu && pluTilesRef.current) { map.removeLayer(pluTilesRef.current); pluTilesRef.current=null; }
     if (!layers.servitudes && supTilesRef.current) { map.removeLayer(supTilesRef.current); supTilesRef.current=null; }
+    if (!layers.plu && pluOverviewLayerRef.current && map.hasLayer(pluOverviewLayerRef.current)) map.removeLayer(pluOverviewLayerRef.current);
+    if (!layers.servitudes && supOverviewLayerRef.current && map.hasLayer(supOverviewLayerRef.current)) map.removeLayer(supOverviewLayerRef.current);
     if (layers.mos || layers.publicLand || layers.plu || layers.servitudes) map.fire("moveend");
     if (result && selectionPointRef.current) {
       const [lon, lat] = selectionPointRef.current;
@@ -326,7 +359,7 @@ export default function UrbanismePage() {
     ] as const;
     configs.forEach(([data, style]) => { if (data.features.length) { const layer = L.geoJSON(data, { style }).addTo(map); layersRef.current.push(layer); } });
     markerRef.current = L.circleMarker([lat, lon], { radius: 6, color: "#e1000f", fillColor: "#fff", fillOpacity: 1, weight: 3 }).addTo(map);
-    map.setMinZoom(11);
+    map.setMinZoom(10);
     const parcelLayer = layersRef.current.at(-1); if (parcelLayer?.getBounds?.().isValid()) map.fitBounds(parcelLayer.getBounds(), { padding: [40, 40], maxZoom: 19 }); else map.setView([lat, lon], 17);
     setLayerFeedback(`Parcelle sélectionnée · niveau ${Math.max(13, map.getZoom())}. Les couches activées restent affichées.`);
   }
@@ -361,7 +394,7 @@ export default function UrbanismePage() {
     if (communeFocusLayerRef.current) map.removeLayer(communeFocusLayerRef.current);
     communeFocusLayerRef.current = L.geoJSON(feature, { style: { color: "#000091", weight: 3, fillColor: "#000091", fillOpacity: .04 }, interactive: false }).addTo(map);
     const bounds = communeFocusLayerRef.current.getBounds();
-    if (bounds.isValid()) { map.setMinZoom(11); map.fitBounds(bounds, { padding: [45,45], maxZoom: 15 }); }
+    if (bounds.isValid()) { map.setMinZoom(10); map.fitBounds(bounds, { padding: [45,45], maxZoom: 15 }); }
     setActiveCommune(feature.properties?.nom || "Commune choisie");
     setCommuneQuery(feature.properties?.nom || ""); setCommuneSuggestionsOpen(false);
     setResult(null); setDetailsOpen(false); setMessage("Commune cadrée : cliquez directement sur une parcelle.");
@@ -371,15 +404,16 @@ export default function UrbanismePage() {
   function toggleLayer(key: keyof typeof layers) {
     const enable = !layers[key]; const map = mapRef.current;
     if (enable && map) {
-      const target = key === "publicLand" ? 13 : 11;
-      map.setMinZoom(11);
+      const target = ["plu","servitudes","publicLand","mos"].includes(key) ? 10 : 11;
+      map.setMinZoom(10);
       if (map.getZoom() < target) map.setZoom(target);
       setLayerFeedback(key === "plu" ? "Zonage PLU affiché immédiatement — survolez une zone ou cliquez sur une parcelle." : key === "servitudes" ? "Servitudes affichées immédiatement — survolez chaque emprise pour connaître sa nature." : "Couche affichée dès cette échelle. Survolez les objets pour lire leurs informations.");
     }
     setLayers((current) => {
       const next={...current,[key]:!current[key]};
-      if(enable && key==="plu")next.servitudes=false;
-      if(enable && key==="servitudes")next.plu=false;
+      if (enable && ["mos","plu","servitudes","publicLand"].includes(key)) {
+        (["mos","plu","servitudes","publicLand"] as const).forEach((theme) => { if (theme !== key) next[theme] = false; });
+      }
       return next;
     });
   }
@@ -463,6 +497,7 @@ export default function UrbanismePage() {
   const maxHeight = Math.max(0, ...(result?.buildings.map((building) => numberValue(building.hauteur_mean)) || []));
   const dwellingCount = result?.buildings.reduce((sum, building) => sum + numberValue(building.nb_log), 0) || 0;
   const dpeClasses = uniqueValues(result?.buildings.map((building) => building.classe_bilan_dpe || (building.classe_conso_energie_arrete_2012 !== "N" ? building.classe_conso_energie_arrete_2012 : null)) || []);
+  const loadingLabels=Object.entries(layerLoading).filter(([,waiting])=>waiting).map(([key])=>({mos:"MOS 2025",plu:"zonage PLU",servitudes:"servitudes",publicLand:"foncier public"}[key]));
   return (
     <main className="urban-tool">
       <header className="urban-observatory-header">
@@ -500,6 +535,7 @@ export default function UrbanismePage() {
           <details className="urban-services"><summary><span><strong>Sources publiques</strong><small>{Object.values(services).filter((state)=>state==="online").length}/7 services disponibles</small></span><b>{Object.values(services).every((state)=>state==="online")?"Connecté":"Vérification"}</b></summary><div className="urban-service-grid">{Object.entries(services).map(([name,state])=><span key={name}><i className={state}/><strong>{name}</strong><small>{state==="online"?"Disponible":state==="error"?"Indisponible":"Connexion…"}</small></span>)}</div></details>
         </aside>
         <section className="urban-map-wrap">
+          {loadingLabels.length>0&&<div className="map-data-loader" role="status" aria-live="polite"><i/><span><strong>Chargement de la carte</strong><small>{loadingLabels.join(" · ")}</small></span></div>}
           <div className={`map-guidance ${mapZoom >= 11 ? "ready" : ""}`}><strong>{mapZoom >= 11 ? "Explorez la carte" : "Choisissez un lieu"}</strong><span>{layerFeedback}</span></div>
           <div className="urban-legend">{result && <span><i className="parcel"/>Sélection</span>}{layers.buildings && <span><i className="building"/>Bâtiments</span>}{layers.mos && <span><i className="mos"/>MOS</span>}{layers.plu && <span><i className="zone"/>PLU</span>}{layers.servitudes && <span><i className="sup"/>SUP</span>}{layers.publicLand && <span><i className="public"/>Foncier public</span>}</div><div ref={mapNode} className="urban-map" aria-label="Carte interactive d’urbanisme à la parcelle" />
         </section>
