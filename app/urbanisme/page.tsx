@@ -188,7 +188,8 @@ export default function UrbanismePage() {
       <ToolHeader title="Urbanisme à la parcelle" subtitle="Cadastre · planification · servitudes · risques" />
       <div className="urban-layout">
         <aside className="urban-panel">
-          <div className="urban-intro"><span className="tool-kicker">Observatoire 01</span><h1>Que faut-il savoir sur cette parcelle&nbsp;?</h1><p>En quelques secondes, retrouvez la parcelle, les règles d’urbanisme, les servitudes et les risques connus autour d’une adresse.</p></div>
+          <div className="urban-intro"><span className="tool-kicker">Lecture 02</span><h1>Que faut-il savoir sur cette parcelle&nbsp;?</h1><p>En quelques secondes, retrouvez la parcelle, les règles d’urbanisme, les servitudes et les risques connus autour d’une adresse.</p></div>
+          <div className="urban-steps" aria-label="Comment utiliser la carte"><div><b>1</b><span><strong>Recherchez une adresse</strong><small>ou zoomez puis cliquez directement sur une parcelle.</small></span></div><div><b>2</b><span><strong>Vérifiez le terrain sélectionné</strong><small>la parcelle est entourée en bleu sur la carte.</small></span></div><div><b>3</b><span><strong>Obtenez une première lecture</strong><small>cadastre, zonage, servitudes et risques au même endroit.</small></span></div></div>
           <form className="urban-search" onSubmit={searchAddress}><label htmlFor="urban-address">Adresse dans le Val-d’Oise</label><div><input id="urban-address" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="12 avenue du Général Schmitz, Pontoise" /><button disabled={loading}>{loading ? "…" : "Rechercher"}</button></div></form>
           <div className={`urban-message ${loading ? "loading" : ""}`}><i />{message}</div>
           {(result || query) && !loading && <button className="reset-search" type="button" onClick={resetSearch}><span aria-hidden="true">↺</span> Nouvelle recherche</button>}
@@ -203,9 +204,9 @@ export default function UrbanismePage() {
         <section><div className="result-heading"><span>02</span><h2>Zonage d’urbanisme</h2></div>{result.zones.length ? result.zones.map((zone,index)=><div className="result-chip green" key={zone.id || index}><b>{firstValue(zone.properties,["libelle","typezone","libelle_zone"],"Zone GPU")}</b><small>{firstValue(zone.properties,["partition","nomfic"],"Document opposable")}</small></div>) : <p className="empty-result">Aucun zonage retourné par le GPU.</p>}</section>
         <section><div className="result-heading"><span>03</span><h2>Servitudes</h2></div><p className="result-count"><strong>{result.servitudes.length}</strong> assiette(s) intersectée(s)</p>{result.servitudes.slice(0,4).map((sup,index)=><div className="result-chip violet" key={sup.id || index}><b>{firstValue(sup.properties,["libelle","nom_sup","categorie"],"Servitude d’utilité publique")}</b><small>{firstValue(sup.properties,["categorie","idass"],"GPU")}</small></div>)}</section>
         <section><div className="result-heading"><span>04</span><h2>Risques recensés</h2></div>{result.risks.length ? <div className="risk-list">{result.risks.map((risk,index)=><span key={index}>{risk.libelle_risque_long || risk.libelle_risque || "Risque"}</span>)}</div> : <p className="empty-result">Aucun risque Gaspar retourné pour ce point.</p>}</section>
-        <p className="legal-note">Les documents opposables restent la référence.</p>
+        <div className="urban-official-links"><strong>Vérifier auprès des services officiels</strong><a href="https://www.geoportail-urbanisme.gouv.fr/" target="_blank" rel="noreferrer">Géoportail de l’urbanisme ↗</a><a href="https://www.georisques.gouv.fr/" target="_blank" rel="noreferrer">Géorisques ↗</a><a href="https://www.cadastre.gouv.fr/" target="_blank" rel="noreferrer">Cadastre ↗</a></div>
+        <p className="legal-note">Cette lecture est indicative. Les documents opposables et les services officiels restent la référence.</p>
       </div></aside>}
     </main>
   );
 }
-
