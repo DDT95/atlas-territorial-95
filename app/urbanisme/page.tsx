@@ -79,12 +79,13 @@ export default function UrbanismePage() {
   const layersRef = useRef<any[]>([]);
   const parcelTilesRef = useRef<any>(null);
   const buildingTilesRef = useRef<any>(null);
+  const pluTilesRef = useRef<any>(null);
+  const supTilesRef = useRef<any>(null);
   const mosLayerRef = useRef<any>(null);
   const publicLandLayerRef = useRef<any>(null);
   const publicLandDataRef = useRef<Record<string,[string,string,string]> | null>(null);
   const mosRequestRef = useRef<AbortController | null>(null);
   const markerRef = useRef<any>(null);
-  const pdfFrameRef = useRef<HTMLIFrameElement>(null);
   const communeFocusLayerRef = useRef<any>(null);
   const selectionPointRef = useRef<[number, number] | null>(null);
   const [query, setQuery] = useState("");
@@ -92,8 +93,7 @@ export default function UrbanismePage() {
   const [mapZoom, setMapZoom] = useState(10);
   const [result, setResult] = useState<ParcelResult | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const [pdfUrl, setPdfUrl] = useState("");
-  const [pdfOpen, setPdfOpen] = useState(false);
+  const [layerFeedback, setLayerFeedback] = useState("Vue départementale : choisissez une adresse ou une commune.");
   const [communes, setCommunes] = useState<any[]>([]);
   const [communeCode, setCommuneCode] = useState("");
   const [communeQuery, setCommuneQuery] = useState("");
@@ -123,8 +123,16 @@ export default function UrbanismePage() {
       buildingTilesRef.current = L.tileLayer("https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=BUILDINGS.BUILDINGS&STYLE=normal&TILEMATRIXSET=PM_6_18&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png", {
         className: "building-tiles", minZoom: 13, maxZoom: 18, opacity: .95, attribution: "© IGN · BD TOPO",
       }).addTo(map);
+      pluTilesRef.current = L.tileLayer.wms("https://data.geopf.fr/wms-v/ows", {
+        layers: "zone_secteur", format: "image/png", transparent: true, version: "1.3.0",
+        className: "plu-tiles", minZoom: 13, maxZoom: 20, opacity: .72, attribution: "© Géoportail de l’urbanisme",
+      });
+      supTilesRef.current = L.tileLayer.wms("https://data.geopf.fr/wms-v/ows", {
+        layers: "sup", format: "image/png", transparent: true, version: "1.3.0",
+        className: "sup-tiles", minZoom: 13, maxZoom: 20, opacity: .82, attribution: "© Géoportail de l’urbanisme",
+      });
       const refreshMos = async () => {
-        if (!layersStateRef.current.mos || map.getZoom() < 13) {
+        if (!layersStateRef.current.mos) {
           if (mosLayerRef.current && map.hasLayer(mosLayerRef.current)) map.removeLayer(mosLayerRef.current);
           return;
         }
@@ -143,7 +151,7 @@ export default function UrbanismePage() {
         } catch (error: any) { if (error?.name !== "AbortError") console.warn("MOS indisponible", error); }
       };
       const refreshPublicLand = async () => {
-        if (!layersStateRef.current.publicLand || map.getZoom() < 14) {
+        if (!layersStateRef.current.publicLand) {
           if (publicLandLayerRef.current && map.hasLayer(publicLandLayerRef.current)) map.removeLayer(publicLandLayerRef.current);
           return;
         }
@@ -155,6 +163,7 @@ export default function UrbanismePage() {
           if (!response.ok) return;
           const data: FeatureCollection = await response.json();
           const publicFeatures = (data.features || []).filter((feature:any) => publicLandDataRef.current?.[String(feature.properties?.idu || feature.id || "")]);
+          setLayerFeedback(publicFeatures.length ? `Foncier public : ${publicFeatures.length} parcelle${publicFeatures.length > 1 ? "s" : ""} visible${publicFeatures.length > 1 ? "s" : ""} dans cette vue.` : "Foncier public : aucune parcelle repérée dans cette vue. Déplacez la carte ou choisissez une autre commune.");
           if (publicLandLayerRef.current && map.hasLayer(publicLandLayerRef.current)) map.removeLayer(publicLandLayerRef.current);
           publicLandLayerRef.current = L.geoJSON({ type:"FeatureCollection", features:publicFeatures }, { style:(feature:any) => { const info=publicLandDataRef.current?.[String(feature.properties?.idu || feature.id || "")]; return { color:publicLandColor(info?.[0] || ""), weight:2, fillColor:publicLandColor(info?.[0] || ""), fillOpacity:.48 }; }, onEachFeature:(feature:any,layer:any) => { const info=publicLandDataRef.current?.[String(feature.properties?.idu || feature.id || "")]; if(info) layer.bindTooltip(`<b>${info[1]}</b><br>${info[2] || "Propriétaire public"}`,{sticky:true}); } }).addTo(map);
           parcelTilesRef.current?.bringToFront(); buildingTilesRef.current?.bringToFront();
@@ -190,9 +199,11 @@ export default function UrbanismePage() {
     const toggleMapLayer = (layer: any, visible: boolean) => { if (!layer) return; if (visible && !map.hasLayer(layer)) layer.addTo(map); if (!visible && map.hasLayer(layer)) map.removeLayer(layer); };
     toggleMapLayer(parcelTilesRef.current, layers.parcels);
     toggleMapLayer(buildingTilesRef.current, layers.buildings);
+    toggleMapLayer(pluTilesRef.current, layers.plu);
+    toggleMapLayer(supTilesRef.current, layers.servitudes);
     if (!layers.mos && mosLayerRef.current && map.hasLayer(mosLayerRef.current)) map.removeLayer(mosLayerRef.current);
     if (!layers.publicLand && publicLandLayerRef.current && map.hasLayer(publicLandLayerRef.current)) map.removeLayer(publicLandLayerRef.current);
-    if (layers.mos) map.fire("moveend");
+    if (layers.mos || layers.publicLand) map.fire("moveend");
     if (result && selectionPointRef.current) {
       const [lon, lat] = selectionPointRef.current;
       drawResults(lon, lat, result.parcel ? { type: "FeatureCollection", features: [result.parcel] } : emptyCollection, { type: "FeatureCollection", features: result.zones }, { type: "FeatureCollection", features: result.servitudes });
@@ -274,7 +285,9 @@ export default function UrbanismePage() {
     ] as const;
     configs.forEach(([data, style]) => { if (data.features.length) { const layer = L.geoJSON(data, { style }).addTo(map); layersRef.current.push(layer); } });
     markerRef.current = L.circleMarker([lat, lon], { radius: 6, color: "#e1000f", fillColor: "#fff", fillOpacity: 1, weight: 3 }).addTo(map);
+    map.setMinZoom(13);
     const parcelLayer = layersRef.current.at(-1); if (parcelLayer?.getBounds?.().isValid()) map.fitBounds(parcelLayer.getBounds(), { padding: [40, 40], maxZoom: 19 }); else map.setView([lat, lon], 17);
+    setLayerFeedback(`Parcelle sélectionnée · niveau ${Math.max(13, map.getZoom())}. Les couches activées restent affichées.`);
   }
 
   function resetSearch() {
@@ -287,17 +300,17 @@ export default function UrbanismePage() {
       selectionPointRef.current = null;
       if (communeFocusLayerRef.current) map.removeLayer(communeFocusLayerRef.current);
       communeFocusLayerRef.current = null;
-      map.setView([49.075, 2.105], 10);
+      map.setMinZoom(9); map.setView([49.075, 2.105], 10);
     }
     setQuery("");
     setResult(null);
     setDetailsOpen(false);
-    if (pdfUrl) URL.revokeObjectURL(pdfUrl); setPdfUrl(""); setPdfOpen(false);
     setCommuneCode("");
     setCommuneQuery("");
     setActiveCommune("");
     setLoading(false);
     setMessage("Recherchez une adresse ou cliquez sur la carte.");
+    setLayerFeedback("Vue départementale : choisissez une adresse ou une commune.");
   }
 
   function exploreCommune(code = communeCode) {
@@ -307,17 +320,20 @@ export default function UrbanismePage() {
     if (communeFocusLayerRef.current) map.removeLayer(communeFocusLayerRef.current);
     communeFocusLayerRef.current = L.geoJSON(feature, { style: { color: "#000091", weight: 3, fillColor: "#000091", fillOpacity: .04 }, interactive: false }).addTo(map);
     const bounds = communeFocusLayerRef.current.getBounds();
-    if (bounds.isValid()) map.fitBounds(bounds, { padding: [45,45], maxZoom: 15 });
+    if (bounds.isValid()) { map.setMinZoom(13); map.fitBounds(bounds, { padding: [45,45], maxZoom: 15 }); }
     setActiveCommune(feature.properties?.nom || "Commune choisie");
     setCommuneQuery(feature.properties?.nom || ""); setCommuneSuggestionsOpen(false);
-    setResult(null); setDetailsOpen(false); setMessage("Commune cadrée : zoomez ou cliquez sur une parcelle.");
+    setResult(null); setDetailsOpen(false); setMessage("Commune cadrée : cliquez directement sur une parcelle.");
+    setLayerFeedback("Échelle parcellaire verrouillée : les couches actives restent visibles.");
   }
 
   function toggleLayer(key: keyof typeof layers) {
     const enable = !layers[key]; const map = mapRef.current;
     if (enable && map) {
-      const target = key === "publicLand" ? 14 : ["parcels","buildings","mos"].includes(key) ? 13 : map.getZoom();
+      const target = key === "publicLand" ? 14 : 13;
+      map.setMinZoom(13);
       if (map.getZoom() < target) map.setZoom(target);
+      setLayerFeedback(key === "plu" ? "Zonage PLU affiché en continu — cliquez sur une parcelle pour lire la zone opposable." : key === "servitudes" ? "Servitudes affichées en continu — cliquez sur une parcelle pour obtenir leur détail." : "Couche activée. L’échelle utile reste verrouillée pour éviter toute disparition.");
     }
     setLayers((current) => ({ ...current, [key]: !current[key] }));
   }
@@ -355,8 +371,7 @@ export default function UrbanismePage() {
     let leftY=44,rightY=44;
     blocks.forEach(([title,rows],index)=>{ const left=index%2===0, x=left?14:107, y=left?leftY:rightY, h=heights[index]; pdf.setFillColor(index%3===0?238:245,index%3===1?246:248,index%3===2?241:252); pdf.roundedRect(x,y,89,h,3,3,"F"); pdf.setTextColor(...navy); pdf.setFont("helvetica","bold"); pdf.setFontSize(9); pdf.text(title,x+5,y+8); let ry=y+15; rows.forEach(([label,value])=>{ pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(6.5); pdf.text(label,x+5,ry); pdf.setTextColor(...ink); pdf.setFont("helvetica","bold"); const lines=pdf.splitTextToSize(value,52); pdf.text(lines,x+32,ry); ry+=Math.max(6,lines.length*4); }); if(left)leftY+=h+4; else rightY+=h+4; });
     pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(6.5); pdf.text("Sources : DGFiP, IGN, GPU, BDNB, Institut Paris Region, Géorisques. Lecture indicative ; les documents opposables restent la référence.",14,286,{maxWidth:182});
-    const url = URL.createObjectURL(pdf.output("blob"));
-    if (pdfUrl) URL.revokeObjectURL(pdfUrl); setPdfUrl(url); setPdfOpen(true);
+    pdf.save(`fiche-parcelle-${result.codeInsee || "95"}-${firstValue(parcelProps,["section"],"")}${firstValue(parcelProps,["numero"],"")}.pdf`);
   }
 
   const parcelProps = result?.parcel?.properties || {};
@@ -392,8 +407,8 @@ export default function UrbanismePage() {
                 ["parcels","Parcelles","Limites cadastrales IGN","#000091"],
                 ["buildings","Bâtiments","Empreintes BD TOPO","#444b55"],
                 ["mos","MOS 2025","Occupation du sol en couleurs","#e07a9a"],
-                ["plu","Zonage PLU","Zone opposable au point choisi","#18753c"],
-                ["servitudes","Servitudes","SUP intersectant la parcelle","#6f4c9b"],
+                ["plu","Zonage PLU","Carte GPU continue + détail au clic","#18753c"],
+                ["servitudes","Servitudes","Carte GPU continue + détail au clic","#6f4c9b"],
                 ["publicLand","Foncier public","État, collectivités, HLM et établissements","#008941"],
               ] as const).map(([key,label,description,color]) => <button key={key} type="button" role="switch" className="urban-layer-toggle" onClick={() => toggleLayer(key)} aria-checked={layers[key]}><i style={{background:color}}/><span><strong>{label}</strong><small>{description}</small></span><b aria-hidden="true"><em/></b></button>)}
             </div>
@@ -401,15 +416,15 @@ export default function UrbanismePage() {
             {layers.publicLand && <div className="public-mini-legend"><span><i style={{background:"#e1000f"}}/>État</span><span><i style={{background:"#6f4c9b"}}/>Région</span><span><i style={{background:"#000091"}}/>Département</span><span><i style={{background:"#18753c"}}/>Commune</span><span><i style={{background:"#0098d8"}}/>HLM</span><span><i style={{background:"#7b61a8"}}/>Établissement</span></div>}
             <p className="public-land-note"><i/>Référentiel présumé : parcelles de personnes morales classées État, région, département, communes, HLM, SEM et établissements publics — millésime 2025.</p>
           </section>
-          <section className="urban-services"><div><strong>Sources mobilisées</strong><span>{Object.values(services).every((state)=>state==="online")?"Connecté":"Vérification"}</span></div>{Object.entries(services).map(([name,state])=><p key={name}><i className={state}/><strong>{name}</strong><small>{state==="online"?"Disponible":state==="error"?"Indisponible":"Connexion…"}</small></p>)}</section>
+          <details className="urban-services"><summary><span><strong>Sources publiques</strong><small>{Object.values(services).filter((state)=>state==="online").length}/7 services disponibles</small></span><b>{Object.values(services).every((state)=>state==="online")?"Connecté":"Vérification"}</b></summary><div className="urban-service-grid">{Object.entries(services).map(([name,state])=><span key={name}><i className={state}/><strong>{name}</strong><small>{state==="online"?"Disponible":state==="error"?"Indisponible":"Connexion…"}</small></span>)}</div></details>
         </aside>
         <section className="urban-map-wrap">
-          <div className={`map-guidance ${mapZoom >= 13 ? "ready" : ""}`}><strong>{mapZoom >= 13 ? "Cliquez sur une parcelle" : "Choisissez un lieu"}</strong><span>{mapZoom >= 13 ? "Les limites et bâtiments sont visibles ; activez les autres lectures selon votre besoin." : "Recherchez une adresse ou une commune pour entrer directement dans la carte."}</span></div>
+          <div className={`map-guidance ${mapZoom >= 13 ? "ready" : ""}`}><strong>{mapZoom >= 13 ? "Cliquez sur une parcelle" : "Choisissez un lieu"}</strong><span>{layerFeedback}</span></div>
           <div className="urban-legend">{result && <span><i className="parcel"/>Sélection</span>}{layers.buildings && <span><i className="building"/>Bâtiments</span>}{layers.mos && <span><i className="mos"/>MOS</span>}{layers.plu && <span><i className="zone"/>PLU</span>}{layers.servitudes && <span><i className="sup"/>SUP</span>}{layers.publicLand && <span><i className="public"/>Foncier public</span>}</div><div ref={mapNode} className="urban-map" aria-label="Carte interactive d’urbanisme à la parcelle" />
         </section>
       </div>
       <footer className="urban-footer"><span><strong>Cadastre + GPU + BDNB + MOS + DGFiP</strong> · lecture parcellaire du Val-d’Oise</span><span>DDT Val-d’Oise · Leaflet 1.9.4 · <a href={`${basePath || ""}/`}>Retour à l’Atlas</a></span></footer>
-      {result && detailsOpen && <aside className="observatory-drawer" aria-label="Détail de la parcelle"><div className="observatory-drawer-head"><div className="print-brand"><img src={`${basePath}/prefet-val-doise-logo.png`} alt="Préfet du Val-d’Oise"/><span><b>Fiche d’identité parcellaire</b><small>DDT du Val-d’Oise · {new Date().toLocaleDateString("fr-FR")}</small></span></div><div className="drawer-actions"><button className="print-parcel" onClick={downloadParcelPdf} aria-label="Ouvrir la fiche PDF">Ouvrir la fiche PDF</button><button onClick={() => setDetailsOpen(false)} aria-label="Fermer">×</button></div><small>{result.addressLabel} · {result.commune}</small><h2 className="drawer-address">{streetOnly(result.address)}</h2><div className="parcel-id-print">Parcelle {firstValue(parcelProps,["section"],"")} {firstValue(parcelProps,["numero"],"—")}</div></div><div className="observatory-drawer-body urban-results">
+      {result && detailsOpen && <aside className="observatory-drawer" aria-label="Détail de la parcelle"><div className="observatory-drawer-head"><div className="print-brand"><img src={`${basePath}/prefet-val-doise-logo.png`} alt="Préfet du Val-d’Oise"/><span><b>Fiche d’identité parcellaire</b><small>DDT du Val-d’Oise · {new Date().toLocaleDateString("fr-FR")}</small></span></div><div className="drawer-actions"><button className="print-parcel" onClick={downloadParcelPdf}>Télécharger le PDF</button><button className="print-parcel secondary" onClick={() => window.print()}>Imprimer</button><button onClick={() => setDetailsOpen(false)} aria-label="Fermer">×</button></div><small>{result.addressLabel} · {result.commune}</small><h2 className="drawer-address">{streetOnly(result.address)}</h2><div className="parcel-id-print">Parcelle {firstValue(parcelProps,["section"],"")} {firstValue(parcelProps,["numero"],"—")}</div></div><div className="observatory-drawer-body urban-results">
         <section><div className="result-heading"><span>01</span><h2>Parcelle cadastrale</h2></div><dl><div><dt>Référence</dt><dd>{firstValue(parcelProps,["section"],"")} {firstValue(parcelProps,["numero"],"—")}</dd></div><div><dt>Contenance</dt><dd>{firstValue(parcelProps,["contenance"],"—")} m²</dd></div></dl>{result.addressLabel === "Adresse la plus proche" && <p className="address-caution">Adresse BAN la plus proche du point cliqué.</p>}</section>
         <section className="building-summary"><div className="result-heading"><span>02</span><h2>Bâti présent</h2></div>{buildingCount ? <><div className="parcel-kpis"><div><strong>{buildingCount}</strong><span>groupe{buildingCount > 1 ? "s" : ""} de bâtiments</span></div><div><strong>{formatNumber(builtFootprint," m²")}</strong><span>emprise bâtie estimée</span></div><div><strong>{formatNumber(coverageRatio," %")}</strong><span>taux d’emprise</span></div></div><dl><div><dt>Usage principal</dt><dd>{uniqueValues(result.buildings.map((building) => building.usage_principal_bdnb_open)).join(", ") || "Non renseigné"}</dd></div><div><dt>Construction la plus ancienne</dt><dd>{oldestBuilding || "Non renseignée"}</dd></div><div><dt>Hauteur maximale estimée</dt><dd>{maxHeight ? formatNumber(maxHeight," m") : "Non renseignée"}</dd></div><div><dt>Logements recensés</dt><dd>{dwellingCount || "Non renseigné"}</dd></div><div><dt>DPE disponible</dt><dd>{dpeClasses.length ? dpeClasses.join(", ") : "Non disponible"}</dd></div></dl><p className="source-caption">Source : BDNB Open, CSTB. Les groupes de bâtiments peuvent agréger plusieurs constructions.</p></> : <p className="empty-result">Aucun bâtiment rattaché à cette parcelle dans la BDNB Open.</p>}</section>
         <section><div className="result-heading"><span>03</span><h2>Propriété et foncier public</h2></div><div className={`ownership-status ${result.publicLand || publicOwners.length ? "known" : "unknown"}`}><small>{result.publicLand ? "Propriétaire public présumé" : "Catégorie détectée"}</small><strong>{ownerCategory}</strong></div>{!result.publicLand && publicOwners.length ? <div className="owner-list">{publicOwners.map((owner) => <span key={owner}>{owner}</span>)}</div> : !result.publicLand && <p className="empty-result">Le nom des propriétaires privés n’est pas diffusé en open data. L’absence de nom ne signifie pas que la parcelle est sans propriétaire.</p>}<p className="source-caption">Source ouverte : DGFiP, Fichiers des parcelles des personnes morales 2025. Le Référentiel foncier public Cerema avec accès métier reste la référence exhaustive.</p></section>
@@ -420,7 +435,6 @@ export default function UrbanismePage() {
         <div className="urban-official-links"><strong>Vérifier auprès des services officiels</strong><a href="https://www.geoportail-urbanisme.gouv.fr/" target="_blank" rel="noreferrer">Géoportail de l’urbanisme ↗</a><a href="https://www.georisques.gouv.fr/" target="_blank" rel="noreferrer">Géorisques ↗</a><a href="https://www.cadastre.gouv.fr/" target="_blank" rel="noreferrer">Cadastre ↗</a></div>
         <p className="legal-note">Cette lecture est indicative. Les documents opposables et les services officiels restent la référence.</p>
       </div></aside>}
-      {pdfOpen && pdfUrl && <aside className="parcel-pdf-viewer" aria-label="Fiche parcellaire PDF"><header><span><small>Document prêt</small><strong>Fiche parcellaire PDF</strong></span><div><a href={pdfUrl} download={`fiche-parcelle-${result?.codeInsee || "95"}.pdf`}>Télécharger</a><button type="button" onClick={()=>pdfFrameRef.current?.contentWindow?.print()}>Imprimer</button><button type="button" aria-label="Fermer le PDF" onClick={()=>setPdfOpen(false)}>×</button></div></header><iframe ref={pdfFrameRef} src={pdfUrl} title="Fiche parcellaire PDF"/></aside>}
     </main>
   );
 }
