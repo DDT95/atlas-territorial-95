@@ -8,7 +8,7 @@ const observatories = [
   { name: "Habitat & bâti", sources: "DPE (ADEME), BDNB (CSTB), RPLS, Sitadel, DVF et données publiques du logement", use: "Performance énergétique, parc social, vacance, construction et marchés fonciers", status: "connected", label: "En ligne" },
   { name: "Biodiversité", sources: "INPN (MNHN), API Carto, Inventaire national du patrimoine naturel et référentiels régionaux", use: "Espaces protégés, ZNIEFF, Natura 2000, continuités et observations d’espèces", status: "prefiguration", label: "Préfiguration" },
   { name: "Mobilités et sécurité routière", sources: "Île-de-France Mobilités, transport.data.gouv.fr, ONISR et fichier BAAC", use: "Réseaux, pôles, offres de transport et accidentalité routière", status: "connected", label: "Deux outils en ligne" },
-  { name: "Transition énergétique", sources: "ADEME, Enedis, ODRE, Airparif et observatoires territoriaux de l’énergie", use: "Consommations, productions, rénovation énergétique et qualité de l’air", status: "prefiguration", label: "Préfiguration" },
+  { name: "Transition énergétique", sources: "ADEME, Enedis, ODRE, Airparif et observatoires territoriaux de l’énergie", use: "Consommations, productions, rénovation énergétique et qualité de l’air", status: "connected", label: "En ligne" },
 ];
 
 export default function DataInformationPage() {

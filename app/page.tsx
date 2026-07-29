@@ -23,7 +23,7 @@ const themes = [
     { label: "Transports et mobilités", href: "https://ddt95.github.io/transport95/?v=1ac3c80" },
     { label: "Sécurité routière", href: "/securite-routiere" },
   ] },
-  { path: "10_Transition_Energetique", href: "https://ddt95.github.io/transition-energetique95/", index: "10", title: "Transition énergétique", text: "Consommation, production, rénovation énergétique et qualité de l’air.", tone: "gold", status: "Page de préfiguration" },
+  { path: "10_Transition_Energetique", href: "https://ddt95.github.io/transition-energetique95/", index: "10", title: "Transition énergétique", text: "Consommation, production, rénovation énergétique et qualité de l’air.", tone: "gold", status: "Observatoire en ligne" },
 ];
 
 export default function Home() {
