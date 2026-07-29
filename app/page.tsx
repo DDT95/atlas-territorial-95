@@ -114,15 +114,23 @@ export default function Home() {
       .map((commune) => ({ type: "Feature", properties: { code: commune.code, nom: commune.nom }, geometry: commune.contour }));
     const layer = L.geoJSON({ type: "FeatureCollection", features }, {
       style: (feature: any) => ({
-        color: "#000091",
-        weight: feature?.properties?.code === selectedCode ? 4 : 1.65,
-        opacity: feature?.properties?.code === selectedCode ? 1 : .82,
-        fillColor: feature?.properties?.code === selectedCode ? "#4fd1ff" : "#dedeff",
-        fillOpacity: feature?.properties?.code === selectedCode ? 0.7 : 0.58,
+        color: feature?.properties?.code === selectedCode ? "#21647a" : "#71839d",
+        weight: feature?.properties?.code === selectedCode ? 1.5 : 0.65,
+        opacity: feature?.properties?.code === selectedCode ? 0.95 : 0.72,
+        fillColor: feature?.properties?.code === selectedCode ? "#d6edf4" : "#f4f7fb",
+        fillOpacity: feature?.properties?.code === selectedCode ? 0.68 : 0.46,
       }),
       onEachFeature: (feature: any, featureLayer: any) => {
         featureLayer.bindTooltip(feature.properties.nom, { sticky: true });
-        featureLayer.on("click", () => setSelectedCode(feature.properties.code));
+        featureLayer.on({
+          mouseover: () => {
+            if (feature.properties.code !== selectedCode) {
+              featureLayer.setStyle({ color: "#496b7b", weight: 1.05, opacity: 0.9, fillColor: "#e6f0f4", fillOpacity: 0.62 });
+            }
+          },
+          mouseout: () => layer.resetStyle(featureLayer),
+          click: () => setSelectedCode(feature.properties.code),
+        });
       },
     }).addTo(map);
     communeLayerRef.current = layer;
