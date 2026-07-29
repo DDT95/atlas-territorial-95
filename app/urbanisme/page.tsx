@@ -53,6 +53,7 @@ const mosLabels: Record<number, string> = {
 function numberValue(value: unknown) { const parsed = Number(value); return Number.isFinite(parsed) ? parsed : 0; }
 function uniqueValues(values: unknown[]) { return [...new Set(values.flatMap((value) => Array.isArray(value) ? value : value ? [value] : []).map(String))]; }
 function formatNumber(value: number, unit = "") { return `${new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 1 }).format(value)}${unit}`; }
+function formatPdfNumber(value:number){ return Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g," "); }
 function streetOnly(address: string) { return address.replace(/\s+\d{5}\s+.+$/u, "").trim() || address; }
 function classifyOwners(owners: string[]) {
   if (owners.some((owner) => /\bETAT\b|MINISTERE|DIRECTION (DEPARTEMENTALE|REGIONALE|GENERALE)|PREFECTURE/i.test(owner))) return "Foncier de l’État détecté";
@@ -413,21 +414,21 @@ export default function UrbanismePage() {
     pdf.setFontSize(9); pdf.text(`${result.commune} · ${firstValue(parcelProps,["section"],"")} ${firstValue(parcelProps,["numero"],"—")}`,188,68,{align:"right"});
     pdf.setFont("helvetica","normal"); pdf.setFontSize(7); pdf.text(`${firstValue(parcelProps,["contenance"],"—")} m²`,188,74,{align:"right"});
 
-    const metric=(x:number,value:string,label:string,color:[number,number,number])=>{ pdf.setFillColor(255,255,255); pdf.roundedRect(x,86,57.3,23,3,3,"F"); pdf.setDrawColor(226,231,239); pdf.roundedRect(x,86,57.3,23,3,3,"S"); pdf.setFillColor(...color); pdf.roundedRect(x+5,91,3,13,1.5,1.5,"F"); pdf.setTextColor(...deep); pdf.setFont("helvetica","bold"); pdf.setFontSize(12); pdf.text(value,x+12,96); pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(6.5); pdf.text(label,x+12,103); };
+    const metric=(x:number,value:string,label:string,color:[number,number,number])=>{ pdf.setFillColor(255,255,255); pdf.roundedRect(x,86,57.3,19,3,3,"F"); pdf.setDrawColor(196,205,219); pdf.setLineWidth(.35); pdf.roundedRect(x,86,57.3,19,3,3,"S"); pdf.setFillColor(...color); pdf.roundedRect(x+5,90,3,11,1.5,1.5,"F"); pdf.setTextColor(...deep); pdf.setFont("helvetica","bold"); pdf.setFontSize(11); pdf.text(value,x+12,94); pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(6.2); pdf.text(label,x+12,100); };
     metric(14,`${buildingCount}`,`bâtiment${buildingCount>1?"s":""} recensé${buildingCount>1?"s":""}`,[74,85,104]);
-    metric(76.3,formatNumber(builtFootprint," m²"),"emprise bâtie estimée",[0,0,145]);
+    metric(76.3,`${formatPdfNumber(builtFootprint)} m²`,"surface occupée par les bâtiments",[0,0,145]);
     metric(138.6,formatNumber(coverageRatio," %"),"taux d’emprise",[24,117,60]);
 
     const block=(x:number,y:number,w:number,h:number,title:string,index:string,accent:[number,number,number],background:[number,number,number],rows:[string,string][])=>{ pdf.setFillColor(...background); pdf.roundedRect(x,y,w,h,2.5,2.5,"F"); pdf.setDrawColor(...accent); pdf.setLineWidth(.45); pdf.roundedRect(x,y,w,h,2.5,2.5,"S"); pdf.setFillColor(...accent); pdf.roundedRect(x,y,w,5,2.5,2.5,"F"); pdf.rect(x,y+2.5,w,2.5,"F"); pdf.setTextColor(...accent); pdf.setFont("helvetica","bold"); pdf.setFontSize(6.3); pdf.text(index,x+6,y+11); pdf.setTextColor(...deep); pdf.setFontSize(10); pdf.text(title,x+15,y+11); let ry=y+18; rows.forEach(([label,value])=>{ pdf.setTextColor(...muted); pdf.setFont("helvetica","normal"); pdf.setFontSize(6); pdf.text(label,x+6,ry); pdf.setTextColor(...ink); pdf.setFont("helvetica","bold"); const lines=pdf.splitTextToSize(value,w-38); pdf.text(lines,x+31,ry); ry+=Math.max(5.3,lines.length*3.2); }); };
     const zoneLabel=result.zones.map((z)=>firstValue(z.properties,["libelle","typezone","libelle_zone"],"Zone GPU")).join(", ")||"Non retourné";
     const riskLabel=uniqueValues(result.risks.map((r)=>r.libelle_risque_long||r.libelle_risque)).join(" · ")||"Aucun risque retourné";
     const useLabel=uniqueValues(result.buildings.map((b)=>b.usage_principal_bdnb_open)).join(", ")||"Non renseigné";
-    block(14,115,88,32,"Parcelle cadastrale","01",navy,[239,246,255],[["Référence",`${firstValue(parcelProps,["section"],"")} ${firstValue(parcelProps,["numero"],"—")}`],["Contenance",`${firstValue(parcelProps,["contenance"],"—")} m²`],["Commune",result.commune]]);
-    block(108,115,88,38,"Bâtiments","02",[74,85,104],[241,244,249],[["Usage",useLabel],["Construction",String(oldestBuilding||"Non renseignée")],["Hauteur",maxHeight?formatNumber(maxHeight," m"):"Non renseignée"],["Logements",String(dwellingCount||"Non renseigné")]]);
-    block(14,152,88,31,"Propriété foncière","03",[24,117,60],[238,248,241],[["Lecture",ownerCategory],["Référentiel",result.publicLand?"DGFiP FPMU 2025":"Donnée privée non diffusée"]]);
-    block(108,158,88,27,"Occupation du sol · MOS","04",[227,179,65],[255,248,231],[["Occupation",result.mos?.mos2025?mosLabels[result.mos.mos2025]||`Poste ${result.mos.mos2025}`:"Non renseignée"],["Évolution",result.mos?.mos2021===result.mos?.mos2025?"Stable depuis 2021":"Changement depuis 2021"]]);
-    block(14,190,88,30,"Règles d’urbanisme","05",[24,117,60],[240,248,243],[["Zonage PLU",zoneLabel],["Servitudes",`${result.servitudes.length} assiette(s) intersectée(s)`]]);
-    block(108,190,88,30,"Risques recensés","06",[225,0,15],[255,241,240],[["Synthèse",riskLabel]]);
+    block(14,110,88,32,"Parcelle cadastrale","01",navy,[239,246,255],[["Référence",`${firstValue(parcelProps,["section"],"")} ${firstValue(parcelProps,["numero"],"—")}`],["Contenance",`${firstValue(parcelProps,["contenance"],"—")} m²`],["Commune",result.commune]]);
+    block(108,110,88,38,"Bâtiments","02",[74,85,104],[241,244,249],[["Usage",useLabel],["Construction",String(oldestBuilding||"Non renseignée")],["Hauteur",maxHeight?formatNumber(maxHeight," m"):"Non renseignée"],["Logements",String(dwellingCount||"Non renseigné")]]);
+    block(14,147,88,31,"Propriété foncière","03",[24,117,60],[238,248,241],[["Lecture",ownerCategory],["Référentiel",result.publicLand?"DGFiP FPMU 2025":"Donnée privée non diffusée"]]);
+    block(108,153,88,27,"Occupation du sol · MOS","04",[227,179,65],[255,248,231],[["Occupation",result.mos?.mos2025?mosLabels[result.mos.mos2025]||`Poste ${result.mos.mos2025}`:"Non renseignée"],["Évolution",result.mos?.mos2021===result.mos?.mos2025?"Stable depuis 2021":"Changement depuis 2021"]]);
+    block(14,185,88,30,"Règles d’urbanisme","05",[24,117,60],[240,248,243],[["Zonage PLU",zoneLabel],["Servitudes",`${result.servitudes.length} assiette(s) intersectée(s)`]]);
+    block(108,185,88,30,"Risques recensés","06",[225,0,15],[255,241,240],[["Synthèse",riskLabel]]);
 
     pdf.setFillColor(255,255,255); pdf.roundedRect(14,228,182,25,3,3,"F"); pdf.setDrawColor(170,181,199); pdf.roundedRect(14,228,182,25,3,3,"S");
     pdf.setTextColor(...deep); pdf.setFont("helvetica","bold"); pdf.setFontSize(8); pdf.text("Sources et portée de la fiche",20,236);
