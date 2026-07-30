@@ -1,5 +1,5 @@
 const observatories = [
-  { name: "Portail communal", sources: "API Découpage administratif, INSEE, IGN et indicateurs territoriaux publics", use: "Référentiel communal, chiffres clés et accès transversal aux observatoires", status: "prefiguration", label: "Préfiguration" },
+  { name: "Portail communal", sources: "API Découpage administratif, INSEE, IGN et indicateurs territoriaux publics", use: "Fiches communales, comparaisons, fiches actions et accès transversal aux cartes", status: "prefiguration", label: "Préfiguration" },
   { name: "Urbanisme à la parcelle", sources: "Cadastre (DGFiP), Géoportail de l’urbanisme, Géorisques, BDNB (CSTB), MOS (Institut Paris Region)", use: "Parcelles, documents d’urbanisme, servitudes, risques, bâti et occupation du sol", status: "connected", label: "Connecté" },
   { name: "Artificialisation & ZAN", sources: "Portail de l’artificialisation, fichiers fonciers (Cerema), OCS GE (IGN) et MOS", use: "Consommation d’espace, occupation du sol, trajectoire ZAN et friches", status: "prefiguration", label: "Préfiguration" },
   { name: "Agriculture", sources: "RPG (IGN / ASP), Agence Bio, API Carto et référentiels environnementaux publics", use: "Cultures, agriculture biologique, prairies, haies et contraintes environnementales", status: "connected", label: "En ligne" },
@@ -7,8 +7,8 @@ const observatories = [
   { name: "Risques majeurs", sources: "Géorisques, BRGM, bases nationales des installations et données réglementaires", use: "Inondations, argiles, cavités, installations classées et sites pollués", status: "connected", label: "En ligne" },
   { name: "Habitat & bâti", sources: "DPE (ADEME), BDNB (CSTB), RPLS, Sitadel, DVF et données publiques du logement", use: "Performance énergétique, parc social, vacance, construction et marchés fonciers", status: "connected", label: "En ligne" },
   { name: "Biodiversité", sources: "INPN (MNHN), API Carto, Inventaire national du patrimoine naturel et référentiels régionaux", use: "Espaces protégés, ZNIEFF, Natura 2000, continuités et observations d’espèces", status: "prefiguration", label: "Préfiguration" },
-  { name: "Mobilités et sécurité routière", sources: "Île-de-France Mobilités, transport.data.gouv.fr, ONISR et fichier BAAC", use: "Réseaux, pôles, offres de transport et accidentalité routière", status: "connected", label: "Deux outils en ligne" },
-  { name: "Transition énergétique", sources: "ADEME, Enedis, ODRE, Airparif et observatoires territoriaux de l’énergie", use: "Consommations, productions, rénovation énergétique et qualité de l’air", status: "connected", label: "En ligne" },
+  { name: "Mobilités et transports", sources: "Île-de-France Mobilités et transport.data.gouv.fr", use: "Réseaux, pôles, lignes et offres de transport", status: "connected", label: "En ligne" },
+  { name: "Transition énergétique", sources: "ADEME, Enedis, ODRE, Airparif et données territoriales de l’énergie", use: "Consommations, productions, rénovation énergétique et qualité de l’air", status: "connected", label: "En ligne" },
 ];
 
 export default function DataInformationPage() {
@@ -28,7 +28,7 @@ export default function DataInformationPage() {
 
       <section className="data-content">
         <section className="data-explainer" aria-labelledby="reading-title">
-          <div><p className="data-step">01 · Mode d’emploi</p><h2 id="reading-title">Lire l’état d’une donnée</h2><p>Le statut décrit le fonctionnement de l’observatoire, pas la qualité intrinsèque du producteur. Une source peut aussi être temporairement indisponible sans que les données déjà publiées disparaissent.</p></div>
+          <div><p className="data-step">01 · Mode d’emploi</p><h2 id="reading-title">Lire l’état d’une donnée</h2><p>Le statut décrit le fonctionnement de la page thématique, pas la qualité intrinsèque du producteur. Une source peut aussi être temporairement indisponible sans que les données déjà publiées disparaissent.</p></div>
           <div className="status-legend">
             <article><i className="connected"/><div><strong>Connecté ou en ligne</strong><p>La page interroge une source publique, ou utilise un jeu préparé et documenté pour l’affichage.</p></div></article>
             <article><i className="prefiguration"/><div><strong>Préfiguration</strong><p>La page et ses branchements sont préparés ; le contenu doit encore être consolidé avant la mise en service.</p></div></article>
@@ -47,7 +47,7 @@ export default function DataInformationPage() {
 
         <section className="connection-section" aria-labelledby="connections-title">
           <div className="connection-heading"><div><p className="data-step">03 · Connexions</p><h2 id="connections-title">Les dix lectures et leurs sources</h2></div><p>Les producteurs cités restent propriétaires et responsables de leurs données. L’Atlas en propose une lecture territoriale simplifiée.</p></div>
-          <div className="connection-table" role="table" aria-label="Sources et état des observatoires">
+          <div className="connection-table" role="table" aria-label="Sources et état des pages thématiques">
             <div className="connection-row connection-labels" role="row"><span>Lecture</span><span>Sources principales</span><span>Utilisation prévue</span><span>État</span></div>
             {observatories.map((item) => <article className="connection-row" role="row" key={item.name}>
               <strong>{item.name}</strong><p>{item.sources}</p><p>{item.use}</p><span className={`data-status ${item.status}`}><i/>{item.label}</span>
@@ -57,7 +57,7 @@ export default function DataInformationPage() {
 
         <section className="data-caution">
           <div><p className="data-step">04 · À retenir</p><h2>Une aide à la lecture, pas un document opposable</h2></div>
-          <div><p>Les cartes donnent une première compréhension du territoire. Elles ne remplacent ni un document réglementaire, ni une étude de terrain, ni la consultation du producteur officiel.</p><p>Les millésimes diffèrent selon les thèmes. Deux indicateurs ne doivent être comparés que si leurs périodes, unités et périmètres sont compatibles.</p><p>Pour une décision administrative ou réglementaire, consultez toujours la source officielle indiquée dans l’observatoire concerné.</p></div>
+          <div><p>Les cartes donnent une première compréhension du territoire. Elles ne remplacent ni un document réglementaire, ni une étude de terrain, ni la consultation du producteur officiel.</p><p>Les millésimes diffèrent selon les thèmes. Deux indicateurs ne doivent être comparés que si leurs périodes, unités et périmètres sont compatibles.</p><p>Pour une décision administrative ou réglementaire, consultez toujours la source officielle indiquée dans la page concernée.</p></div>
         </section>
       </section>
 
