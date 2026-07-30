@@ -161,7 +161,7 @@ export default function Home() {
         </button>
         <nav className={menuOpen ? "top-nav open" : "top-nav"} aria-label="Navigation principale">
           <a className="weather-nav" href="https://ddt95.github.io/observatoire_meteo/" target="_blank" rel="noreferrer">Météo ↗</a>
-          <a className="info-nav" href={`${basePath}/donnees`}><i aria-hidden="true">i</i><span>Sources & données</span></a>
+          <a className="info-nav" href={`${basePath}/?page=donnees`}><i aria-hidden="true">i</i><span>Sources & données</span></a>
         </nav>
       </header>
 
@@ -217,7 +217,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <footer className="compact-footer"><span>DDT du Val-d’Oise – Pôle géomatique</span><a href={`${basePath}/donnees`}>Sources, état et méthode</a></footer>
+      <footer className="compact-footer"><span>DDT du Val-d’Oise – Pôle géomatique</span><a href={`${basePath}/?page=donnees`}>Sources, état et méthode</a></footer>
     </main>
   );
 }

@@ -11,6 +11,7 @@ import "./globals.css";
 
 const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
 const pathname = window.location.pathname.replace(basePath, "") || "/";
+const requestedPage = new URLSearchParams(window.location.search).get("page");
 const routes: Record<string, React.ComponentType> = {
   "/": Home,
   "/urbanisme": UrbanismePage,
@@ -20,7 +21,7 @@ const routes: Record<string, React.ComponentType> = {
   "/securite-routiere": SecuriteRoutierePage,
   "/donnees": DataInformationPage,
 };
-const Page = routes[pathname.replace(/\/$/, "") || "/"] || Home;
+const Page = requestedPage === "donnees" ? DataInformationPage : routes[pathname.replace(/\/$/, "") || "/"] || Home;
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode><Page /></React.StrictMode>,
