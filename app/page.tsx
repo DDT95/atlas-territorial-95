@@ -11,15 +11,16 @@ type Commune = {
 };
 
 const themes = [
-  { href: "https://ddt95.github.io/urbanisme95/", index: "02", title: "Urbanisme à la parcelle", tone: "blue" },
-  { href: "https://ddt95.github.io/artificialisation-zan95/", index: "03", title: "Artificialisation & ZAN", tone: "violet" },
-  { href: "https://ddt95.github.io/agriculture95/", index: "04", title: "Agriculture", tone: "green" },
-  { href: "https://ddt95.github.io/eau95/", index: "05", title: "Eau", tone: "cyan" },
-  { href: "https://ddt95.github.io/observatoire_risques_95/", index: "06", title: "Risques majeurs", tone: "orange" },
-  { href: "https://ddt95.github.io/observatoire_bati/", index: "07", title: "Habitat & bâti", tone: "pink" },
-  { href: "https://ddt95.github.io/biodiversite95/", index: "08", title: "Biodiversité", tone: "leaf" },
-  { href: "https://ddt95.github.io/transport95/", index: "09", title: "Mobilités & transports", tone: "red" },
-  { href: "https://ddt95.github.io/transition-energetique95/", index: "10", title: "Transition énergétique", tone: "gold" },
+  { href: "https://ddt95.github.io/portail-communal95/", index: "01", title: "Portail communal", text: "Fiches communales, comparaisons et fiches actions.", tone: "slate", status: "En construction" },
+  { href: "https://ddt95.github.io/urbanisme95/", index: "02", title: "Urbanisme à la parcelle", text: "Cadastre, PLU, prescriptions, servitudes et risques.", tone: "blue", status: "En ligne" },
+  { href: "https://ddt95.github.io/artificialisation-zan95/", index: "03", title: "Artificialisation & ZAN", text: "Occupation du sol, consommation d’espace, trajectoire ZAN et friches.", tone: "violet", status: "Préfiguration" },
+  { href: "https://ddt95.github.io/agriculture95/", index: "04", title: "Agriculture", text: "Cultures, bio, prairies, haies et enjeux environnementaux.", tone: "green", status: "En ligne" },
+  { href: "https://ddt95.github.io/eau95/", index: "05", title: "Eau", text: "Cours d’eau, zones humides, nappes, stations et débits.", tone: "cyan", status: "En ligne" },
+  { href: "https://ddt95.github.io/observatoire_risques_95/", index: "06", title: "Risques majeurs", text: "Inondations, argiles, cavités, ICPE et sites pollués.", tone: "orange", status: "En ligne" },
+  { href: "https://ddt95.github.io/observatoire_bati/", index: "07", title: "Habitat & bâti", text: "DPE, parc social, vacance, construction et marchés fonciers.", tone: "pink", status: "En ligne" },
+  { href: "https://ddt95.github.io/biodiversite95/", index: "08", title: "Biodiversité", text: "ZNIEFF, Natura 2000, continuités et observations d’espèces.", tone: "leaf", status: "Préfiguration" },
+  { href: "https://ddt95.github.io/transport95/", index: "09", title: "Mobilités & transports", text: "Réseaux, lignes, pôles et services de mobilité.", tone: "red", status: "En ligne" },
+  { href: "https://ddt95.github.io/transition-energetique95/", index: "10", title: "Transition énergétique", text: "Consommation, production, rénovation et qualité de l’air.", tone: "gold", status: "En ligne" },
 ];
 
 export default function Home() {
@@ -147,7 +148,7 @@ export default function Home() {
   }
 
   return (
-    <main className="atlas-shell compact-atlas">
+    <main className="atlas-shell">
       <header className="atlas-header">
         <a className="republique" href="#accueil" aria-label="Préfet du Val-d’Oise — retour à l’accueil">
           <img src={`${basePath}/prefet-val-doise-logo.png`} alt="Préfet du Val-d’Oise — Liberté, Égalité, Fraternité" />
@@ -160,16 +161,19 @@ export default function Home() {
           <span /> <span /> <span />
         </button>
         <nav className={menuOpen ? "top-nav open" : "top-nav"} aria-label="Navigation principale">
+          <a href="#territoire">Le territoire</a>
+          <a href="#thematiques">Les thématiques</a>
+          <a href="#liens-utiles">Liens utiles</a>
           <a className="weather-nav" href="https://ddt95.github.io/observatoire_meteo/" target="_blank" rel="noreferrer">Météo ↗</a>
           <a className="info-nav" href={`${basePath}/?page=donnees`}><i aria-hidden="true">i</i><span>Sources & données</span></a>
         </nav>
       </header>
 
-      <section className="atlas-dashboard" id="accueil">
-        <div className="dashboard-intro">
+      <section className="hero" id="accueil">
+        <div className="hero-copy">
           <p className="eyebrow">Observer · comprendre · décider</p>
           <h1>Le Val-d’Oise,<br /><span>carte après carte.</span></h1>
-          <p className="dashboard-lead">Une entrée communale et neuf lectures thématiques, réunies sur une seule page.</p>
+          <p className="hero-lead">Une entrée commune vers les données territoriales de la DDT 95 et dix lectures thématiques.</p>
           <form className="territory-search" onSubmit={submitSearch}>
             <label htmlFor="commune-search">Ouvrir une fiche communale</label>
             <div>
@@ -178,46 +182,48 @@ export default function Home() {
               <button type="submit">Ouvrir</button>
             </div>
           </form>
-          <div className="dashboard-metrics" aria-label="Chiffres clés">
+          <div className="hero-metrics" aria-label="Chiffres clés">
             <div><strong>{sourceState === "ok" ? communes.length : "—"}</strong><span>communes</span></div>
             <div><strong>10</strong><span>lectures</span></div>
-            <div><strong className={`source-dot ${sourceState}`} /><span>{sourceState === "ok" ? "Données accessibles" : sourceState === "error" ? "Connexion à rétablir" : "Connexion…"}</span></div>
+            <div><strong className={`source-dot ${sourceState}`} /><span>{sourceState === "ok" ? "Référentiel connecté" : sourceState === "error" ? "Connexion à rétablir" : "Connexion…"}</span></div>
           </div>
-          <a className="portal-entry" href="https://ddt95.github.io/portail-communal95/">
-            <span><small>Lecture 01</small><strong>Portail communal</strong><em>Comparer · consulter les fiches actions</em></span><b aria-hidden="true">→</b>
-          </a>
-          <details className="official-resources">
-            <summary>Vérifier, approfondir, télécharger <span>+</span></summary>
-            <div>
-              <a href="https://cartes.gouv.fr/" target="_blank" rel="noreferrer">Cartes.gouv.fr <span>↗</span></a>
-              <a href="https://www.geoportail-urbanisme.gouv.fr/" target="_blank" rel="noreferrer">Géoportail de l’urbanisme <span>↗</span></a>
-              <a href="https://www.georisques.gouv.fr/" target="_blank" rel="noreferrer">Géorisques <span>↗</span></a>
-              <a href="https://www.cadastre.gouv.fr/" target="_blank" rel="noreferrer">Cadastre <span>↗</span></a>
-              <a href="https://www.data.gouv.fr/" target="_blank" rel="noreferrer">data.gouv.fr <span>↗</span></a>
-            </div>
-          </details>
         </div>
 
-        <div className="dashboard-map-card" id="territoire">
+        <div className="hero-map-card" id="territoire">
           <div className="map-card-head">
-            <div><span>Lecture 01 · Fiches communales</span><strong>Choisir une commune</strong></div>
+            <div><span>Vue départementale</span><strong>Val-d’Oise</strong></div>
             <select value="" onChange={(event) => event.target.value && openCommune(event.target.value)} aria-label="Ouvrir une fiche communale">
               <option value="">183 communes</option>
               {communes.map((commune) => <option key={commune.code} value={commune.code}>{commune.nom}</option>)}
             </select>
           </div>
           <div ref={mapNode} className="atlas-map" aria-label="Carte des communes du Val-d’Oise ; un clic ouvre la fiche communale" />
-          <div className="map-caption"><span><b>01</b> Cliquez sur une commune pour ouvrir sa fiche</span></div>
-          <div className="compact-themes" id="thematiques" aria-label="Neuf lectures thématiques">
-            {themes.map((theme) => (
-              <a className={theme.tone} key={theme.index} href={theme.href} target="_blank" rel="noreferrer">
-                <span>{theme.index}</span><strong>{theme.title}</strong><b aria-hidden="true">↗</b>
-              </a>
-            ))}
-          </div>
+          <div className="map-caption"><span>Cliquez sur une commune pour ouvrir sa fiche</span></div>
         </div>
       </section>
-      <footer className="compact-footer"><span>DDT du Val-d’Oise – Pôle géomatique</span><a href={`${basePath}/?page=donnees`}>Sources, état et méthode</a></footer>
+
+      <section className="themes-section" id="thematiques">
+        <div className="section-heading"><div><p className="eyebrow">Les dix lectures</p><h2>Choisir une thématique</h2></div><p>Une entrée communale et neuf cartes pour lire le territoire à la bonne échelle.</p></div>
+        <div className="themes-grid">
+          {themes.map((theme) => <article className={`theme-card ${theme.tone}`} key={theme.index}>
+            <div className="theme-top"><span className="theme-index">{theme.index}</span><span className="theme-status">{theme.status}</span></div>
+            <h3>{theme.title}</h3><p>{theme.text}</p>
+            <a href={theme.href} target="_blank" rel="noreferrer">Ouvrir <span aria-hidden="true">↗</span></a>
+          </article>)}
+        </div>
+      </section>
+
+      <section className="quick-links" id="liens-utiles">
+        <div><p className="eyebrow">Vérifier · approfondir · télécharger</p><h2>Services publics utiles</h2></div>
+        <nav aria-label="Services publics de référence">
+          <a href="https://cartes.gouv.fr/" target="_blank" rel="noreferrer">Cartes.gouv.fr ↗</a>
+          <a href="https://www.geoportail-urbanisme.gouv.fr/" target="_blank" rel="noreferrer">Géoportail de l’urbanisme ↗</a>
+          <a href="https://www.georisques.gouv.fr/" target="_blank" rel="noreferrer">Géorisques ↗</a>
+          <a href="https://www.cadastre.gouv.fr/" target="_blank" rel="noreferrer">Cadastre ↗</a>
+          <a href="https://www.data.gouv.fr/" target="_blank" rel="noreferrer">data.gouv.fr ↗</a>
+        </nav>
+      </section>
+      <footer><span>DDT du Val-d’Oise – Pôle géomatique</span><a href={`${basePath}/?page=donnees`}>Sources, état et méthode</a></footer>
     </main>
   );
 }
