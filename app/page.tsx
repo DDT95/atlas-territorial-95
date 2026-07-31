@@ -29,7 +29,6 @@ export default function Home() {
   const mapRef = useRef<any>(null);
   const communeLayerRef = useRef<any>(null);
   const [communes, setCommunes] = useState<Commune[]>([]);
-  const [selectedCode, setSelectedCode] = useState("");
   const [query, setQuery] = useState("");
   const [sourceState, setSourceState] = useState<"loading" | "ok" | "error">("loading");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -105,29 +104,26 @@ export default function Home() {
       .filter((commune) => commune.contour)
       .map((commune) => ({ type: "Feature", properties: { code: commune.code, nom: commune.nom }, geometry: commune.contour }));
     const layer = L.geoJSON({ type: "FeatureCollection", features }, {
-      style: (feature: any) => ({
-        color: feature?.properties?.code === selectedCode ? "#21647a" : "#71839d",
-        weight: feature?.properties?.code === selectedCode ? 1.5 : 0.65,
-        opacity: feature?.properties?.code === selectedCode ? 0.95 : 0.72,
-        fillColor: feature?.properties?.code === selectedCode ? "#d6edf4" : "#f4f7fb",
-        fillOpacity: feature?.properties?.code === selectedCode ? 0.68 : 0.46,
+      style: () => ({
+        color: "#71839d",
+        weight: 0.65,
+        opacity: 0.72,
+        fillColor: "#f4f7fb",
+        fillOpacity: 0.46,
       }),
       onEachFeature: (feature: any, featureLayer: any) => {
-        featureLayer.bindTooltip(feature.properties.nom, { sticky: true });
+        featureLayer.bindTooltip(feature.properties.nom, { sticky: true, direction: "top", className: "atlas-commune-tooltip" });
         featureLayer.on({
           mouseover: () => {
-            if (feature.properties.code !== selectedCode) {
-              featureLayer.setStyle({ color: "#496b7b", weight: 1.05, opacity: 0.9, fillColor: "#e6f0f4", fillOpacity: 0.62 });
-            }
+            featureLayer.setStyle({ color: "#496b7b", weight: 1.05, opacity: 0.9, fillColor: "#e6f0f4", fillOpacity: 0.62 });
           },
           mouseout: () => layer.resetStyle(featureLayer),
-          click: () => openCommune(feature.properties.code),
         });
       },
     }).addTo(map);
     communeLayerRef.current = layer;
-    if (!selectedCode) map.fitBounds(layer.getBounds(), { padding: [20, 20] });
-  }, [communes, selectedCode, mapReady]);
+    map.fitBounds(layer.getBounds(), { padding: [20, 20] });
+  }, [communes, mapReady]);
 
   function submitSearch(event: React.FormEvent) {
     event.preventDefault();
@@ -141,7 +137,6 @@ export default function Home() {
 
   function openCommune(code: string) {
     const commune = communes.find((item) => item.code === code);
-    setSelectedCode(code);
     const params = new URLSearchParams({ code });
     if (commune) params.set("nom", commune.nom);
     window.location.href = `https://ddt95.github.io/portail-communal95/?${params.toString()}`;
@@ -192,14 +187,12 @@ export default function Home() {
         <div className="hero-map-card" id="territoire">
           <div className="map-card-head">
             <div><span>Vue départementale</span><strong>Val-d’Oise</strong></div>
-            <select value="" onChange={(event) => event.target.value && openCommune(event.target.value)} aria-label="Ouvrir une fiche communale">
-              <option value="">183 communes</option>
-              {communes.map((commune) => <option key={commune.code} value={commune.code}>{commune.nom}</option>)}
-            </select>
+            <span className="commune-count">183 communes</span>
           </div>
-          <div ref={mapNode} className="atlas-map" aria-label="Carte des communes du Val-d’Oise ; un clic ouvre la fiche communale" />
-          <div className="map-caption"><span>Cliquez sur une commune pour ouvrir sa fiche</span></div>
+          <div ref={mapNode} className="atlas-map" aria-label="Carte informative des communes du Val-d’Oise ; survolez une commune pour afficher son nom" />
+          <div className="map-caption"><span>Survolez une commune pour afficher son nom</span></div>
         </div>
+        <a className="themes-cue" href="#thematiques"><span>Les dix lectures territoriales</span><strong>Découvrir les thématiques</strong></a>
       </section>
 
       <section className="themes-section" id="thematiques">
