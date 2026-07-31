@@ -2,13 +2,13 @@ const observatories = [
   { name: "Portail communal", sources: "API Découpage administratif, INSEE, IGN et indicateurs territoriaux publics", use: "Fiches communales, comparaisons, fiches actions et accès transversal aux cartes", status: "prefiguration", label: "Préfiguration" },
   { name: "Urbanisme à la parcelle", sources: "Cadastre (DGFiP), Géoportail de l’urbanisme, Géorisques, BDNB (CSTB), MOS (Institut Paris Region)", use: "Parcelles, documents d’urbanisme, servitudes, risques, bâti et occupation du sol", status: "connected", label: "Connecté" },
   { name: "Artificialisation & ZAN", sources: "Portail de l’artificialisation, fichiers fonciers (Cerema), OCS GE (IGN) et MOS", use: "Consommation d’espace, occupation du sol, trajectoire ZAN et friches", status: "prefiguration", label: "Préfiguration" },
-  { name: "Agriculture", sources: "RPG (IGN / ASP), Agence Bio, API Carto et référentiels environnementaux publics", use: "Cultures, agriculture biologique, prairies, haies et contraintes environnementales", status: "connected", label: "En ligne" },
-  { name: "Eau", sources: "Eaufrance, Sandre, Hub’Eau, BNPE et données des services de l’État", use: "Cours d’eau, masses d’eau, prélèvements, stations, nappes et gouvernance", status: "connected", label: "En ligne" },
-  { name: "Risques majeurs", sources: "Géorisques, BRGM, bases nationales des installations et données réglementaires", use: "Inondations, argiles, cavités, installations classées et sites pollués", status: "connected", label: "En ligne" },
-  { name: "Logement & Habitat", sources: "DPE (ADEME), BDNB (CSTB), RPLS, Sitadel, DVF et données publiques du logement", use: "Performance énergétique, parc social, vacance, construction et marchés fonciers", status: "connected", label: "En ligne" },
-  { name: "Biodiversité", sources: "INPN (MNHN), API Carto, Inventaire national du patrimoine naturel et référentiels régionaux", use: "Espaces protégés, ZNIEFF, Natura 2000, continuités et observations d’espèces", status: "prefiguration", label: "Préfiguration" },
-  { name: "Mobilités et transports", sources: "Île-de-France Mobilités et transport.data.gouv.fr", use: "Réseaux, pôles, lignes et offres de transport", status: "connected", label: "En ligne" },
-  { name: "Transition énergétique", sources: "ADEME, Enedis, ODRE, Airparif et données territoriales de l’énergie", use: "Consommations, productions, rénovation énergétique et qualité de l’air", status: "connected", label: "En ligne" },
+  { name: "Agriculture", sources: "RPG (IGN / ASP), Agence Bio, API Carto et référentiels environnementaux publics", use: "Cultures, agriculture biologique, prairies, haies et contraintes environnementales", status: "connected", label: "Connecté" },
+  { name: "Eau", sources: "Eaufrance, Sandre, Hub’Eau, BNPE et données des services de l’État", use: "Cours d’eau, masses d’eau, prélèvements, stations, nappes et gouvernance", status: "connected", label: "Connecté" },
+  { name: "Risques majeurs", sources: "Géorisques, BRGM, bases nationales des installations et données réglementaires", use: "Inondations, argiles, cavités, installations classées et sites pollués", status: "connected", label: "Connecté" },
+  { name: "Logement & Habitat", sources: "DPE (ADEME), BDNB (CSTB), RPLS, Sitadel, DVF et données publiques du logement", use: "Performance énergétique, parc social, vacance, construction et marchés fonciers", status: "connected", label: "Connecté" },
+  { name: "Biodiversité", sources: "INPN / PatriNat et API Carto IGN, BD TOPO et ONF, Géoportail de l’urbanisme, SDRIF-E / Institut Paris Region, GeoNat’îdF / ARB Île-de-France", use: "Espaces de nature et protégés, ZNIEFF, Natura 2000, continuités écologiques et observations d’espèces", status: "connected", label: "Connecté" },
+  { name: "Mobilités et transports", sources: "Île-de-France Mobilités et transport.data.gouv.fr", use: "Réseaux, pôles, lignes et offres de transport", status: "connected", label: "Connecté" },
+  { name: "Transition énergétique", sources: "ADEME, Enedis, ODRE, Airparif et données territoriales de l’énergie", use: "Consommations, productions, rénovation énergétique et qualité de l’air", status: "connected", label: "Connecté" },
 ];
 
 export default function DataInformationPage() {
@@ -30,7 +30,7 @@ export default function DataInformationPage() {
         <section className="data-explainer" aria-labelledby="reading-title">
           <div><p className="data-step">01 · Mode d’emploi</p><h2 id="reading-title">Lire l’état d’une donnée</h2><p>Le statut décrit le fonctionnement de la page thématique, pas la qualité intrinsèque du producteur. Une source peut aussi être temporairement indisponible sans que les données déjà publiées disparaissent.</p></div>
           <div className="status-legend">
-            <article><i className="connected"/><div><strong>Connecté ou en ligne</strong><p>La page interroge une source publique, ou utilise un jeu préparé et documenté pour l’affichage.</p></div></article>
+            <article><i className="connected"/><div><strong>Connecté</strong><p>La page interroge une source publique, ou utilise un jeu préparé et documenté pour l’affichage.</p></div></article>
             <article><i className="prefiguration"/><div><strong>Préfiguration</strong><p>La page et ses branchements sont préparés ; le contenu doit encore être consolidé avant la mise en service.</p></div></article>
             <article><i className="unavailable"/><div><strong>Indisponibilité ponctuelle</strong><p>Une API peut ne pas répondre. Il faut alors réessayer plus tard et vérifier la source officielle.</p></div></article>
           </div>

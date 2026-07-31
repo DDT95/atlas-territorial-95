@@ -12,15 +12,15 @@ type Commune = {
 
 const themes = [
   { href: "https://ddt95.github.io/portail-communal95/", index: "01", title: "Portail communal", text: "Fiches communales, comparaisons et fiches actions.", tone: "slate", status: "En construction" },
-  { href: "https://ddt95.github.io/urbanisme95/", index: "02", title: "Urbanisme à la parcelle", text: "Cadastre, PLU, prescriptions, servitudes et risques.", tone: "blue", status: "En ligne" },
+  { href: "https://ddt95.github.io/urbanisme95/", index: "02", title: "Urbanisme à la parcelle", text: "Cadastre, PLU, prescriptions, servitudes et risques.", tone: "blue", status: "Connecté" },
   { href: "https://ddt95.github.io/artificialisation-zan95/", index: "03", title: "Artificialisation & ZAN", text: "Occupation du sol, consommation d’espace, trajectoire ZAN et friches.", tone: "violet", status: "Préfiguration" },
-  { href: "https://ddt95.github.io/agriculture95/", index: "04", title: "Agriculture", text: "Cultures, bio, prairies, haies et enjeux environnementaux.", tone: "green", status: "En ligne" },
-  { href: "https://ddt95.github.io/eau95/", index: "05", title: "Eau", text: "Cours d’eau, zones humides, nappes, stations et débits.", tone: "cyan", status: "En ligne" },
-  { href: "https://ddt95.github.io/observatoire_risques_95/", index: "06", title: "Risques majeurs", text: "Inondations, argiles, cavités, ICPE et sites pollués.", tone: "orange", status: "En ligne" },
-  { href: "https://ddt95.github.io/observatoire_bati/", index: "07", title: "Logement & Habitat", text: "DPE, parc social, vacance, construction et marchés fonciers.", tone: "pink", status: "En ligne" },
-  { href: "https://ddt95.github.io/biodiversite95/", index: "08", title: "Biodiversité", text: "ZNIEFF, Natura 2000, continuités et observations d’espèces.", tone: "leaf", status: "Préfiguration" },
-  { href: "https://ddt95.github.io/transport95/", index: "09", title: "Mobilités & transports", text: "Réseaux, lignes, pôles et services de mobilité.", tone: "red", status: "En ligne" },
-  { href: "https://ddt95.github.io/transition-energetique95/", index: "10", title: "Transition énergétique", text: "Consommation, production, rénovation et qualité de l’air.", tone: "gold", status: "En ligne" },
+  { href: "https://ddt95.github.io/agriculture95/", index: "04", title: "Agriculture", text: "Cultures, bio, prairies, haies et enjeux environnementaux.", tone: "green", status: "Connecté" },
+  { href: "https://ddt95.github.io/eau95/", index: "05", title: "Eau", text: "Cours d’eau, zones humides, nappes, stations et débits.", tone: "cyan", status: "Connecté" },
+  { href: "https://ddt95.github.io/observatoire_risques_95/", index: "06", title: "Risques majeurs", text: "Inondations, argiles, cavités, ICPE et sites pollués.", tone: "orange", status: "Connecté" },
+  { href: "https://ddt95.github.io/observatoire_bati/", index: "07", title: "Logement & Habitat", text: "DPE, parc social, vacance, construction et marchés fonciers.", tone: "pink", status: "Connecté" },
+  { href: "https://ddt95.github.io/biodiversite95/", index: "08", title: "Biodiversité", text: "ZNIEFF, Natura 2000, continuités et observations d’espèces.", tone: "leaf", status: "Connecté" },
+  { href: "https://ddt95.github.io/transport95/", index: "09", title: "Mobilités & transports", text: "Réseaux, lignes, pôles et services de mobilité.", tone: "red", status: "Connecté" },
+  { href: "https://ddt95.github.io/transition-energetique95/", index: "10", title: "Transition énergétique", text: "Consommation, production, rénovation et qualité de l’air.", tone: "gold", status: "Connecté" },
 ];
 
 export default function Home() {
