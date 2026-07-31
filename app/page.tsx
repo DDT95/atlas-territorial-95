@@ -23,6 +23,9 @@ const themes = [
   { href: "https://ddt95.github.io/transition-energetique95/", index: "10", title: "Transition énergétique", text: "Consommation, production, rénovation et qualité de l’air.", tone: "gold", status: "Connecté" },
 ];
 
+const connectedReferences = themes.filter((theme) => theme.status === "Connecté").length;
+const communalSheetsBase = "https://piece-jointe-carto.developpement-durable.gouv.fr/DEPT095A/DONNEE_GENERIQUE/N_BASE_COMMUNALE/OCTE/Fiches";
+
 export default function Home() {
   const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
   const mapNode = useRef<HTMLDivElement>(null);
@@ -118,6 +121,7 @@ export default function Home() {
             featureLayer.setStyle({ color: "#496b7b", weight: 1.05, opacity: 0.9, fillColor: "#e6f0f4", fillOpacity: 0.62 });
           },
           mouseout: () => layer.resetStyle(featureLayer),
+          click: () => openCommune(feature.properties.code),
         });
       },
     }).addTo(map);
@@ -137,9 +141,8 @@ export default function Home() {
 
   function openCommune(code: string) {
     const commune = communes.find((item) => item.code === code);
-    const params = new URLSearchParams({ code });
-    if (commune) params.set("nom", commune.nom);
-    window.location.href = `https://ddt95.github.io/portail-communal95/?${params.toString()}`;
+    if (!commune) return;
+    window.open(`${communalSheetsBase}/${encodeURIComponent(commune.nom)}.pdf`, "_blank", "noopener,noreferrer");
   }
 
   return (
@@ -180,7 +183,7 @@ export default function Home() {
           <div className="hero-metrics" aria-label="Chiffres clés">
             <div><strong>{sourceState === "ok" ? communes.length : "—"}</strong><span>communes</span></div>
             <div><strong>10</strong><span>lectures</span></div>
-            <div><strong className={`source-dot ${sourceState}`} /><span>{sourceState === "ok" ? "Référentiel connecté" : sourceState === "error" ? "Connexion à rétablir" : "Connexion…"}</span></div>
+            <div><strong>{sourceState === "ok" ? connectedReferences : "—"}</strong><span>{sourceState === "ok" ? "référentiels connectés" : sourceState === "error" ? "connexion à rétablir" : "connexion…"}</span><i className={`source-dot ${sourceState}`} aria-hidden="true" /></div>
           </div>
         </div>
 
@@ -189,8 +192,8 @@ export default function Home() {
             <div><span>Vue départementale</span><strong>Val-d’Oise</strong></div>
             <span className="commune-count">183 communes</span>
           </div>
-          <div ref={mapNode} className="atlas-map" aria-label="Carte informative des communes du Val-d’Oise ; survolez une commune pour afficher son nom" />
-          <div className="map-caption"><span>Survolez une commune pour afficher son nom</span></div>
+          <div ref={mapNode} className="atlas-map" aria-label="Carte des communes du Val-d’Oise ; cliquez sur une commune pour ouvrir sa fiche PDF" />
+          <div className="map-caption"><span>Survolez une commune pour afficher son nom · cliquez pour ouvrir sa fiche PDF</span></div>
         </div>
         <a className="themes-cue" href="#thematiques"><span>Les dix lectures territoriales</span><strong>Découvrir les thématiques</strong></a>
       </section>
