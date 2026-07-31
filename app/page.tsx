@@ -202,7 +202,7 @@ export default function Home() {
         <div className="section-heading"><div><p className="eyebrow">Les dix lectures</p><h2>Choisir une thématique</h2></div><p>Une entrée communale et neuf cartes pour lire le territoire à la bonne échelle.</p></div>
         <div className="themes-grid">
           {themes.map((theme) => <article className={`theme-card ${theme.tone}`} key={theme.index}>
-            <div className="theme-top"><span className="theme-index">{theme.index}</span><span className="theme-status">{theme.status}</span></div>
+            <div className="theme-top"><span className="theme-index">{theme.index}</span><span className={`theme-status ${theme.status === "Connecté" ? "is-connected" : ""}`}><i aria-hidden="true" />{theme.status}</span></div>
             <h3>{theme.title}</h3><p>{theme.text}</p>
             <a href={theme.href} target="_blank" rel="noreferrer">Ouvrir <span aria-hidden="true">↗</span></a>
           </article>)}
