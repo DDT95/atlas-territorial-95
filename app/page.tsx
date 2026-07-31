@@ -11,6 +11,7 @@ type Commune = {
 };
 
 const themes = [
+  { href: "https://ddt95.github.io/valdoise95/", index: "00", title: "Le Val-d’Oise", text: "Population, relief, géologie et organisation territoriale.", tone: "blue", status: "Connecté" },
   { href: "https://ddt95.github.io/portail-communal95/", index: "01", title: "Portail communal", text: "Fiches communales, comparaisons et fiches actions.", tone: "slate", status: "En construction" },
   { href: "https://ddt95.github.io/urbanisme95/", index: "02", title: "Urbanisme à la parcelle", text: "Cadastre, PLU, prescriptions, servitudes et risques.", tone: "blue", status: "Connecté" },
   { href: "https://ddt95.github.io/artificialisation-zan95/", index: "03", title: "Artificialisation & ZAN", text: "Occupation du sol, consommation d’espace, trajectoire ZAN et friches.", tone: "violet", status: "Préfiguration" },
@@ -159,7 +160,7 @@ export default function Home() {
           <span /> <span /> <span />
         </button>
         <nav className={menuOpen ? "top-nav open" : "top-nav"} aria-label="Navigation principale">
-          <a href="#territoire">Le territoire</a>
+          <a href="https://ddt95.github.io/valdoise95/" target="_blank" rel="noreferrer">Le territoire ↗</a>
           <a href="#thematiques">Les thématiques</a>
           <a href="#liens-utiles">Liens utiles</a>
           <a className="weather-nav" href="https://ddt95.github.io/observatoire_meteo/" target="_blank" rel="noreferrer">Météo ↗</a>
@@ -171,7 +172,7 @@ export default function Home() {
         <div className="hero-copy">
           <p className="eyebrow">Observer · comprendre · décider</p>
           <h1>Le Val-d’Oise,<br /><span>carte après carte.</span></h1>
-          <p className="hero-lead">Une entrée commune vers les données territoriales de la DDT 95 et dix lectures thématiques.</p>
+          <p className="hero-lead">Une entrée commune vers les données territoriales de la DDT 95 et onze lectures thématiques.</p>
           <form className="territory-search" onSubmit={submitSearch}>
             <label htmlFor="commune-search">Ouvrir une fiche communale</label>
             <div>
@@ -182,24 +183,24 @@ export default function Home() {
           </form>
           <div className="hero-metrics" aria-label="Chiffres clés">
             <div><strong>{sourceState === "ok" ? communes.length : "—"}</strong><span>communes</span></div>
-            <div><strong>10</strong><span>lectures</span></div>
+            <div><strong>11</strong><span>lectures</span></div>
             <div><strong>{sourceState === "ok" ? connectedReferences : "—"}</strong><span>{sourceState === "ok" ? "référentiels connectés" : sourceState === "error" ? "connexion à rétablir" : "connexion…"}</span><i className={`source-dot ${sourceState}`} aria-hidden="true" /></div>
           </div>
         </div>
 
         <div className="hero-map-card" id="territoire">
           <div className="map-card-head">
-            <div><span>Vue départementale</span><strong>Val-d’Oise</strong></div>
+            <div><span>Vue départementale</span><strong><a className="territory-map-link" href="https://ddt95.github.io/valdoise95/" target="_blank" rel="noreferrer">Val-d’Oise ↗</a></strong></div>
             <span className="commune-count">183 communes</span>
           </div>
           <div ref={mapNode} className="atlas-map" aria-label="Carte des communes du Val-d’Oise ; cliquez sur une commune pour ouvrir sa fiche PDF" />
           <div className="map-caption"><span>Survolez une commune pour afficher son nom · cliquez pour ouvrir sa fiche PDF</span></div>
         </div>
-        <a className="themes-cue" href="#thematiques"><span>Les dix lectures territoriales</span><strong>Découvrir les thématiques</strong></a>
+        <a className="themes-cue" href="#thematiques"><span>Les onze lectures territoriales</span><strong>Découvrir les thématiques</strong></a>
       </section>
 
       <section className="themes-section" id="thematiques">
-        <div className="section-heading"><div><p className="eyebrow">Les dix lectures</p><h2>Choisir une thématique</h2></div><p>Une entrée communale et neuf cartes pour lire le territoire à la bonne échelle.</p></div>
+        <div className="section-heading"><div><p className="eyebrow">Les onze lectures</p><h2>Choisir une thématique</h2></div><p>Une vue départementale généraliste, une entrée communale et neuf cartes pour lire le territoire à la bonne échelle.</p></div>
         <div className="themes-grid">
           {themes.map((theme) => <article className={`theme-card ${theme.tone}`} key={theme.index}>
             <div className="theme-top"><span className="theme-index">{theme.index}</span><span className="theme-status">{theme.status}</span></div>

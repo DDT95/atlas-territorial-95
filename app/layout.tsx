@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Atlas territorial du Val-d’Oise — DDT 95",
-  description: "Dix observatoires cartographiques pour comprendre les territoires du Val-d’Oise.",
+  description: "Onze lectures cartographiques pour comprendre les territoires du Val-d’Oise.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
