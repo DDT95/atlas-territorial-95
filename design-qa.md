@@ -12,6 +12,7 @@ Date : 31 juillet 2026
 - Les trois indicateurs sont alignés sur une seule ligne.
 - Le nombre de référentiels connectés est explicite : 8.
 - L’appel « Découvrir les thématiques » est plus grand, contrasté et visible sans défilement à 1366 × 768.
+- Après retour utilisateur, l’appel a été rééquilibré à environ 408 × 46 px : visible sans dominer la carte ni les indicateurs.
 - Les 183 contours communaux sont chargés et restent survolables.
 - Le clic sur un contour ouvre la fiche PDF communale dans un nouvel onglet ; test validé avec `Ableiges.pdf`.
 - Les libellés de la carte expliquent clairement le survol et le clic.
