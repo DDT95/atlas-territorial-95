@@ -189,7 +189,7 @@ export default function Home() {
 
         <div className="hero-map-card" id="territoire">
           <div className="map-card-head">
-            <div><span>Vue départementale</span><strong>Val-d’Oise</strong></div>
+            <div><span>Vue départementale</span><strong><a className="territory-map-link" href="https://ddt95.github.io/valdoise95/" target="_blank" rel="noreferrer">Val-d’Oise ↗</a></strong></div>
             <span className="commune-count">183 communes</span>
           </div>
           <div ref={mapNode} className="atlas-map" aria-label="Carte des communes du Val-d’Oise ; cliquez sur une commune pour ouvrir sa fiche PDF" />
