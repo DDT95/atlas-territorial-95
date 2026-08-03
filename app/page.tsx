@@ -161,6 +161,7 @@ export default function Home() {
         <nav className={menuOpen ? "top-nav open" : "top-nav"} aria-label="Navigation principale">
           <a href="#territoire">Le territoire</a>
           <a href="#thematiques">Les thématiques</a>
+          <a href="#comprendre">Comprendre</a>
           <a href="#liens-utiles">Liens utiles</a>
           <a className="weather-nav" href="https://ddt95.github.io/observatoire_meteo/" target="_blank" rel="noreferrer">Météo ↗</a>
           <a className="info-nav" href={`${basePath}/?page=donnees`}><i aria-hidden="true">i</i><span>Sources & données</span></a>
@@ -206,6 +207,27 @@ export default function Home() {
             <h3>{theme.title}</h3><p>{theme.text}</p>
             <a href={theme.href} target="_blank" rel="noreferrer">Ouvrir <span aria-hidden="true">↗</span></a>
           </article>)}
+        </div>
+      </section>
+
+      <section className="understand-section" id="comprendre">
+        <div className="understand-heading">
+          <div><p className="eyebrow">Comprendre le territoire</p><h2>Des données aux<br /><span>clés de lecture.</span></h2></div>
+          <p>Des formats courts, visuels et sourcés pour transformer une carte en compréhension du Val-d’Oise.</p>
+        </div>
+        <div className="understand-grid">
+          <a className="understand-card featured" href="https://ddt95.github.io/val-doise-domicile-travail/" target="_blank" rel="noreferrer">
+            <div className="story-visual flow-story" aria-hidden="true"><i /><i /><i /><b>95</b></div>
+            <div className="story-copy"><span className="story-status live">À explorer</span><small>Mobilités · INSEE 2022</small><h3>Où vont travailler les habitants ?</h3><p>Explorez les flux domicile-travail, commune par commune, et observez les polarités du territoire.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          </a>
+          <article className="understand-card warm">
+            <div className="story-visual land-story" aria-hidden="true"><i /><i /><i /></div>
+            <div className="story-copy"><span className="story-status soon">En préparation</span><small>Sol · formes urbaines</small><h3>Comment le territoire se transforme-t-il ?</h3><p>Une lecture accessible de l’artificialisation, des friches et de la trajectoire ZAN.</p></div>
+          </article>
+          <article className="understand-card green-story-card">
+            <div className="story-visual nature-story" aria-hidden="true"><i /><i /><i /></div>
+            <div className="story-copy"><span className="story-status soon">En préparation</span><small>Nature · adaptation</small><h3>Où le vivant résiste-t-il ?</h3><p>Continuités écologiques, eau et îlots de fraîcheur racontés par la carte.</p></div>
+          </article>
         </div>
       </section>
 
