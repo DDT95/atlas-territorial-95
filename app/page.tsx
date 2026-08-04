@@ -228,10 +228,10 @@ export default function Home() {
             <div className="story-visual nature-story" aria-hidden="true"><i /><i /><i /></div>
             <div className="story-copy"><span className="story-status soon">En préparation</span><small>Nature · adaptation</small><h3>Où le vivant résiste-t-il ?</h3><p>Continuités écologiques, eau et îlots de fraîcheur racontés par la carte.</p></div>
           </article>
-          <article className="understand-card habitat-story-card">
+          <a className="understand-card habitat-story-card" href="https://ddt95.github.io/val-doise-logement-habitat/" target="_blank" rel="noreferrer">
             <div className="story-visual habitat-story" aria-hidden="true"><i /><i /><i /><b /></div>
-            <div className="story-copy"><span className="story-status soon">En préparation</span><small>Habitat · modes de vie</small><h3>Comment se loge-t-on dans le Val-d’Oise ?</h3><p>Parc social, vacance, construction et rénovation expliqués à hauteur de territoire.</p></div>
-          </article>
+            <div className="story-copy"><span className="story-status live">À explorer</span><small>Habitat · modes de vie</small><h3>Comment se loge-t-on dans le Val-d’Oise ?</h3><p>Parc social, vacance, construction et rénovation expliqués à hauteur de territoire.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          </a>
         </div>
       </section>
 
