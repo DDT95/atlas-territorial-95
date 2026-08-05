@@ -11,6 +11,13 @@ const observatories = [
   { name: "Transition énergétique", sources: "ADEME, Enedis, ODRE, Airparif et données territoriales de l’énergie", use: "Consommations, productions, rénovation énergétique et qualité de l’air", status: "connected", label: "Connecté" },
 ];
 
+const understandingPages = [
+  { name: "Domicile–travail", sources: "INSEE — Mobilités professionnelles 2022", use: "Flux entre communes, destinations de travail et polarités territoriales", href: "https://ddt95.github.io/val-doise-domicile-travail/" },
+  { name: "Sol & formes urbaines", sources: "MOS (Institut Paris Region), OCS GE (IGN), fichiers fonciers et données de l’artificialisation", use: "Transformation du territoire, formes urbaines, friches et trajectoire ZAN", href: "https://ddt95.github.io/val-doise-sol-formes-urbaines/" },
+  { name: "Nature & adaptation", sources: "INPN / PatriNat, BD TOPO, données environnementales et référentiels territoriaux", use: "Continuités écologiques, eau et refuges potentiels de fraîcheur", href: "https://ddt95.github.io/val-doise-nature-adaptation/" },
+  { name: "Logement & modes de vie", sources: "DPE (ADEME), BDNB, RPLS, Sitadel, DVF et données publiques du logement", use: "Parc social, vacance, construction et rénovation expliqués à l’échelle du territoire", href: "https://ddt95.github.io/val-doise-logement-habitat/" },
+];
+
 export default function DataInformationPage() {
   const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
 
@@ -55,8 +62,18 @@ export default function DataInformationPage() {
           </div>
         </section>
 
+        <section className="connection-section understanding-sources" aria-labelledby="understanding-sources-title">
+          <div className="connection-heading"><div><p className="data-step">04 · Pages Comprendre</p><h2 id="understanding-sources-title">Les clés de lecture et leurs sources</h2></div><p>Ces formats éditoriaux expliquent les données par un récit court et visuel. Ils conservent les mêmes exigences de source et de millésime que les cartes.</p></div>
+          <div className="connection-table" role="table" aria-label="Sources des pages Comprendre">
+            <div className="connection-row understanding-row connection-labels" role="row"><span>Décryptage</span><span>Sources principales</span><span>Ce que la page explique</span><span>Accès</span></div>
+            {understandingPages.map((item) => <article className="connection-row understanding-row" role="row" key={item.name}>
+              <strong>{item.name}</strong><p>{item.sources}</p><p>{item.use}</p><a className="data-understanding-link" href={item.href} target="_blank" rel="noreferrer">Ouvrir ↗</a>
+            </article>)}
+          </div>
+        </section>
+
         <section className="data-caution">
-          <div><p className="data-step">04 · À retenir</p><h2>Une aide à la lecture, pas un document opposable</h2></div>
+          <div><p className="data-step">05 · À retenir</p><h2>Une aide à la lecture, pas un document opposable</h2></div>
           <div><p>Les cartes donnent une première compréhension du territoire. Elles ne remplacent ni un document réglementaire, ni une étude de terrain, ni la consultation du producteur officiel.</p><p>Les millésimes diffèrent selon les thèmes. Deux indicateurs ne doivent être comparés que si leurs périodes, unités et périmètres sont compatibles.</p><p>Pour une décision administrative ou réglementaire, consultez toujours la source officielle indiquée dans la page concernée.</p></div>
         </section>
       </section>

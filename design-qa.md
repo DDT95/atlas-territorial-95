@@ -1,23 +1,22 @@
-# Design QA — services publics utiles
+# Design QA — page Sources & données
 
 Date : 5 août 2026
 
 ## Cible
 
-- Harmoniser le bloc « Services publics utiles » avec le langage graphique de l’Atlas.
-- Donner davantage de hauteur et de présence à cette section.
-- Distinguer sans ambiguïté les ressources extérieures.
-- Ajouter le site officiel de la Préfecture du Val-d’Oise.
+- Ajouter les quatre pages « Comprendre » à l’inventaire des sources.
+- Corriger le manque de contraste du bandeau final bleu foncé.
+- Préserver la structure graphique et la lisibilité du tableau existant.
 
 ## Résultat
 
-- Section portée à 353 px de hauteur sur l’aperçu desktop.
-- Six ressources présentées sous forme de cartes blanches cohérentes avec le reste de la page.
-- Chaque carte porte le libellé « Source extérieure » et une courte description.
-- Le lien `https://www.val-doise.gouv.fr/` est présent en première position et s’ouvre dans un nouvel onglet.
-- Grille responsive : trois colonnes sur desktop, deux sur tablette étroite et une sur mobile.
-- Focus clavier visible et animation de survol prévue sur toutes les cartes.
-- Aucun message d’erreur applicatif relevé dans la console pendant le contrôle local.
+- Une nouvelle section « Pages Comprendre » documente Domicile–travail, Sol & formes urbaines, Nature & adaptation et Logement & modes de vie.
+- Chaque ligne précise la source principale, le sujet expliqué et propose un accès direct au décryptage.
+- La numérotation est continue : la recommandation finale devient l’étape 05.
+- Le libellé « À retenir » passe du bleu au jaune clair sur fond bleu foncé.
+- Le texte du bandeau final passe au blanc cassé pour une lecture plus nette.
+- Le tableau reste en quatre colonnes sur desktop et passe en pile sur petit écran.
+- Aucun message d’erreur applicatif relevé pendant le contrôle local.
 
 ## Points bloquants
 
