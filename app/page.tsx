@@ -194,7 +194,10 @@ export default function Home() {
             <span className="commune-count">183 communes</span>
           </div>
           <div ref={mapNode} className="atlas-map" aria-label="Carte des communes du Val-d’Oise ; cliquez sur une commune pour ouvrir sa fiche PDF" />
-          <div className="map-caption"><span>Survolez une commune pour afficher son nom · cliquez pour ouvrir sa fiche PDF</span></div>
+          <div className="map-caption">
+            <span>Survolez une commune pour afficher son nom · cliquez pour ouvrir sa fiche PDF</span>
+            <a className="map-3d-link" href="https://ddt95.github.io/Vo-3D/" target="_blank" rel="noreferrer">Explorer en 3D <small>bêta</small><b aria-hidden="true">↗</b></a>
+          </div>
         </div>
         <a className="themes-cue" href="#thematiques"><span>Les dix lectures territoriales</span><strong>Découvrir les thématiques</strong></a>
       </section>
