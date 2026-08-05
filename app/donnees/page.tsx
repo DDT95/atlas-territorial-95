@@ -12,10 +12,10 @@ const observatories = [
 ];
 
 const understandingPages = [
-  { name: "Domicile–travail", sources: "INSEE — Mobilités professionnelles 2022", use: "Flux entre communes, destinations de travail et polarités territoriales", href: "https://ddt95.github.io/val-doise-domicile-travail/" },
-  { name: "Sol & formes urbaines", sources: "MOS (Institut Paris Region), OCS GE (IGN), fichiers fonciers et données de l’artificialisation", use: "Transformation du territoire, formes urbaines, friches et trajectoire ZAN", href: "https://ddt95.github.io/val-doise-sol-formes-urbaines/" },
-  { name: "Nature & adaptation", sources: "INPN / PatriNat, BD TOPO, données environnementales et référentiels territoriaux", use: "Continuités écologiques, eau et refuges potentiels de fraîcheur", href: "https://ddt95.github.io/val-doise-nature-adaptation/" },
-  { name: "Logement & modes de vie", sources: "DPE (ADEME), BDNB, RPLS, Sitadel, DVF et données publiques du logement", use: "Parc social, vacance, construction et rénovation expliqués à l’échelle du territoire", href: "https://ddt95.github.io/val-doise-logement-habitat/" },
+  { name: "Domicile–travail", sources: "INSEE — Mobilités professionnelles 2022", use: "Flux entre communes, destinations de travail et polarités territoriales" },
+  { name: "Sol & formes urbaines", sources: "MOS (Institut Paris Region), OCS GE (IGN), fichiers fonciers et données de l’artificialisation", use: "Transformation du territoire, formes urbaines, friches et trajectoire ZAN" },
+  { name: "Nature & adaptation", sources: "INPN / PatriNat, BD TOPO, données environnementales et référentiels territoriaux", use: "Continuités écologiques, eau et refuges potentiels de fraîcheur" },
+  { name: "Logement & modes de vie", sources: "DPE (ADEME), BDNB, RPLS, Sitadel, DVF et données publiques du logement", use: "Parc social, vacance, construction et rénovation expliqués à l’échelle du territoire" },
 ];
 
 export default function DataInformationPage() {
@@ -65,9 +65,9 @@ export default function DataInformationPage() {
         <section className="connection-section understanding-sources" aria-labelledby="understanding-sources-title">
           <div className="connection-heading"><div><p className="data-step">04 · Pages Comprendre</p><h2 id="understanding-sources-title">Les clés de lecture et leurs sources</h2></div><p>Ces formats éditoriaux expliquent les données par un récit court et visuel. Ils conservent les mêmes exigences de source et de millésime que les cartes.</p></div>
           <div className="connection-table" role="table" aria-label="Sources des pages Comprendre">
-            <div className="connection-row understanding-row connection-labels" role="row"><span>Décryptage</span><span>Sources principales</span><span>Ce que la page explique</span><span>Accès</span></div>
+            <div className="connection-row understanding-row connection-labels" role="row"><span>Décryptage</span><span>Sources principales</span><span>Ce que la page explique</span><span>État</span></div>
             {understandingPages.map((item) => <article className="connection-row understanding-row" role="row" key={item.name}>
-              <strong>{item.name}</strong><p>{item.sources}</p><p>{item.use}</p><a className="data-understanding-link" href={item.href} target="_blank" rel="noreferrer">Ouvrir ↗</a>
+              <strong>{item.name}</strong><p>{item.sources}</p><p>{item.use}</p><span className="data-status connected"><i/>Connecté</span>
             </article>)}
           </div>
         </section>

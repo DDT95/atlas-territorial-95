@@ -11,7 +11,7 @@ Date : 5 août 2026
 ## Résultat
 
 - Une nouvelle section « Pages Comprendre » documente Domicile–travail, Sol & formes urbaines, Nature & adaptation et Logement & modes de vie.
-- Chaque ligne précise la source principale, le sujet expliqué et propose un accès direct au décryptage.
+- Chaque ligne précise la source principale, le sujet expliqué et son état « Connecté ».
 - La numérotation est continue : la recommandation finale devient l’étape 05.
 - Le libellé « À retenir » passe du bleu au jaune clair sur fond bleu foncé.
 - Le texte du bandeau final passe au blanc cassé pour une lecture plus nette.
