@@ -220,10 +220,10 @@ export default function Home() {
             <div className="story-visual flow-story" aria-hidden="true"><i /><i /><i /><b>95</b></div>
             <div className="story-copy"><span className="story-status live">À explorer</span><small>Mobilités · INSEE 2022</small><h3>Où vont travailler les habitants ?</h3><p>Explorez les flux domicile-travail, commune par commune, et observez les polarités du territoire.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
-          <article className="understand-card warm">
+          <a className="understand-card warm is-live" href="https://ddt95.github.io/val-doise-sol-formes-urbaines/" target="_blank" rel="noreferrer">
             <div className="story-visual land-story" aria-hidden="true"><i /><i /><i /></div>
-            <div className="story-copy"><span className="story-status soon">En préparation</span><small>Sol · formes urbaines</small><h3>Comment le territoire se transforme-t-il ?</h3><p>Une lecture accessible de l’artificialisation, des friches et de la trajectoire ZAN.</p></div>
-          </article>
+            <div className="story-copy"><span className="story-status live">À explorer</span><small>Sol · formes urbaines</small><h3>Comment le territoire se transforme-t-il ?</h3><p>Une lecture accessible de l’artificialisation, des friches et de la trajectoire ZAN.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          </a>
           <a className="understand-card green-story-card is-live" href="https://ddt95.github.io/val-doise-nature-adaptation/" target="_blank" rel="noreferrer">
             <div className="story-visual nature-story" aria-hidden="true"><i /><i /><i /></div>
             <div className="story-copy"><span className="story-status live">À explorer</span><small>Nature · adaptation</small><h3>Où le vivant résiste-t-il ?</h3><p>Continuités écologiques, eau et refuges potentiels de fraîcheur racontés par la carte.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
