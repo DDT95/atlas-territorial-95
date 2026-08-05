@@ -236,13 +236,14 @@ export default function Home() {
       </section>
 
       <section className="quick-links" id="liens-utiles">
-        <div><p className="eyebrow">Vérifier · approfondir · télécharger</p><h2>Services publics utiles</h2></div>
+        <div className="quick-links-heading"><p className="eyebrow">Vérifier · approfondir · télécharger</p><h2>Services publics utiles</h2><p>Des ressources officielles complémentaires, proposées par des services extérieurs à l’Atlas.</p></div>
         <nav aria-label="Services publics de référence">
-          <a href="https://cartes.gouv.fr/" target="_blank" rel="noreferrer">Cartes.gouv.fr ↗</a>
-          <a href="https://www.geoportail-urbanisme.gouv.fr/" target="_blank" rel="noreferrer">Géoportail de l’urbanisme ↗</a>
-          <a href="https://www.georisques.gouv.fr/" target="_blank" rel="noreferrer">Géorisques ↗</a>
-          <a href="https://www.cadastre.gouv.fr/" target="_blank" rel="noreferrer">Cadastre ↗</a>
-          <a href="https://www.data.gouv.fr/" target="_blank" rel="noreferrer">data.gouv.fr ↗</a>
+          <a href="https://www.val-doise.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>Préfecture du Val-d’Oise</strong><span>Services de l’État</span></a>
+          <a href="https://cartes.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>Cartes.gouv.fr</strong><span>Cartographie publique</span></a>
+          <a href="https://www.geoportail-urbanisme.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>Géoportail de l’urbanisme</strong><span>Documents d’urbanisme</span></a>
+          <a href="https://www.georisques.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>Géorisques</strong><span>Risques naturels et technologiques</span></a>
+          <a href="https://www.cadastre.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>Cadastre</strong><span>Plans cadastraux</span></a>
+          <a href="https://www.data.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>data.gouv.fr</strong><span>Données publiques ouvertes</span></a>
         </nav>
       </section>
       <footer><span>DDT du Val-d’Oise – Pôle géomatique</span><a href={`${basePath}/?page=donnees`}>Sources, état et méthode</a></footer>

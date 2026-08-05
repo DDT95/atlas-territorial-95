@@ -1,21 +1,23 @@
-# Design QA — accueil de l’Atlas
+# Design QA — services publics utiles
 
-Date : 31 juillet 2026
+Date : 5 août 2026
 
 ## Cible
 
-- Captures utilisateur du bloc d’indicateurs et de l’appel aux dix lectures.
-- Vérification responsive à 1536 × 864 puis 1366 × 768.
+- Harmoniser le bloc « Services publics utiles » avec le langage graphique de l’Atlas.
+- Donner davantage de hauteur et de présence à cette section.
+- Distinguer sans ambiguïté les ressources extérieures.
+- Ajouter le site officiel de la Préfecture du Val-d’Oise.
 
 ## Résultat
 
-- Les trois indicateurs sont alignés sur une seule ligne.
-- Le nombre de référentiels connectés est explicite : 8.
-- L’appel « Découvrir les thématiques » est plus grand, contrasté et visible sans défilement à 1366 × 768.
-- Après retour utilisateur, l’appel a été rééquilibré à environ 408 × 46 px : visible sans dominer la carte ni les indicateurs.
-- Les 183 contours communaux sont chargés et restent survolables.
-- Le clic sur un contour ouvre la fiche PDF communale dans un nouvel onglet ; test validé avec `Ableiges.pdf`.
-- Les libellés de la carte expliquent clairement le survol et le clic.
+- Section portée à 353 px de hauteur sur l’aperçu desktop.
+- Six ressources présentées sous forme de cartes blanches cohérentes avec le reste de la page.
+- Chaque carte porte le libellé « Source extérieure » et une courte description.
+- Le lien `https://www.val-doise.gouv.fr/` est présent en première position et s’ouvre dans un nouvel onglet.
+- Grille responsive : trois colonnes sur desktop, deux sur tablette étroite et une sur mobile.
+- Focus clavier visible et animation de survol prévue sur toutes les cartes.
+- Aucun message d’erreur applicatif relevé dans la console pendant le contrôle local.
 
 ## Points bloquants
 
