@@ -172,6 +172,9 @@ body{font-family:"Marianne",Arial,sans-serif}
 @media(max-width:620px){.understand-grid{grid-template-columns:1fr}}
 .understand-card.is-live:hover{transform:translateY(-5px);box-shadow:0 28px 70px #0005}
 
+/* Comprendre — en-tête resserré sans texte introductif */
+.understand-heading{display:block;max-width:720px;margin-bottom:34px}
+
 /* Services officiels extérieurs — cartes cohérentes avec l’Atlas */
 .quick-links{min-height:310px;padding:58px max(24px,5vw);grid-template-columns:minmax(260px,.58fr) minmax(0,1.42fr);gap:5vw;align-items:start}.quick-links-heading>p:last-child{max-width:390px;margin:14px 0 0;color:var(--muted);font-size:12px;line-height:1.55}.quick-links nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;justify-content:stretch}.quick-links a{min-height:112px;padding:15px 16px;border:1px solid #ccd5e3;border-radius:17px;display:flex;flex-direction:column;align-items:flex-start;background:#fff;box-shadow:0 8px 22px rgba(7,0,71,.06);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}.quick-links a:hover{transform:translateY(-4px);border-color:#000091;box-shadow:0 14px 30px rgba(7,0,71,.12)}.quick-links a small{padding:4px 6px;border-radius:99px;background:#f1f1fe;color:#000091;font-size:7px;text-transform:uppercase;letter-spacing:.08em}.quick-links a strong{margin-top:11px;color:var(--deep);font-size:12px;line-height:1.2}.quick-links a span{margin-top:auto;padding-top:7px;color:var(--muted);font-size:9px;font-weight:500}.quick-links a:focus-visible{outline:3px solid #4fd1ff;outline-offset:3px}
 @media(max-width:1100px){.quick-links{grid-template-columns:1fr}.quick-links nav{grid-template-columns:repeat(3,minmax(0,1fr))}.quick-links-heading>p:last-child{max-width:650px}}

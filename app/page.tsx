@@ -216,7 +216,6 @@ export default function Home() {
       <section className="understand-section" id="comprendre">
         <div className="understand-heading">
           <div><p className="eyebrow">Comprendre le territoire</p><h2>Des données aux<br /><span>clés de lecture.</span></h2></div>
-          <p>Des formats courts, visuels et sourcés pour transformer une carte en compréhension du Val-d’Oise.</p>
         </div>
         <div className="understand-grid">
           <a className="understand-card featured" href="https://ddt95.github.io/val-doise-domicile-travail/" target="_blank" rel="noreferrer">
