@@ -9,6 +9,7 @@ const observatories = [
   { name: "Biodiversité", sources: "INPN / PatriNat et API Carto IGN, BD TOPO et ONF, Géoportail de l’urbanisme, SDRIF-E / Institut Paris Region, GeoNat’îdF / ARB Île-de-France", use: "Espaces de nature et protégés, ZNIEFF, Natura 2000, continuités écologiques et observations d’espèces", status: "connected", label: "Connecté" },
   { name: "Mobilités et transports", sources: "Île-de-France Mobilités et transport.data.gouv.fr", use: "Réseaux, pôles, lignes et offres de transport", status: "connected", label: "Connecté" },
   { name: "Transition énergétique", sources: "ADEME, Enedis, ODRE, Airparif et données territoriales de l’énergie", use: "Consommations, productions, rénovation énergétique et qualité de l’air", status: "connected", label: "Connecté" },
+  { name: "Portrait Insee", sources: "INSEE — RP2023 (âges, diplômes, familles), Filosofi 2023 (revenus, pauvreté), RP2022 Mobilités professionnelles, REE 2024 (entreprises), BPE 2025 (équipements)", use: "Habitants, emploi & mobilités, logement et économie du territoire, commune par commune", status: "connected", label: "Connecté" },
 ];
 
 const understandingPages = [
