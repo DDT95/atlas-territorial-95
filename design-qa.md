@@ -24,6 +24,15 @@ Aucun P0, P1 ou P2 restant.
 
 final result: passed
 
+## Pass — accès à la carte éclipse
+
+- Source visual truth: user capture `Capture d’écran 2026-08-09 à 15.45.21.png`.
+- Implementation evidence: `implementation-eclipse-link.png`, viewport 1440 × 1024.
+- Added “Où voir l’éclipse ? · 2026 ↗” beside “Explorer en 3D”, reusing the exact `map-3d-link` component and opening `https://ddt95.github.io/eclipse95/` in a new tab.
+- GitHub Pages production build passes; no actionable P0/P1/P2 finding remains.
+
+final result: passed
+
 ## Ajout du 5 août 2026 — accès à Vo-3D
 
 - Le lien « Explorer en 3D · bêta » est placé dans la légende inférieure, à droite de la carte départementale, comme sur la zone indiquée dans la capture de référence.
