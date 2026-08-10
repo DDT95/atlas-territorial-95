@@ -6,6 +6,7 @@ import AgriculturePage from "./agriculture/page";
 import RisquesPage from "./risques/page";
 import HabitatPage from "./habitat/page";
 import SecuriteRoutierePage from "./securite-routiere/page";
+import SecuritePage from "./securite/page";
 import DataInformationPage from "./donnees/page";
 import "./globals.css";
 
@@ -19,6 +20,7 @@ const routes: Record<string, React.ComponentType> = {
   "/risques": RisquesPage,
   "/habitat": HabitatPage,
   "/securite-routiere": SecuriteRoutierePage,
+  "/securite": SecuritePage,
   "/donnees": DataInformationPage,
 };
 const Page = requestedPage === "donnees" ? DataInformationPage : routes[pathname.replace(/\/$/, "") || "/"] || Home;
