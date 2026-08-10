@@ -10,6 +10,8 @@ const observatories = [
   { name: "Mobilités et transports", sources: "Île-de-France Mobilités et transport.data.gouv.fr", use: "Réseaux, pôles, lignes et offres de transport", status: "connected", label: "Connecté" },
   { name: "Transition énergétique", sources: "ADEME, Enedis, ODRE, Airparif et données territoriales de l’énergie", use: "Consommations, productions, rénovation énergétique et qualité de l’air", status: "connected", label: "Connecté" },
   { name: "Portrait Insee", sources: "INSEE — RP2023 (âges, diplômes, familles), Filosofi 2023 (revenus, pauvreté), RP2022 Mobilités professionnelles, REE 2024 (entreprises), BPE 2025 (équipements)", use: "Habitants, emploi & mobilités, logement et économie du territoire, commune par commune", status: "connected", label: "Connecté" },
+  { name: "Explorer le Val-d’Oise en 3D", sources: "Cadastre Etalab, OpenStreetMap et modèle numérique de terrain AWS", use: "Relief, paysages et bâtiments en volume sur cinq escales du Val-d’Oise", status: "connected", label: "Connecté" },
+  { name: "Où voir l’éclipse ?", sources: "IGN BD TOPO, Open-Meteo, Base Adresse Nationale, OpenStreetMap et Mapzen / AWS Open Data", use: "Repérage des lieux d’observation de l’éclipse du 12 août 2026 selon le relief, la météo et les obstacles", status: "connected", label: "Connecté" },
 ];
 
 const understandingPages = [
@@ -17,6 +19,7 @@ const understandingPages = [
   { name: "Sol & formes urbaines", sources: "MOS (Institut Paris Region), OCS GE (IGN), fichiers fonciers et données de l’artificialisation", use: "Transformation du territoire, formes urbaines, friches et trajectoire ZAN" },
   { name: "Nature & adaptation", sources: "INPN / PatriNat, BD TOPO, données environnementales et référentiels territoriaux", use: "Continuités écologiques, eau et refuges potentiels de fraîcheur" },
   { name: "Logement & modes de vie", sources: "DPE (ADEME), BDNB, RPLS, Sitadel, DVF et données publiques du logement", use: "Parc social, vacance, construction et rénovation expliqués à l’échelle du territoire" },
+  { name: "Sécurité & secours", sources: "Ministère de l’Intérieur — référentiel de compétence Police nationale / Gendarmerie nationale, API Découpage administratif et SDIS 95", use: "Zones de compétence, services territoriaux et principales implantations des centres de secours" },
 ];
 
 export default function DataInformationPage() {
@@ -54,7 +57,7 @@ export default function DataInformationPage() {
         </section>
 
         <section className="connection-section" aria-labelledby="connections-title">
-          <div className="connection-heading"><div><p className="data-step">03 · Connexions</p><h2 id="connections-title">Les dix lectures et leurs sources</h2></div><p>Les producteurs cités restent propriétaires et responsables de leurs données. L’Atlas en propose une lecture territoriale simplifiée.</p></div>
+          <div className="connection-heading"><div><p className="data-step">03 · Connexions</p><h2 id="connections-title">Les pages cartographiques et leurs sources</h2></div><p>Les producteurs cités restent propriétaires et responsables de leurs données. L’Atlas en propose une lecture territoriale simplifiée.</p></div>
           <div className="connection-table" role="table" aria-label="Sources et état des pages thématiques">
             <div className="connection-row connection-labels" role="row"><span>Lecture</span><span>Sources principales</span><span>Utilisation prévue</span><span>État</span></div>
             {observatories.map((item) => <article className="connection-row" role="row" key={item.name}>
