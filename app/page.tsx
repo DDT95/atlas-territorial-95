@@ -238,9 +238,9 @@ export default function Home() {
             <div className="story-visual habitat-story" aria-hidden="true"><i /><i /><i /><b /></div>
             <div className="story-copy"><span className="story-status live">À explorer</span><small>Habitat · modes de vie</small><h3>Comment se loge-t-on dans le Val-d’Oise ?</h3><p>Parc social, vacance, construction et rénovation expliqués à hauteur de territoire.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
-          <a className="understand-card security-story-card is-live" href={`${basePath}/securite`}>
+          <a className="understand-card security-story-card is-live" href="https://ddt95.github.io/val-doise-securite/" target="_blank" rel="noreferrer">
             <div className="story-visual security-story" aria-hidden="true"><i /><i /><i /><b>17</b><b>18</b></div>
-            <div className="story-copy"><span className="story-status live">À explorer</span><small>Sécurité · secours</small><h3>Qui intervient, où et comment ?</h3><p>Police, gendarmerie, pompiers et périmètres d’intervention dans le Val-d’Oise.</p><strong>Ouvrir le décryptage <b>→</b></strong></div>
+            <div className="story-copy"><span className="story-status live">À explorer</span><small>Sécurité · secours</small><h3>Qui intervient, où et comment ?</h3><p>Police, gendarmerie, pompiers et périmètres d’intervention dans le Val-d’Oise.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
         </div>
       </section>
