@@ -21,6 +21,7 @@ const themes = [
   { href: "https://ddt95.github.io/biodiversite95/", index: "08", title: "Biodiversité", text: "ZNIEFF, Natura 2000, continuités et observations d’espèces.", tone: "leaf", status: "Connecté" },
   { href: "https://ddt95.github.io/transport95/", index: "09", title: "Mobilités & transports", text: "Réseaux, lignes, pôles et services de mobilité.", tone: "red", status: "Connecté" },
   { href: "https://ddt95.github.io/transition-energetique95/", index: "10", title: "Transition énergétique", text: "Consommation, production, rénovation et qualité de l’air.", tone: "gold", status: "Connecté" },
+  { href: `${(import.meta.env.BASE_URL || "/").replace(/\/$/, "")}/securite`, index: "11", title: "Sécurité & secours", text: "Police, gendarmerie, pompiers et périmètres d’intervention.", tone: "security", status: "Connecté" },
 ];
 
 const connectedReferences = themes.filter((theme) => theme.status === "Connecté").length;
@@ -172,7 +173,7 @@ export default function Home() {
         <div className="hero-copy">
           <p className="eyebrow">Observer · comprendre · décider</p>
           <h1>Le Val-d’Oise,<br /><span>carte après carte.</span></h1>
-          <p className="hero-lead">Une entrée commune vers les données territoriales de la DDT 95 et dix lectures thématiques.</p>
+          <p className="hero-lead">Une entrée commune vers les données territoriales de la DDT 95 et onze lectures thématiques.</p>
           <form className="territory-search" onSubmit={submitSearch}>
             <label htmlFor="commune-search">Ouvrir une fiche communale</label>
             <div>
@@ -183,7 +184,7 @@ export default function Home() {
           </form>
           <div className="hero-metrics" aria-label="Chiffres clés">
             <div><strong>{sourceState === "ok" ? communes.length : "—"}</strong><span>communes</span></div>
-            <div><strong>10</strong><span>lectures</span></div>
+            <div><strong>11</strong><span>lectures</span></div>
             <div><strong>{sourceState === "ok" ? connectedReferences : "—"}</strong><span>{sourceState === "ok" ? "référentiels connectés" : sourceState === "error" ? "connexion à rétablir" : "connexion…"}</span><i className={`source-dot ${sourceState}`} aria-hidden="true" /></div>
           </div>
         </div>
@@ -203,11 +204,11 @@ export default function Home() {
             </span>
           </div>
         </div>
-        <a className="themes-cue" href="#thematiques"><span>Les dix lectures territoriales</span><strong>Découvrir les thématiques</strong></a>
+        <a className="themes-cue" href="#thematiques"><span>Les onze lectures territoriales</span><strong>Découvrir les thématiques</strong></a>
       </section>
 
       <section className="themes-section" id="thematiques">
-        <div className="section-heading"><div><p className="eyebrow">Les dix lectures</p><h2>Choisir une thématique</h2></div><p>Une entrée communale et neuf cartes pour lire le territoire à la bonne échelle.</p></div>
+        <div className="section-heading"><div><p className="eyebrow">Les onze lectures</p><h2>Choisir une thématique</h2></div><p>Une entrée communale et dix cartes pour lire le territoire à la bonne échelle.</p></div>
         <div className="themes-grid">
           {themes.map((theme) => <article className={`theme-card ${theme.tone}`} key={theme.index}>
             <div className="theme-top"><span className="theme-index">{theme.index}</span><span className={`theme-status ${theme.status === "Connecté" ? "is-connected" : ""}`}><i aria-hidden="true" />{theme.status}</span></div>
