@@ -29,7 +29,6 @@ const communalSheetsBase = "https://piece-jointe-carto.developpement-durable.gou
 export default function Home() {
   const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
   const mapNode = useRef<HTMLDivElement>(null);
-  const understandNode = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
   const communeLayerRef = useRef<any>(null);
   const [communes, setCommunes] = useState<Commune[]>([]);
@@ -37,27 +36,6 @@ export default function Home() {
   const [sourceState, setSourceState] = useState<"loading" | "ok" | "error">("loading");
   const [menuOpen, setMenuOpen] = useState(false);
   const [mapReady, setMapReady] = useState(false);
-  const [storyIndex, setStoryIndex] = useState(1);
-  const [storyAtEnd, setStoryAtEnd] = useState(false);
-
-  function scrollStories(direction: -1 | 1) {
-    const container = understandNode.current;
-    if (!container) return;
-    const card = container.querySelector<HTMLElement>(".understand-card");
-    if (!card) return;
-    const gap = Number.parseFloat(getComputedStyle(container).columnGap || "16");
-    container.scrollBy({ left: direction * (card.offsetWidth + gap), behavior: "smooth" });
-  }
-
-  function updateStoryIndex() {
-    const container = understandNode.current;
-    if (!container) return;
-    const card = container.querySelector<HTMLElement>(".understand-card");
-    if (!card) return;
-    const gap = Number.parseFloat(getComputedStyle(container).columnGap || "16");
-    setStoryIndex(Math.round(container.scrollLeft / (card.offsetWidth + gap)) + 1);
-    setStoryAtEnd(container.scrollLeft + container.clientWidth >= container.scrollWidth - 2);
-  }
 
   useEffect(() => {
     let cancelled = false;
@@ -242,13 +220,8 @@ export default function Home() {
       <section className="understand-section" id="comprendre">
         <div className="understand-heading">
           <div><p className="eyebrow">Comprendre le territoire</p><h2>Des données aux<br /><span>clés de lecture.</span></h2></div>
-          <div className="understand-controls" aria-label="Navigation des décryptages">
-            <span><strong>{String(storyIndex).padStart(2, "0")}</strong> / 06</span>
-            <button type="button" onClick={() => scrollStories(-1)} disabled={storyIndex === 1} aria-controls="understand-carousel">Précédent</button>
-            <button type="button" onClick={() => scrollStories(1)} disabled={storyAtEnd} aria-controls="understand-carousel">Suivant</button>
-          </div>
         </div>
-        <div className="understand-grid" id="understand-carousel" ref={understandNode} onScroll={updateStoryIndex}>
+        <div className="understand-grid">
           <a className="understand-card featured" href="https://ddt95.github.io/val-doise-domicile-travail/" target="_blank" rel="noreferrer">
             <div className="story-visual flow-story" aria-hidden="true"><i /><i /><i /><b>95</b></div>
             <div className="story-copy"><span className="story-status live">À explorer</span><small>Mobilités · INSEE 2022</small><h3>Où vont travailler les habitants ?</h3><p>Explorez les flux domicile-travail, commune par commune, et observez les polarités du territoire.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
@@ -269,7 +242,7 @@ export default function Home() {
             <div className="story-visual security-story" aria-hidden="true"><i /><i /><i /><b>17</b><b>18</b></div>
             <div className="story-copy"><span className="story-status live">À explorer</span><small>Sécurité · secours</small><h3>Qui intervient, où et comment ?</h3><p>Police, gendarmerie, pompiers et périmètres d’intervention dans le Val-d’Oise.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
-          <a className="understand-card transport-story-card is-live" href="https://ddt95.github.io/bus-trains-95/?v=c77cec6" target="_blank" rel="noreferrer">
+          <a className="understand-card transport-story-card is-live" href="https://ddt95.github.io/bus-trains-95/?v=1a5312d" target="_blank" rel="noreferrer">
             <div className="story-visual transport-story" aria-hidden="true"><i /><i /><i /><b>BUS</b><b>H</b></div>
             <div className="story-copy"><span className="story-status live">À explorer</span><small>Mobilités · bus & trains</small><h3>Comment circulent les bus et les trains ?</h3><p>Horaires théoriques des bus et trains, et circulation ferroviaire en temps réel.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
