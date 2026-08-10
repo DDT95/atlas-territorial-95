@@ -20,6 +20,7 @@ const understandingPages = [
   { name: "Nature & adaptation", sources: "INPN / PatriNat, BD TOPO, données environnementales et référentiels territoriaux", use: "Continuités écologiques, eau et refuges potentiels de fraîcheur" },
   { name: "Logement & modes de vie", sources: "DPE (ADEME), BDNB, RPLS, Sitadel, DVF et données publiques du logement", use: "Parc social, vacance, construction et rénovation expliqués à l’échelle du territoire" },
   { name: "Sécurité & secours", sources: "Ministère de l’Intérieur — référentiel de compétence Police nationale / Gendarmerie nationale, API Découpage administratif et SDIS 95", use: "Zones de compétence, services territoriaux et principales implantations des centres de secours" },
+  { name: "Bus & trains", sources: "Île-de-France Mobilités — horaires et référentiels GTFS, positions ferroviaires publiées en temps réel", use: "Offre théorique des bus et des trains, lignes, horaires et circulation ferroviaire en direct" },
 ];
 
 export default function DataInformationPage() {
