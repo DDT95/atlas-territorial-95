@@ -242,7 +242,7 @@ export default function Home() {
             <div className="story-visual security-story" aria-hidden="true"><i /><i /><i /><b>17</b><b>18</b></div>
             <div className="story-copy"><span className="story-status live">À explorer</span><small>Sécurité · secours</small><h3>Qui intervient, où et comment ?</h3><p>Police, gendarmerie, pompiers et périmètres d’intervention dans le Val-d’Oise.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
-          <a className="understand-card transport-story-card is-live" href="https://ddt95.github.io/bus-trains-95/?v=9455523" target="_blank" rel="noreferrer">
+          <a className="understand-card transport-story-card is-live" href="https://ddt95.github.io/bus-trains-95/?v=e0f33e7" target="_blank" rel="noreferrer">
             <div className="story-visual transport-story" aria-hidden="true"><i /><i /><i /><b>BUS</b><b>H</b></div>
             <div className="story-copy"><span className="story-status live">À explorer</span><small>Mobilités · bus & trains</small><h3>Comment circulent les bus et les trains ?</h3><p>Horaires théoriques des bus et trains, et circulation ferroviaire en temps réel.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
