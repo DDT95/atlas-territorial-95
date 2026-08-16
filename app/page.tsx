@@ -248,7 +248,7 @@ export default function Home() {
           </a>
           <a className="understand-card access-story-card is-live" href="https://ddt95.github.io/acces-services95/" target="_blank" rel="noreferrer">
             <div className="story-visual access-story" aria-hidden="true"><i /><i /><i /><b>5</b><b>15</b></div>
-            <div className="story-copy"><span className="story-status live">À explorer</span><small>Services · accessibilité</small><h3>Quels services sont à portée de main ?</h3><p>Services publics et essentiels, horaires, contacts et temps d’accès à pied ou en voiture.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+            <div className="story-copy"><span className="story-status live">À explorer</span><small>Services · accessibilité</small><h3>Quels services sont à portée de main&nbsp;?</h3><p>Services publics et essentiels, horaires, contacts et temps d’accès à pied ou en voiture.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
           <a className="understand-card heat-story-card is-live" href="https://ddt95.github.io/chaleur-refuges-95/" target="_blank" rel="noreferrer">
             <div className="story-visual heat-story" aria-hidden="true"><i /><i /><i /><b /></div>
