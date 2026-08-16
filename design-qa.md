@@ -10,12 +10,12 @@ Date : 16 août 2026
 
 ## Résultat
 
-- Grand écran de 3 548 px : huit cartes de 271 px sur une seule ligne, centrées dans une grille maximale de 2 240 px.
-- Écran portable de 1 440 px : quatre colonnes équilibrées sur deux rangées.
-- Hauteur d’une carte ramenée à 244–252 px selon le format, contre des blocs de plus de 500 px dans la capture de référence.
+- Grand écran et ordinateur portable : quatre colonnes équilibrées sur deux rangées.
+- Les huit cartes sont strictement carrées, à 272 × 272 px dans le format contrôlé.
+- La grille reste centrée et limite sa largeur à 1 120 px afin d’éviter tout étirement sur les très grands écrans.
 - Titre de section resserré sur une ligne en affichage desktop.
 - Tablette : trois puis deux colonnes ; mobile : une colonne.
-- Aucun débordement horizontal : largeur du document identique à celle du viewport aux deux formats vérifiés.
+- Aucun débordement horizontal et aucun texte tronqué.
 - Aucun avertissement ni erreur applicative relevé dans la console.
 
 ## Points bloquants
