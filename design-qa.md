@@ -4,17 +4,16 @@ Date : 16 août 2026
 
 ## Cible
 
-- Captures utilisateur du 16 août 2026 demandant une échelle identique entre les deux rubriques.
-- Conserver les habillages propres aux thématiques et aux décryptages, avec une grille commune.
+- Captures utilisateur du 16 août 2026 demandant de conserver l'échelle d'origine de « Thématiques » et d'y aligner « Comprendre ».
+- Ne modifier aucune dimension de la rubrique « Thématiques ».
 - Préparer les deux sections à accueillir davantage de cartes.
 
 ## Résultat
 
-- Grand écran et ordinateur portable : quatre colonnes équilibrées dans les deux rubriques.
-- Les cartes « Thématiques » et « Comprendre » sont strictement carrées, à 272 × 272 px dans le format contrôlé.
-- Les deux grilles limitent leur largeur à 1 120 px afin d’éviter tout étirement sur les très grands écrans.
-- Les titres et les grilles partagent l’axe gauche général du site : 64 px à 1 280 px, soit la marge responsive de 5 %.
-- Même échelle typographique dans les cartes : titres à 16 px, descriptions et appels à l’action à 10 px.
+- Grand écran à 1 280 px : cinq colonnes identiques dans les deux rubriques.
+- Les cartes « Thématiques » et « Comprendre » mesurent toutes 219 × 273 px dans le format contrôlé.
+- Les deux grilles occupent 1 152 px et partagent exactement le même axe gauche à 64 px.
+- Même échelle typographique dans les cartes : titres à 21 px, descriptions à 13 px et appels à l’action à 12 px.
 - Même échelle pour les titres de section et leurs surtitres.
 - Tablette : trois puis deux colonnes ; mobile : une colonne.
 - Aucun débordement horizontal et aucun texte tronqué.
