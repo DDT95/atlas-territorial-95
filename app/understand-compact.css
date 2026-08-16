@@ -3,6 +3,44 @@
   padding: 44px max(24px, 5vw) 50px;
 }
 
+.themes-section {
+  padding-inline: max(24px, 5vw);
+}
+
+.section-heading,
+.themes-grid,
+.understand-heading,
+.understand-grid {
+  width: min(100%, 1120px);
+}
+
+.section-heading h2,
+.understand-heading h2 {
+  font-size: clamp(30px, 2.6vw, 42px);
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.section-heading .eyebrow,
+.understand-heading .eyebrow {
+  font-size: 9px;
+}
+
+.themes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.theme-card {
+  min-height: 0;
+  aspect-ratio: 1;
+  flex: 0 1 272px;
+  padding: 12px;
+  border-radius: 15px;
+}
+
 .understand-heading {
   width: min(100%, 1120px);
   max-width: none;
@@ -70,18 +108,38 @@
 
 .story-copy h3 {
   margin: 6px 0;
-  font-size: 15px;
+  font-size: 16px;
+  line-height: 1.12;
+}
+
+.theme-card h3 {
+  margin: 20px 0 8px;
+  font-size: 16px;
   line-height: 1.12;
 }
 
 .story-copy p {
-  font-size: 9px;
+  font-size: 10px;
+  line-height: 1.42;
+}
+
+.theme-card p {
+  font-size: 10px;
   line-height: 1.42;
 }
 
 .story-copy > strong {
   padding-top: 8px;
-  font-size: 9px;
+  font-size: 10px;
+}
+
+.theme-card a {
+  padding-top: 8px;
+  font-size: 10px;
+}
+
+.theme-card a span {
+  font-size: 16px;
 }
 
 .understand-card:hover,
@@ -92,6 +150,7 @@
 }
 
 @media (max-width: 980px) {
+  .theme-card,
   .understand-card,
   .understand-card.warm,
   .understand-card.green-story-card {
@@ -113,6 +172,7 @@
     margin-left: 0;
   }
 
+  .theme-card,
   .understand-card,
   .understand-card.warm,
   .understand-card.green-story-card {
@@ -123,6 +183,7 @@
 }
 
 @media (max-width: 460px) {
+  .theme-card,
   .understand-card,
   .understand-card.warm,
   .understand-card.green-story-card {
