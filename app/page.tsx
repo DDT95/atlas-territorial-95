@@ -255,6 +255,10 @@ export default function Home() {
             <div className="story-visual heat-story" aria-hidden="true"><i /><i /><i /><b /></div>
             <div className="story-copy"><span className="story-status live">Connecté</span><small>Climat · adaptation</small><h3>Où la chaleur s’accumule-t-elle ?</h3><p>Îlots de chaleur, contrastes jour-nuit et refuges climatiques potentiels.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
+          <a className="understand-card nuisance-story-card is-live" href="https://ddt95.github.io/val-doise-nuisances/" target="_blank" rel="noreferrer">
+            <div className="story-visual nuisance-story" aria-hidden="true"><i /><i /><i /><b>✈</b></div>
+            <div className="story-copy"><span className="story-status live">Connecté</span><small>Environnement · santé</small><h3>Où les nuisances se cumulent-elles&nbsp;?</h3><p>Bruit des transports, qualité de l’air et survols observés en direct.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          </a>
           <a className="understand-card projects-story-card is-live" href="https://ddt95.github.io/projets-transformations-95/" target="_blank" rel="noreferrer">
             <div className="story-visual projects-story" aria-hidden="true"><i /><i /><i /><b>↗</b></div>
             <div className="story-copy"><span className="story-status live">Connecté</span><small>Aménagement · projets</small><h3>Quels projets transforment le territoire&nbsp;?</h3><p>Grands projets, infrastructures, quartiers et cadre de vie, étape par étape.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>

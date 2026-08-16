@@ -23,6 +23,7 @@ const understandingPages = [
   { name: "Bus & trains", sources: "Île-de-France Mobilités — horaires et référentiels GTFS, positions ferroviaires publiées en temps réel", use: "Offre théorique des bus et des trains, lignes, horaires et circulation ferroviaire en direct" },
   { name: "Services & accessibilité", sources: "Service-Public.gouv.fr / DILA et OpenStreetMap", use: "Services publics et essentiels, horaires, contacts et temps d’accès à pied ou en voiture" },
   { name: "Chaleur & refuges climatiques", sources: "Institut Paris Region, OpenStreetMap et IGN", use: "Îlots de chaleur de jour et de nuit, morphologie urbaine et ressources potentielles de fraîcheur" },
+  { name: "Nuisances & santé environnementale", sources: "DDT du Val-d’Oise, Airparif, Bruitparif, OpenStreetMap, Sytadin et ADSB.lol", use: "Bruit routier et ferroviaire, coexposition air-bruit, axes de transport et survols observés en direct" },
   { name: "Projets & transformations", sources: "Préfecture du Val-d’Oise, Société des grands projets, Île-de-France Mobilités, Grand Paris Aménagement, SNCF Réseau et collectivités porteuses", use: "Sélection de projets structurants, étapes annoncées et liens vers les sources officielles" },
 ];
 
