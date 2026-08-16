@@ -224,35 +224,35 @@ export default function Home() {
         <div className="understand-grid">
           <a className="understand-card featured" href="https://ddt95.github.io/val-doise-domicile-travail/" target="_blank" rel="noreferrer">
             <div className="story-visual flow-story" aria-hidden="true"><i /><i /><i /><b>95</b></div>
-            <div className="story-copy"><span className="story-status live">À explorer</span><small>Mobilités · INSEE 2022</small><h3>Où vont travailler les habitants ?</h3><p>Explorez les flux domicile-travail, commune par commune, et observez les polarités du territoire.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+            <div className="story-copy"><span className="story-status live">Connecté</span><small>Mobilités · INSEE 2022</small><h3>Où vont travailler les habitants ?</h3><p>Explorez les flux domicile-travail, commune par commune, et observez les polarités du territoire.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
           <a className="understand-card warm is-live" href="https://ddt95.github.io/val-doise-sol-formes-urbaines/" target="_blank" rel="noreferrer">
             <div className="story-visual land-story" aria-hidden="true"><i /><i /><i /></div>
-            <div className="story-copy"><span className="story-status live">À explorer</span><small>Sol · formes urbaines</small><h3>Comment le territoire se transforme‑t‑il ?</h3><p>Une lecture accessible de l’artificialisation, des friches et de la trajectoire ZAN.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+            <div className="story-copy"><span className="story-status live">Connecté</span><small>Sol · formes urbaines</small><h3>Comment le territoire se transforme‑t‑il ?</h3><p>Une lecture accessible de l’artificialisation, des friches et de la trajectoire ZAN.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
           <a className="understand-card green-story-card is-live" href="https://ddt95.github.io/val-doise-nature-adaptation/" target="_blank" rel="noreferrer">
             <div className="story-visual nature-story" aria-hidden="true"><i /><i /><i /></div>
-            <div className="story-copy"><span className="story-status live">À explorer</span><small>Nature · adaptation</small><h3>Où le vivant résiste‑t‑il ?</h3><p>Continuités écologiques, eau et refuges potentiels de fraîcheur racontés par la carte.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+            <div className="story-copy"><span className="story-status live">Connecté</span><small>Nature · adaptation</small><h3>Où le vivant résiste‑t‑il ?</h3><p>Continuités écologiques, eau et refuges potentiels de fraîcheur racontés par la carte.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
           <a className="understand-card habitat-story-card is-live" href="https://ddt95.github.io/val-doise-logement-habitat/" target="_blank" rel="noreferrer">
             <div className="story-visual habitat-story" aria-hidden="true"><i /><i /><i /><b /></div>
-            <div className="story-copy"><span className="story-status live">À explorer</span><small>Habitat · modes de vie</small><h3>Comment se loge‑t‑on dans le Val‑d’Oise ?</h3><p>Parc social, vacance, construction et rénovation expliqués à hauteur de territoire.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+            <div className="story-copy"><span className="story-status live">Connecté</span><small>Habitat · modes de vie</small><h3>Comment se loge‑t‑on dans le Val‑d’Oise ?</h3><p>Parc social, vacance, construction et rénovation expliqués à hauteur de territoire.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
           <a className="understand-card security-story-card is-live" href="https://ddt95.github.io/val-doise-securite/" target="_blank" rel="noreferrer">
             <div className="story-visual security-story" aria-hidden="true"><i /><i /><i /><b>17</b><b>18</b></div>
-            <div className="story-copy"><span className="story-status live">À explorer</span><small>Sécurité · secours</small><h3>Qui intervient, où et comment ?</h3><p>Police, gendarmerie, pompiers et périmètres d’intervention dans le Val-d’Oise.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+            <div className="story-copy"><span className="story-status live">Connecté</span><small>Sécurité · secours</small><h3>Qui intervient, où et comment ?</h3><p>Police, gendarmerie, pompiers et périmètres d’intervention dans le Val-d’Oise.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
           <a className="understand-card transport-story-card is-live" href="https://ddt95.github.io/bus-trains-95/?v=9cd955c" target="_blank" rel="noreferrer">
             <div className="story-visual transport-story" aria-hidden="true"><i /><i /><i /><b>BUS</b><b>H</b></div>
-            <div className="story-copy"><span className="story-status live">À explorer</span><small>Mobilités · bus & trains</small><h3>Comment circulent les bus et les trains ?</h3><p>Horaires théoriques des bus et trains, et circulation ferroviaire en temps réel.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+            <div className="story-copy"><span className="story-status live">Connecté</span><small>Mobilités · bus & trains</small><h3>Comment circulent les bus et les trains ?</h3><p>Horaires théoriques des bus et trains, et circulation ferroviaire en temps réel.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
           <a className="understand-card access-story-card is-live" href="https://ddt95.github.io/acces-services95/" target="_blank" rel="noreferrer">
             <div className="story-visual access-story" aria-hidden="true"><i /><i /><i /><b>5</b><b>15</b></div>
-            <div className="story-copy"><span className="story-status live">À explorer</span><small>Services · accessibilité</small><h3>Quels services sont à portée de main&nbsp;?</h3><p>Services publics et essentiels, horaires, contacts et temps d’accès à pied ou en voiture.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+            <div className="story-copy"><span className="story-status live">Connecté</span><small>Services · accessibilité</small><h3>Quels services sont à portée de main&nbsp;?</h3><p>Services publics et essentiels, horaires, contacts et temps d’accès à pied ou en voiture.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
           <a className="understand-card heat-story-card is-live" href="https://ddt95.github.io/chaleur-refuges-95/" target="_blank" rel="noreferrer">
             <div className="story-visual heat-story" aria-hidden="true"><i /><i /><i /><b /></div>
-            <div className="story-copy"><span className="story-status live">À explorer</span><small>Climat · adaptation</small><h3>Où la chaleur s’accumule-t-elle ?</h3><p>Îlots de chaleur, contrastes jour-nuit et refuges climatiques potentiels.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+            <div className="story-copy"><span className="story-status live">Connecté</span><small>Climat · adaptation</small><h3>Où la chaleur s’accumule-t-elle ?</h3><p>Îlots de chaleur, contrastes jour-nuit et refuges climatiques potentiels.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
         </div>
       </section>
