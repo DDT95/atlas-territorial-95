@@ -12,7 +12,8 @@ Date : 16 août 2026
 
 - Grand écran et ordinateur portable : quatre colonnes équilibrées sur deux rangées.
 - Les huit cartes sont strictement carrées, à 272 × 272 px dans le format contrôlé.
-- La grille reste centrée et limite sa largeur à 1 120 px afin d’éviter tout étirement sur les très grands écrans.
+- La grille limite sa largeur à 1 120 px afin d’éviter tout étirement sur les très grands écrans.
+- Le titre et la grille partagent désormais l’axe gauche général du site : 64 px à 1 280 px, soit la marge responsive de 5 %.
 - Titre de section resserré sur une ligne en affichage desktop.
 - Tablette : trois puis deux colonnes ; mobile : une colonne.
 - Aucun débordement horizontal et aucun texte tronqué.

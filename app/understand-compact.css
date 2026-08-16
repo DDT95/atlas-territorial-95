@@ -1,12 +1,12 @@
 /* Grille Comprendre : compacte, équilibrée et prête à accueillir plus de pages. */
 .understand-section {
-  padding: 44px max(20px, 4vw) 50px;
+  padding: 44px max(24px, 5vw) 50px;
 }
 
 .understand-heading {
   width: min(100%, 1120px);
   max-width: none;
-  margin: 0 auto 22px;
+  margin: 0 0 22px;
 }
 
 .understand-heading .eyebrow {
@@ -30,10 +30,10 @@
 
 .understand-grid {
   width: min(100%, 1120px);
-  margin-inline: auto;
+  margin-inline: 0;
   display: flex !important;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
 }
 
