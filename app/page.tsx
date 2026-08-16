@@ -247,7 +247,7 @@ export default function Home() {
             <div className="story-visual transport-story" aria-hidden="true"><i /><i /><i /><b>BUS</b><b>H</b></div>
             <div className="story-copy"><span className="story-status live">Connecté</span><small>Mobilités · bus & trains</small><h3>Comment circulent les bus et les trains ?</h3><p>Horaires théoriques des bus et trains, et circulation ferroviaire en temps réel.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
-          <a className="understand-card access-story-card is-live" href="https://ddt95.github.io/acces-services95/" target="_blank" rel="noreferrer">
+          <a className="understand-card access-story-card is-live" href="https://ddt95.github.io/acces-services95/?v=20260816-2135" target="_blank" rel="noreferrer">
             <div className="story-visual access-story" aria-hidden="true"><i /><i /><i /><b>5</b><b>15</b></div>
             <div className="story-copy"><span className="story-status live">Connecté</span><small>Services · accessibilité</small><h3>Quels services sont à portée de main&nbsp;?</h3><p>Services publics et essentiels, horaires, contacts et temps d’accès à pied ou en voiture.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
