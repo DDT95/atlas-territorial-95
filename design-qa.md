@@ -1,21 +1,21 @@
-# Design QA — galerie Comprendre
+# Design QA — grille « Comprendre »
 
-Date : 10 août 2026
+Date : 16 août 2026
 
 ## Cible
 
-- Capture utilisateur du 10 août 2026 montrant six cartes trop étroites sur une seule ligne.
-- Préserver l’identité visuelle des décryptages tout en rendant la section extensible.
-- Empêcher les coupures disgracieuses dans les titres.
+- Capture utilisateur du 16 août 2026 montrant des cartes trop larges et trop hautes.
+- Réduire fortement l’encombrement tout en conservant l’identité visuelle de chaque décryptage.
+- Préparer la section à accueillir davantage de cartes et de thématiques.
 
 ## Résultat
 
-- Le carrousel, son compteur et ses boutons ont été retirés : toutes les pages sont visibles dans une grille équilibrée.
-- Sur un grand écran de 2 048 px, les six cartes tiennent sur une seule ligne, avec la même largeur et la même hauteur.
-- Sur un portable de 1 440 px, la grille passe proprement en trois colonnes et deux rangées, sans débordement horizontal.
-- La grille passe ensuite à deux colonnes sur tablette et une colonne sur mobile.
-- Les mots composés des titres utilisent des traits d’union insécables ; aucun mot n’est coupé entre deux lignes.
-- Les visuels, les titres, les descriptions et les appels à l’action conservent des alignements homogènes.
+- Grand écran de 3 548 px : huit cartes de 271 px sur une seule ligne, centrées dans une grille maximale de 2 240 px.
+- Écran portable de 1 440 px : quatre colonnes équilibrées sur deux rangées.
+- Hauteur d’une carte ramenée à 244–252 px selon le format, contre des blocs de plus de 500 px dans la capture de référence.
+- Titre de section resserré sur une ligne en affichage desktop.
+- Tablette : trois puis deux colonnes ; mobile : une colonne.
+- Aucun débordement horizontal : largeur du document identique à celle du viewport aux deux formats vérifiés.
 - Aucun avertissement ni erreur applicative relevé dans la console.
 
 ## Points bloquants

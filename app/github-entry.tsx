@@ -8,6 +8,7 @@ import HabitatPage from "./habitat/page";
 import SecuriteRoutierePage from "./securite-routiere/page";
 import DataInformationPage from "./donnees/page";
 import "./globals.css";
+import "./understand-compact.css";
 
 const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
 const pathname = window.location.pathname.replace(basePath, "") || "/";

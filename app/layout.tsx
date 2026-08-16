@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./understand-compact.css";
 
 export const metadata: Metadata = {
   title: "Atlas territorial du Val-d’Oise — DDT 95",
