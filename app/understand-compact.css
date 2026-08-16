@@ -52,24 +52,24 @@
 }
 
 .story-copy {
-  padding: 14px 20px 16px;
+  padding: 10px 20px 12px;
   min-height: 0;
   overflow: hidden;
 }
 
 .story-status {
-  padding: 7px 8px;
+  padding: 5px 7px;
   font-size: 9px;
 }
 
 .story-copy > small {
-  margin-top: 7px;
+  margin-top: 3px;
   font-size: 9px;
   letter-spacing: .08em;
 }
 
 .story-copy h3 {
-  margin: 10px 0;
+  margin: 4px 0;
   font-size: 21px;
   line-height: 1.05;
   display: -webkit-box;
@@ -88,7 +88,7 @@
 }
 
 .story-copy > strong {
-  padding-top: 22px;
+  padding-top: 6px;
   font-size: 12px;
 }
 
