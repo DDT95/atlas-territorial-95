@@ -218,6 +218,7 @@ export default function Home() {
       </section>
 
       <section className="understand-section" id="comprendre">
+        <style>{`.projects-story{background:linear-gradient(145deg,#f1e6ff,#7b5ac8 52%,#143a70)}.projects-story:before,.projects-story:after{content:"";position:absolute;inset:18% 12%;border:2px solid #fff9;transform:rotate(-5deg)}.projects-story:after{inset:34% 23% 10% 34%;border-color:#ffd66b}.projects-story i{position:absolute;width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 0 0 5px #ffffff44}.projects-story i:nth-child(1){left:18%;top:24%;background:#e24a62}.projects-story i:nth-child(2){left:52%;bottom:18%;background:#ffd66b}.projects-story i:nth-child(3){right:16%;top:30%;background:#35c28b}.projects-story b{position:absolute;right:24%;bottom:20%;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#000091;color:#fff;font-size:15px}`}</style>
         <div className="understand-heading">
           <div><p className="eyebrow">Comprendre le territoire</p><h2>Des données aux<br /><span>clés de lecture.</span></h2></div>
         </div>
@@ -253,6 +254,10 @@ export default function Home() {
           <a className="understand-card heat-story-card is-live" href="https://ddt95.github.io/chaleur-refuges-95/" target="_blank" rel="noreferrer">
             <div className="story-visual heat-story" aria-hidden="true"><i /><i /><i /><b /></div>
             <div className="story-copy"><span className="story-status live">Connecté</span><small>Climat · adaptation</small><h3>Où la chaleur s’accumule-t-elle ?</h3><p>Îlots de chaleur, contrastes jour-nuit et refuges climatiques potentiels.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          </a>
+          <a className="understand-card projects-story-card is-live" href="https://ddt95.github.io/projets-transformations-95/" target="_blank" rel="noreferrer">
+            <div className="story-visual projects-story" aria-hidden="true"><i /><i /><i /><b>↗</b></div>
+            <div className="story-copy"><span className="story-status live">Connecté</span><small>Aménagement · projets</small><h3>Quels projets transforment le territoire&nbsp;?</h3><p>Grands projets, infrastructures, quartiers et cadre de vie, étape par étape.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
         </div>
       </section>
