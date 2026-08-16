@@ -246,6 +246,10 @@ export default function Home() {
             <div className="story-visual transport-story" aria-hidden="true"><i /><i /><i /><b>BUS</b><b>H</b></div>
             <div className="story-copy"><span className="story-status live">À explorer</span><small>Mobilités · bus & trains</small><h3>Comment circulent les bus et les trains ?</h3><p>Horaires théoriques des bus et trains, et circulation ferroviaire en temps réel.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
           </a>
+          <a className="understand-card heat-story-card is-live" href="https://ddt95.github.io/chaleur-refuges-95/" target="_blank" rel="noreferrer">
+            <div className="story-visual heat-story" aria-hidden="true"><i /><i /><i /><b /></div>
+            <div className="story-copy"><span className="story-status live">À explorer</span><small>Climat · adaptation</small><h3>Où la chaleur s’accumule-t-elle ?</h3><p>Îlots de chaleur, contrastes jour-nuit et refuges climatiques potentiels.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          </a>
         </div>
       </section>
 
