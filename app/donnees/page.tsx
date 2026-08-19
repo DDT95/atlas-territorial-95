@@ -1,5 +1,5 @@
 const observatories = [
-  { name: "Portail communal", sources: "API Découpage administratif, INSEE, IGN et indicateurs territoriaux publics", use: "Fiches communales, comparaisons, fiches actions et accès transversal aux cartes", status: "prefiguration", label: "Préfiguration" },
+  { name: "Portail communal", sources: "API Découpage administratif, RNE (élus), Géorisques, data.geopf.fr (QPV), RNB, APICarto IGN (cadastre) et data.education.gouv.fr", use: "Fiche territoriale par commune : cadastre, bâti, QPV, écoles, élus et risques", status: "connected", label: "Connecté" },
   { name: "Urbanisme à la parcelle", sources: "Cadastre (DGFiP), Géoportail de l’urbanisme, Géorisques, BDNB (CSTB), MOS (Institut Paris Region)", use: "Parcelles, documents d’urbanisme, servitudes, risques, bâti et occupation du sol", status: "connected", label: "Connecté" },
   { name: "Artificialisation & ZAN", sources: "Portail de l’artificialisation, fichiers fonciers (Cerema), OCS GE (IGN) et MOS", use: "Consommation d’espace, occupation du sol, trajectoire ZAN et friches", status: "connected", label: "Connecté" },
   { name: "Agriculture", sources: "RPG (IGN / ASP), Agence Bio, API Carto et référentiels environnementaux publics", use: "Cultures, agriculture biologique, prairies, haies et contraintes environnementales", status: "connected", label: "Connecté" },

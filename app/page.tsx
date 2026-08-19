@@ -11,7 +11,7 @@ type Commune = {
 };
 
 const themes = [
-  { href: "https://ddt95.github.io/portail-communal95/", index: "01", title: "Portail communal", text: "Fiches communales, comparaisons et fiches actions.", tone: "slate", status: "En construction" },
+  { href: "https://ddt95.github.io/portail-communal95/", index: "01", title: "Portail communal", text: "Fiches communales, comparaisons et fiches actions.", tone: "slate", status: "Connecté" },
   { href: "https://ddt95.github.io/urbanisme95/", index: "02", title: "Urbanisme à la parcelle", text: "Cadastre, PLU, prescriptions, servitudes et risques.", tone: "blue", status: "Connecté" },
   { href: "https://ddt95.github.io/artificialisation-zan95/", index: "03", title: "Artificialisation & ZAN", text: "Occupation du sol, consommation d’espace, trajectoire ZAN et friches.", tone: "violet", status: "Connecté" },
   { href: "https://ddt95.github.io/agriculture95/", index: "04", title: "Agriculture", text: "Cultures, bio, prairies, haies et enjeux environnementaux.", tone: "green", status: "Connecté" },
@@ -24,7 +24,6 @@ const themes = [
 ];
 
 const connectedReferences = themes.filter((theme) => theme.status === "Connecté").length;
-const communalSheetsBase = "https://piece-jointe-carto.developpement-durable.gouv.fr/DEPT095A/DONNEE_GENERIQUE/N_BASE_COMMUNALE/OCTE/Fiches";
 
 export default function Home() {
   const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
@@ -142,7 +141,8 @@ export default function Home() {
   function openCommune(code: string) {
     const commune = communes.find((item) => item.code === code);
     if (!commune) return;
-    window.open(`${communalSheetsBase}/${encodeURIComponent(commune.nom)}.pdf`, "_blank", "noopener,noreferrer");
+    const params = new URLSearchParams({ code: commune.code, nom: commune.nom });
+    window.open(`https://ddt95.github.io/portail-communal95/?${params.toString()}`, "_blank", "noopener,noreferrer");
   }
 
   return (
