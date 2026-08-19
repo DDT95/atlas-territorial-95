@@ -11,7 +11,7 @@ const observatories = [
   { name: "Transition énergétique", sources: "ADEME, Enedis, ODRE, Airparif et données territoriales de l’énergie", use: "Consommations, productions, rénovation énergétique et qualité de l’air", status: "connected", label: "Connecté" },
   { name: "Portrait Insee", sources: "INSEE — RP2023 (âges, diplômes, familles), Filosofi 2023 (revenus, pauvreté), RP2022 Mobilités professionnelles, REE 2024 (entreprises), BPE 2025 (équipements)", use: "Habitants, emploi & mobilités, logement et économie du territoire, commune par commune", status: "connected", label: "Connecté" },
   { name: "Explorer le Val-d’Oise en 3D", sources: "Cadastre Etalab, OpenStreetMap et modèle numérique de terrain AWS", use: "Relief, paysages et bâtiments en volume sur cinq escales du Val-d’Oise", status: "connected", label: "Connecté" },
-  { name: "Où voir l’éclipse ?", sources: "IGN BD TOPO, Open-Meteo, Base Adresse Nationale, OpenStreetMap et Mapzen / AWS Open Data", use: "Repérage des lieux d’observation de l’éclipse du 12 août 2026 selon le relief, la météo et les obstacles", status: "connected", label: "Connecté" },
+  { name: "Inspiration val-d’oisienne", sources: "Val-d’Oise Tourisme, Val-d’Oise Terre de Cinéma et Wikipédia — sélection éditoriale DDT 95", use: "Œuvres, tournages et musiques inspirés par les paysages du Val-d’Oise, replacés sur la carte", status: "connected", label: "Connecté" },
 ];
 
 const understandingPages = [
