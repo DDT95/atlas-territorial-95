@@ -75,7 +75,7 @@ export default function Home() {
         boxZoom: false,
         keyboard: false,
         tap: false,
-      }).setView([49.075, 2.105], 9);
+      }).fitBounds([[48.89, 1.60], [49.25, 2.60]], { padding: [8, 8] });
       L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
         maxZoom: 19,
         subdomains: "abcd",
@@ -125,7 +125,7 @@ export default function Home() {
       },
     }).addTo(map);
     communeLayerRef.current = layer;
-    map.fitBounds(layer.getBounds(), { padding: [20, 20] });
+    map.fitBounds(layer.getBounds(), { padding: [10, 10] });
   }, [communes, mapReady]);
 
   function submitSearch(event: React.FormEvent) {
