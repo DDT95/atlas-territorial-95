@@ -78,6 +78,8 @@ export default function Home() {
       }).fitBounds([[48.89, 1.60], [49.25, 2.60]], { padding: [8, 8] });
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
+        opacity: 0.34,
+        className: "atlas-base-tiles",
         attribution: "© OpenStreetMap contributors",
       }).addTo(map);
       mapRef.current = map;
