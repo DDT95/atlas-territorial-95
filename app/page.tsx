@@ -76,10 +76,9 @@ export default function Home() {
         keyboard: false,
         tap: false,
       }).fitBounds([[48.89, 1.60], [49.25, 2.60]], { padding: [8, 8] });
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
-        subdomains: "abcd",
-        attribution: "© OpenStreetMap · © CARTO",
+        attribution: "© OpenStreetMap contributors",
       }).addTo(map);
       mapRef.current = map;
       setMapReady(true);
