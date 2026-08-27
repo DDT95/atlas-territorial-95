@@ -140,7 +140,7 @@ export default function UrbanismePage() {
       const map = L.map(mapNode.current, { zoomControl: false, maxBoundsViscosity: .65 }).setView([49.075, 2.105], 10);
       map.createPane("departmentMaskPane"); map.getPane("departmentMaskPane").style.zIndex="450";
       L.control.zoom({ position: "bottomright" }).addTo(map);
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", { className: "urban-base-tiles", maxZoom: 20, subdomains: "abcd", attribution: "© OpenStreetMap · © CARTO" }).addTo(map);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { className: "urban-base-tiles", maxZoom: 20, attribution: "© OpenStreetMap contributors" }).addTo(map);
       parcelTilesRef.current = L.tileLayer("https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=CADASTRALPARCELS.PARCELLAIRE_EXPRESS&STYLE=PCI%20vecteur&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image/png", {
         className: "parcel-tiles", minZoom: 13, maxZoom: 19, opacity: .82, attribution: "© IGN · DGFiP",
       }).addTo(map);
