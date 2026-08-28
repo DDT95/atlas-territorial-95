@@ -199,7 +199,7 @@ export default function Home() {
             <span>Survolez une commune pour afficher son nom · cliquez pour ouvrir sa fiche PDF</span>
             <span className="map-caption-links">
               <a className="map-3d-link" href="https://ddt95.github.io/VO-Insee/" target="_blank" rel="noreferrer">Portrait Insee <small>👁</small><b aria-hidden="true">↗</b></a>
-              <a className="map-3d-link" href="https://ddt95.github.io/pulse95/" target="_blank" rel="noreferrer">Carte de stress <small>temps actuel</small><b aria-hidden="true">↗</b></a>
+              <a className="map-3d-link" href="https://ddt95.github.io/pulse95/" target="_blank" rel="noreferrer">Carte de stress <small>en direct</small><b aria-hidden="true">↗</b></a>
               <a className="map-3d-link" href="https://ddt95.github.io/Vo-3D/" target="_blank" rel="noreferrer">Explorer en 3D <small>bêta</small><b aria-hidden="true">↗</b></a>
               <a className="map-3d-link" href="https://ddt95.github.io/inspiration-valdoise-95/" target="_blank" rel="noreferrer">Inspiration val-d’oisienne <small>🎨</small><b aria-hidden="true">↗</b></a>
             </span>
