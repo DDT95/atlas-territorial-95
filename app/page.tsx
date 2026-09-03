@@ -196,7 +196,6 @@ export default function Home() {
           </div>
           <div ref={mapNode} className="atlas-map" aria-label="Carte des communes du Val-d’Oise ; cliquez sur une commune pour ouvrir sa fiche PDF" />
           <div className="map-caption">
-            <span>Survolez une commune pour afficher son nom · cliquez pour ouvrir sa fiche PDF</span>
             <span className="map-caption-links">
               <a className="map-3d-link" href="https://ddt95.github.io/VO-Insee/" target="_blank" rel="noreferrer">Portrait Insee <small>👁</small><b aria-hidden="true">↗</b></a>
               <a className="map-3d-link" href="https://ddt95.github.io/pulse95/" target="_blank" rel="noreferrer">Carte de pression environnementale <small>en direct</small><b aria-hidden="true">↗</b></a>
