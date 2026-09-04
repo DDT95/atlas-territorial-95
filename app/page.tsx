@@ -386,10 +386,42 @@ export default function Home() {
           />
           <div className="map-caption">
             <span className="map-caption-links">
-              <a className="map-3d-link" href="https://ddt95.github.io/VO-Insee/" target="_blank" rel="noreferrer">Portrait Insee <small>👁</small><b aria-hidden="true">↗</b></a>
-              <a className="map-3d-link" href="https://ddt95.github.io/pulse95/" target="_blank" rel="noreferrer">Carte de pression environnementale <small>en direct</small><b aria-hidden="true">↗</b></a>
-              <a className="map-3d-link" href="https://ddt95.github.io/Vo-3D/" target="_blank" rel="noreferrer">Explorer en 3D <small>bêta</small><b aria-hidden="true">↗</b></a>
-              <a className="map-3d-link" href="https://ddt95.github.io/inspiration-valdoise-95/" target="_blank" rel="noreferrer">Inspiration val-d’oisienne <small>🎨</small><b aria-hidden="true">↗</b></a>
+              <a
+                className="map-3d-link"
+                href="https://ddt95.github.io/VO-Insee/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Portrait Insee <small>👁</small>
+                <b aria-hidden="true">↗</b>
+              </a>
+              <a
+                className="map-3d-link"
+                href="https://ddt95.github.io/pulse95/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Carte de pression environnementale <small>en direct</small>
+                <b aria-hidden="true">↗</b>
+              </a>
+              <a
+                className="map-3d-link"
+                href="https://ddt95.github.io/Vo-3D/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Explorer en 3D <small>bêta</small>
+                <b aria-hidden="true">↗</b>
+              </a>
+              <a
+                className="map-3d-link"
+                href="https://ddt95.github.io/inspiration-valdoise-95/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Inspiration val-d’oisienne <small>🎨</small>
+                <b aria-hidden="true">↗</b>
+              </a>
             </span>
           </div>
         </div>
@@ -596,31 +628,6 @@ export default function Home() {
             </div>
           </a>
           <a
-            className="understand-card decision-story-card is-live"
-            href="https://ddt95.github.io/diagnostic-aide-decision-95/?page=decision"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <div className="story-visual decision-story" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-              <b>15</b>
-            </div>
-            <div className="story-copy">
-              <span className="story-status live">Connecté</span>
-              <small>Instruction · aide à la décision</small>
-              <h3>Que permet ce site&nbsp;?</h3>
-              <p>
-                Diagnostic au point : urbanisme, risques, bâti, environnement,
-                logement et accessibilité à 15 minutes.
-              </p>
-              <strong>
-                Ouvrir l’analyse <b>↗</b>
-              </strong>
-            </div>
-          </a>
-          <a
             className="understand-card access-story-card is-live"
             href="https://ddt95.github.io/acces-services95/?v=20260816-2205"
             target="_blank"
@@ -718,6 +725,31 @@ export default function Home() {
               </p>
               <strong>
                 Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
+          </a>
+          <a
+            className="understand-card decision-story-card is-live"
+            href="https://ddt95.github.io/diagnostic-aide-decision-95/?page=decision"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual decision-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>15</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Instruction · aide à la décision</small>
+              <h3>Outils d’aide à la décision</h3>
+              <p>
+                Diagnostic au point : urbanisme, risques, bâti, environnement,
+                logement et accessibilité à 15 minutes.
+              </p>
+              <strong>
+                Ouvrir l’analyse <b>↗</b>
               </strong>
             </div>
           </a>
