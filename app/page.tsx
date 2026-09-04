@@ -730,7 +730,7 @@ export default function Home() {
           </a>
           <a
             className="understand-card decision-story-card is-live"
-            href="https://ddt95.github.io/diagnostic-aide-decision-95/?page=decision"
+            href="https://ddt95.github.io/diagnostic-aide-decision-95/"
             target="_blank"
             rel="noreferrer"
           >
