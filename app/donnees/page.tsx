@@ -1,30 +1,181 @@
 const observatories = [
-  { name: "Portail communal", sources: "API Découpage administratif, RNE (élus), Géorisques, data.geopf.fr (QPV), RNB, APICarto IGN (cadastre) et data.education.gouv.fr", use: "Fiche territoriale par commune : cadastre, bâti, QPV, écoles, élus et risques", status: "connected", label: "Connecté" },
-  { name: "Urbanisme à la parcelle", sources: "Cadastre (DGFiP), Géoportail de l’urbanisme, Géorisques, BDNB (CSTB), MOS (Institut Paris Region)", use: "Parcelles, documents d’urbanisme, servitudes, risques, bâti et occupation du sol", status: "connected", label: "Connecté" },
-  { name: "Artificialisation & ZAN", sources: "Portail de l’artificialisation, fichiers fonciers (Cerema), OCS GE (IGN) et MOS", use: "Consommation d’espace, occupation du sol, trajectoire ZAN et friches", status: "connected", label: "Connecté" },
-  { name: "Agriculture", sources: "RPG (IGN / ASP), Agence Bio, API Carto et référentiels environnementaux publics", use: "Cultures, agriculture biologique, prairies, haies et contraintes environnementales", status: "connected", label: "Connecté" },
-  { name: "Eau", sources: "Eaufrance, Sandre, Hub’Eau, BNPE et données des services de l’État", use: "Cours d’eau, masses d’eau, prélèvements, stations, nappes et gouvernance", status: "connected", label: "Connecté" },
-  { name: "Risques majeurs", sources: "Géorisques, BRGM, bases nationales des installations et données réglementaires", use: "Inondations, argiles, cavités, installations classées et sites pollués", status: "connected", label: "Connecté" },
-  { name: "Logement & Habitat", sources: "DPE (ADEME), BDNB (CSTB), RPLS, Sitadel, DVF et données publiques du logement", use: "Performance énergétique, parc social, vacance, construction et marchés fonciers", status: "connected", label: "Connecté" },
-  { name: "Biodiversité", sources: "INPN / PatriNat et API Carto IGN, BD TOPO et ONF, Géoportail de l’urbanisme, SDRIF-E / Institut Paris Region, GeoNat’îdF / ARB Île-de-France", use: "Espaces de nature et protégés, ZNIEFF, Natura 2000, continuités écologiques et observations d’espèces", status: "connected", label: "Connecté" },
-  { name: "Mobilités et transports", sources: "Île-de-France Mobilités et transport.data.gouv.fr", use: "Réseaux, pôles, lignes et offres de transport", status: "connected", label: "Connecté" },
-  { name: "Transition énergétique", sources: "ADEME, Enedis, ODRE, Airparif et données territoriales de l’énergie", use: "Consommations, productions, rénovation énergétique et qualité de l’air", status: "connected", label: "Connecté" },
-  { name: "Portrait Insee", sources: "INSEE — RP2023 (âges, diplômes, familles), Filosofi 2023 (revenus, pauvreté), RP2022 Mobilités professionnelles, REE 2024 (entreprises), BPE 2025 (équipements)", use: "Habitants, emploi & mobilités, logement et économie du territoire, commune par commune", status: "connected", label: "Connecté" },
-  { name: "Explorer le Val-d’Oise en 3D", sources: "Cadastre Etalab, OpenStreetMap et modèle numérique de terrain AWS", use: "Relief, paysages et bâtiments en volume sur cinq escales du Val-d’Oise", status: "connected", label: "Connecté" },
-  { name: "Inspiration val-d’oisienne", sources: "Val-d’Oise Tourisme, Val-d’Oise Terre de Cinéma et Wikipédia — sélection éditoriale DDT 95", use: "Œuvres, tournages et musiques inspirés par les paysages du Val-d’Oise, replacés sur la carte", status: "connected", label: "Connecté" },
+  {
+    name: "Diagnostic d’aide à la décision",
+    sources:
+      "Cadastre et GPU (IGN), RNB et BDNB, Géorisques, MOS, RPLS, DVF+, LOVAC, Sitadel, DPE, Hub’Eau, IDFM, Insee BPE, Airparif et référentiels DDT 95",
+    use: "Analyse exhaustive au point : constructibilité, risques, bâti, habitat, environnement, eau, nuisances et accessibilité à 15 minutes à pied",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Portail communal",
+    sources:
+      "API Découpage administratif, RNE (élus), Géorisques, data.geopf.fr (QPV), RNB, APICarto IGN (cadastre) et data.education.gouv.fr",
+    use: "Fiche territoriale par commune : cadastre, bâti, QPV, écoles, élus et risques",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Urbanisme à la parcelle",
+    sources:
+      "Cadastre (DGFiP), Géoportail de l’urbanisme, Géorisques, BDNB (CSTB), MOS (Institut Paris Region)",
+    use: "Parcelles, documents d’urbanisme, servitudes, risques, bâti et occupation du sol",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Artificialisation & ZAN",
+    sources:
+      "Portail de l’artificialisation, fichiers fonciers (Cerema), OCS GE (IGN) et MOS",
+    use: "Consommation d’espace, occupation du sol, trajectoire ZAN et friches",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Agriculture",
+    sources:
+      "RPG (IGN / ASP), Agence Bio, API Carto et référentiels environnementaux publics",
+    use: "Cultures, agriculture biologique, prairies, haies et contraintes environnementales",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Eau",
+    sources:
+      "Eaufrance, Sandre, Hub’Eau, BNPE et données des services de l’État",
+    use: "Cours d’eau, masses d’eau, prélèvements, stations, nappes et gouvernance",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Risques majeurs",
+    sources:
+      "Géorisques, BRGM, bases nationales des installations et données réglementaires",
+    use: "Inondations, argiles, cavités, installations classées et sites pollués",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Logement & Habitat",
+    sources:
+      "DPE (ADEME), BDNB (CSTB), RPLS, Sitadel, DVF et données publiques du logement",
+    use: "Performance énergétique, parc social, vacance, construction et marchés fonciers",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Biodiversité",
+    sources:
+      "INPN / PatriNat et API Carto IGN, BD TOPO et ONF, Géoportail de l’urbanisme, SDRIF-E / Institut Paris Region, GeoNat’îdF / ARB Île-de-France",
+    use: "Espaces de nature et protégés, ZNIEFF, Natura 2000, continuités écologiques et observations d’espèces",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Mobilités et transports",
+    sources: "Île-de-France Mobilités et transport.data.gouv.fr",
+    use: "Réseaux, pôles, lignes et offres de transport",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Transition énergétique",
+    sources:
+      "ADEME, Enedis, ODRE, Airparif et données territoriales de l’énergie",
+    use: "Consommations, productions, rénovation énergétique et qualité de l’air",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Portrait Insee",
+    sources:
+      "INSEE — RP2023 (âges, diplômes, familles), Filosofi 2023 (revenus, pauvreté), RP2022 Mobilités professionnelles, REE 2024 (entreprises), BPE 2025 (équipements)",
+    use: "Habitants, emploi & mobilités, logement et économie du territoire, commune par commune",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Explorer le Val-d’Oise en 3D",
+    sources:
+      "Cadastre Etalab, OpenStreetMap et modèle numérique de terrain AWS",
+    use: "Relief, paysages et bâtiments en volume sur cinq escales du Val-d’Oise",
+    status: "connected",
+    label: "Connecté",
+  },
+  {
+    name: "Inspiration val-d’oisienne",
+    sources:
+      "Val-d’Oise Tourisme, Val-d’Oise Terre de Cinéma et Wikipédia — sélection éditoriale DDT 95",
+    use: "Œuvres, tournages et musiques inspirés par les paysages du Val-d’Oise, replacés sur la carte",
+    status: "connected",
+    label: "Connecté",
+  },
 ];
 
 const understandingPages = [
-  { name: "Domicile–travail", sources: "INSEE — Mobilités professionnelles 2022", use: "Flux entre communes, destinations de travail et polarités territoriales" },
-  { name: "Sol & formes urbaines", sources: "MOS (Institut Paris Region), OCS GE (IGN), fichiers fonciers et données de l’artificialisation", use: "Transformation du territoire, formes urbaines, friches et trajectoire ZAN" },
-  { name: "Nature & adaptation", sources: "INPN / PatriNat, BD TOPO, données environnementales et référentiels territoriaux", use: "Continuités écologiques, eau et refuges potentiels de fraîcheur" },
-  { name: "Logement & modes de vie", sources: "DPE (ADEME), BDNB, RPLS, Sitadel, DVF et données publiques du logement", use: "Parc social, vacance, construction et rénovation expliqués à l’échelle du territoire" },
-  { name: "Sécurité & secours", sources: "Ministère de l’Intérieur — référentiel de compétence Police nationale / Gendarmerie nationale, API Découpage administratif et SDIS 95", use: "Zones de compétence, services territoriaux et principales implantations des centres de secours" },
-  { name: "Bus & trains", sources: "Île-de-France Mobilités — horaires et référentiels GTFS, positions ferroviaires publiées en temps réel", use: "Offre théorique des bus et des trains, lignes, horaires et circulation ferroviaire en direct" },
-  { name: "Services & accessibilité", sources: "Service-Public.gouv.fr / DILA et OpenStreetMap", use: "Services publics et essentiels, horaires, contacts et temps d’accès à pied ou en voiture" },
-  { name: "Chaleur & refuges climatiques", sources: "Institut Paris Region, OpenStreetMap et IGN", use: "Îlots de chaleur de jour et de nuit, morphologie urbaine et ressources potentielles de fraîcheur" },
-  { name: "Nuisances & santé environnementale", sources: "DDT du Val-d’Oise, Airparif, Bruitparif, OpenStreetMap, Sytadin et ADSB.lol", use: "Bruit routier et ferroviaire, coexposition air-bruit, axes de transport et survols observés en direct" },
-  { name: "Projets & transformations", sources: "Préfecture du Val-d’Oise, Société des grands projets, Île-de-France Mobilités, Grand Paris Aménagement, SNCF Réseau et collectivités porteuses", use: "Sélection de projets structurants, étapes annoncées et liens vers les sources officielles" },
+  {
+    name: "Domicile–travail",
+    sources: "INSEE — Mobilités professionnelles 2022",
+    use: "Flux entre communes, destinations de travail et polarités territoriales",
+  },
+  {
+    name: "Sol & formes urbaines",
+    sources:
+      "MOS (Institut Paris Region), OCS GE (IGN), fichiers fonciers et données de l’artificialisation",
+    use: "Transformation du territoire, formes urbaines, friches et trajectoire ZAN",
+  },
+  {
+    name: "Nature & adaptation",
+    sources:
+      "INPN / PatriNat, BD TOPO, données environnementales et référentiels territoriaux",
+    use: "Continuités écologiques, eau et refuges potentiels de fraîcheur",
+  },
+  {
+    name: "Logement & modes de vie",
+    sources:
+      "DPE (ADEME), BDNB, RPLS, Sitadel, DVF et données publiques du logement",
+    use: "Parc social, vacance, construction et rénovation expliqués à l’échelle du territoire",
+  },
+  {
+    name: "Sécurité & secours",
+    sources:
+      "Ministère de l’Intérieur — référentiel de compétence Police nationale / Gendarmerie nationale, API Découpage administratif et SDIS 95",
+    use: "Zones de compétence, services territoriaux et principales implantations des centres de secours",
+  },
+  {
+    name: "Bus & trains",
+    sources:
+      "Île-de-France Mobilités — horaires et référentiels GTFS, positions ferroviaires publiées en temps réel",
+    use: "Offre théorique des bus et des trains, lignes, horaires et circulation ferroviaire en direct",
+  },
+  {
+    name: "Aide à la décision",
+    sources:
+      "IGN, GPU, RNB, BDNB, Géorisques, Cerema, SDES, ADEME, Hub’Eau, Airparif, IDFM, Insee BPE et données DDT 95",
+    use: "Consolidation des contraintes, indicateurs fonciers, données bâtimentaires, besoins en logement et temps d’accès autour d’un point",
+  },
+  {
+    name: "Services & accessibilité",
+    sources: "Service-Public.gouv.fr / DILA et OpenStreetMap",
+    use: "Services publics et essentiels, horaires, contacts et temps d’accès à pied ou en voiture",
+  },
+  {
+    name: "Chaleur & refuges climatiques",
+    sources: "Institut Paris Region, OpenStreetMap et IGN",
+    use: "Îlots de chaleur de jour et de nuit, morphologie urbaine et ressources potentielles de fraîcheur",
+  },
+  {
+    name: "Nuisances & santé environnementale",
+    sources:
+      "DDT du Val-d’Oise, Airparif, Bruitparif, OpenStreetMap, Sytadin et ADSB.lol",
+    use: "Bruit routier et ferroviaire, coexposition air-bruit, axes de transport et survols observés en direct",
+  },
+  {
+    name: "Projets & transformations",
+    sources:
+      "Préfecture du Val-d’Oise, Société des grands projets, Île-de-France Mobilités, Grand Paris Aménagement, SNCF Réseau et collectivités porteuses",
+    use: "Sélection de projets structurants, étapes annoncées et liens vers les sources officielles",
+  },
 ];
 
 export default function DataInformationPage() {
@@ -33,61 +184,227 @@ export default function DataInformationPage() {
   return (
     <main className="data-page">
       <header className="data-header">
-        <a href={`${basePath}/`} className="data-back"><span aria-hidden="true">←</span> Retour à l’Atlas</a>
-        <div className="data-brand"><span>DDT du Val-d’Oise</span><strong>Les données de l’Atlas</strong></div>
+        <a href={`${basePath}/`} className="data-back">
+          <span aria-hidden="true">←</span> Retour à l’Atlas
+        </a>
+        <div className="data-brand">
+          <span>DDT du Val-d’Oise</span>
+          <strong>Les données de l’Atlas</strong>
+        </div>
       </header>
 
       <section className="data-hero">
-        <div className="data-hero-icon" aria-hidden="true">i</div>
-        <div><p className="eyebrow">Comprendre avant d’interpréter</p><h1>D’où viennent les données&nbsp;?</h1><p>Cette page explique les sources mobilisées par l’Atlas territorial, leur rôle et leur niveau de disponibilité. Elle permet de distinguer une donnée déjà connectée d’une connexion encore en préparation.</p></div>
+        <div className="data-hero-icon" aria-hidden="true">
+          i
+        </div>
+        <div>
+          <p className="eyebrow">Comprendre avant d’interpréter</p>
+          <h1>D’où viennent les données&nbsp;?</h1>
+          <p>
+            Cette page explique les sources mobilisées par l’Atlas territorial,
+            leur rôle et leur niveau de disponibilité. Elle permet de distinguer
+            une donnée déjà connectée d’une connexion encore en préparation.
+          </p>
+        </div>
       </section>
 
       <section className="data-content">
         <section className="data-explainer" aria-labelledby="reading-title">
-          <div><p className="data-step">01 · Mode d’emploi</p><h2 id="reading-title">Lire l’état d’une donnée</h2><p>Le statut décrit le fonctionnement de la page thématique, pas la qualité intrinsèque du producteur. Une source peut aussi être temporairement indisponible sans que les données déjà publiées disparaissent.</p></div>
+          <div>
+            <p className="data-step">01 · Mode d’emploi</p>
+            <h2 id="reading-title">Lire l’état d’une donnée</h2>
+            <p>
+              Le statut décrit le fonctionnement de la page thématique, pas la
+              qualité intrinsèque du producteur. Une source peut aussi être
+              temporairement indisponible sans que les données déjà publiées
+              disparaissent.
+            </p>
+          </div>
           <div className="status-legend">
-            <article><i className="connected"/><div><strong>Connecté</strong><p>La page interroge une source publique, ou utilise un jeu préparé et documenté pour l’affichage.</p></div></article>
-            <article><i className="prefiguration"/><div><strong>Préfiguration</strong><p>La page et ses branchements sont préparés ; le contenu doit encore être consolidé avant la mise en service.</p></div></article>
-            <article><i className="unavailable"/><div><strong>Indisponibilité ponctuelle</strong><p>Une API peut ne pas répondre. Il faut alors réessayer plus tard et vérifier la source officielle.</p></div></article>
+            <article>
+              <i className="connected" />
+              <div>
+                <strong>Connecté</strong>
+                <p>
+                  La page interroge une source publique, ou utilise un jeu
+                  préparé et documenté pour l’affichage.
+                </p>
+              </div>
+            </article>
+            <article>
+              <i className="prefiguration" />
+              <div>
+                <strong>Préfiguration</strong>
+                <p>
+                  La page et ses branchements sont préparés ; le contenu doit
+                  encore être consolidé avant la mise en service.
+                </p>
+              </div>
+            </article>
+            <article>
+              <i className="unavailable" />
+              <div>
+                <strong>Indisponibilité ponctuelle</strong>
+                <p>
+                  Une API peut ne pas répondre. Il faut alors réessayer plus
+                  tard et vérifier la source officielle.
+                </p>
+              </div>
+            </article>
           </div>
         </section>
 
         <section className="common-data" aria-labelledby="common-title">
-          <div><p className="data-step">02 · Socle commun</p><h2 id="common-title">Ce qui relie toutes les pages</h2></div>
+          <div>
+            <p className="data-step">02 · Socle commun</p>
+            <h2 id="common-title">Ce qui relie toutes les pages</h2>
+          </div>
           <div className="common-grid">
-            <article><span>01</span><strong>Territoires</strong><p>Communes, codes INSEE, intercommunalités et contours administratifs servent de références communes.</p></article>
-            <article><span>02</span><strong>Localisation</strong><p>Les fonds cartographiques et référentiels IGN permettent de replacer les données sur le territoire.</p></article>
-            <article><span>03</span><strong>Traçabilité</strong><p>Chaque lecture doit préciser le producteur, le millésime et, lorsque c’est possible, la date de mise à jour.</p></article>
+            <article>
+              <span>01</span>
+              <strong>Territoires</strong>
+              <p>
+                Communes, codes INSEE, intercommunalités et contours
+                administratifs servent de références communes.
+              </p>
+            </article>
+            <article>
+              <span>02</span>
+              <strong>Localisation</strong>
+              <p>
+                Les fonds cartographiques et référentiels IGN permettent de
+                replacer les données sur le territoire.
+              </p>
+            </article>
+            <article>
+              <span>03</span>
+              <strong>Traçabilité</strong>
+              <p>
+                Chaque lecture doit préciser le producteur, le millésime et,
+                lorsque c’est possible, la date de mise à jour.
+              </p>
+            </article>
           </div>
         </section>
 
-        <section className="connection-section" aria-labelledby="connections-title">
-          <div className="connection-heading"><div><p className="data-step">03 · Connexions</p><h2 id="connections-title">Les pages cartographiques et leurs sources</h2></div><p>Les producteurs cités restent propriétaires et responsables de leurs données. L’Atlas en propose une lecture territoriale simplifiée.</p></div>
-          <div className="connection-table" role="table" aria-label="Sources et état des pages thématiques">
-            <div className="connection-row connection-labels" role="row"><span>Lecture</span><span>Sources principales</span><span>Utilisation prévue</span><span>État</span></div>
-            {observatories.map((item) => <article className="connection-row" role="row" key={item.name}>
-              <strong>{item.name}</strong><p>{item.sources}</p><p>{item.use}</p><span className={`data-status ${item.status}`}><i/>{item.label}</span>
-            </article>)}
+        <section
+          className="connection-section"
+          aria-labelledby="connections-title"
+        >
+          <div className="connection-heading">
+            <div>
+              <p className="data-step">03 · Connexions</p>
+              <h2 id="connections-title">
+                Les pages cartographiques et leurs sources
+              </h2>
+            </div>
+            <p>
+              Les producteurs cités restent propriétaires et responsables de
+              leurs données. L’Atlas en propose une lecture territoriale
+              simplifiée.
+            </p>
+          </div>
+          <div
+            className="connection-table"
+            role="table"
+            aria-label="Sources et état des pages thématiques"
+          >
+            <div className="connection-row connection-labels" role="row">
+              <span>Lecture</span>
+              <span>Sources principales</span>
+              <span>Utilisation prévue</span>
+              <span>État</span>
+            </div>
+            {observatories.map((item) => (
+              <article className="connection-row" role="row" key={item.name}>
+                <strong>{item.name}</strong>
+                <p>{item.sources}</p>
+                <p>{item.use}</p>
+                <span className={`data-status ${item.status}`}>
+                  <i />
+                  {item.label}
+                </span>
+              </article>
+            ))}
           </div>
         </section>
 
-        <section className="connection-section understanding-sources" aria-labelledby="understanding-sources-title">
-          <div className="connection-heading"><div><p className="data-step">04 · Pages Comprendre</p><h2 id="understanding-sources-title">Les clés de lecture et leurs sources</h2></div><p>Ces formats éditoriaux expliquent les données par un récit court et visuel. Ils conservent les mêmes exigences de source et de millésime que les cartes.</p></div>
-          <div className="connection-table" role="table" aria-label="Sources des pages Comprendre">
-            <div className="connection-row understanding-row connection-labels" role="row"><span>Décryptage</span><span>Sources principales</span><span>Ce que la page explique</span><span>État</span></div>
-            {understandingPages.map((item) => <article className="connection-row understanding-row" role="row" key={item.name}>
-              <strong>{item.name}</strong><p>{item.sources}</p><p>{item.use}</p><span className="data-status connected"><i/>Connecté</span>
-            </article>)}
+        <section
+          className="connection-section understanding-sources"
+          aria-labelledby="understanding-sources-title"
+        >
+          <div className="connection-heading">
+            <div>
+              <p className="data-step">04 · Pages Comprendre</p>
+              <h2 id="understanding-sources-title">
+                Les clés de lecture et leurs sources
+              </h2>
+            </div>
+            <p>
+              Ces formats éditoriaux expliquent les données par un récit court
+              et visuel. Ils conservent les mêmes exigences de source et de
+              millésime que les cartes.
+            </p>
+          </div>
+          <div
+            className="connection-table"
+            role="table"
+            aria-label="Sources des pages Comprendre"
+          >
+            <div
+              className="connection-row understanding-row connection-labels"
+              role="row"
+            >
+              <span>Décryptage</span>
+              <span>Sources principales</span>
+              <span>Ce que la page explique</span>
+              <span>État</span>
+            </div>
+            {understandingPages.map((item) => (
+              <article
+                className="connection-row understanding-row"
+                role="row"
+                key={item.name}
+              >
+                <strong>{item.name}</strong>
+                <p>{item.sources}</p>
+                <p>{item.use}</p>
+                <span className="data-status connected">
+                  <i />
+                  Connecté
+                </span>
+              </article>
+            ))}
           </div>
         </section>
 
         <section className="data-caution">
-          <div><p className="data-step">05 · À retenir</p><h2>Une aide à la lecture, pas un document opposable</h2></div>
-          <div><p>Les cartes donnent une première compréhension du territoire. Elles ne remplacent ni un document réglementaire, ni une étude de terrain, ni la consultation du producteur officiel.</p><p>Les millésimes diffèrent selon les thèmes. Deux indicateurs ne doivent être comparés que si leurs périodes, unités et périmètres sont compatibles.</p><p>Pour une décision administrative ou réglementaire, consultez toujours la source officielle indiquée dans la page concernée.</p></div>
+          <div>
+            <p className="data-step">05 · À retenir</p>
+            <h2>Une aide à la lecture, pas un document opposable</h2>
+          </div>
+          <div>
+            <p>
+              Les cartes donnent une première compréhension du territoire. Elles
+              ne remplacent ni un document réglementaire, ni une étude de
+              terrain, ni la consultation du producteur officiel.
+            </p>
+            <p>
+              Les millésimes diffèrent selon les thèmes. Deux indicateurs ne
+              doivent être comparés que si leurs périodes, unités et périmètres
+              sont compatibles.
+            </p>
+            <p>
+              Pour une décision administrative ou réglementaire, consultez
+              toujours la source officielle indiquée dans la page concernée.
+            </p>
+          </div>
         </section>
       </section>
 
-      <footer className="data-footer">DDT du Val-d’Oise – Pôle géomatique</footer>
+      <footer className="data-footer">
+        DDT du Val-d’Oise – Pôle géomatique
+      </footer>
     </main>
   );
 }

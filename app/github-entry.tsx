@@ -7,6 +7,7 @@ import RisquesPage from "./risques/page";
 import HabitatPage from "./habitat/page";
 import SecuriteRoutierePage from "./securite-routiere/page";
 import DataInformationPage from "./donnees/page";
+import DecisionTerritorialePage from "./decision-territoriale/page";
 import "./globals.css";
 import "./understand-compact.css";
 
@@ -21,8 +22,10 @@ const routes: Record<string, React.ComponentType> = {
   "/habitat": HabitatPage,
   "/securite-routiere": SecuriteRoutierePage,
   "/donnees": DataInformationPage,
+  "/decision-territoriale": DecisionTerritorialePage,
 };
-const Page = requestedPage === "donnees" ? DataInformationPage : routes[pathname.replace(/\/$/, "") || "/"] || Home;
+const queryRoutes: Record<string, React.ComponentType> = { donnees: DataInformationPage, decision: DecisionTerritorialePage };
+const Page = (requestedPage && queryRoutes[requestedPage]) || routes[pathname.replace(/\/$/, "") || "/"] || Home;
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode><Page /></React.StrictMode>,

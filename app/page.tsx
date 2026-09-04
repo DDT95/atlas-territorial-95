@@ -11,19 +11,91 @@ type Commune = {
 };
 
 const themes = [
-  { href: "https://ddt95.github.io/portail-communal95/", index: "01", title: "Portail communal", text: "Fiches communales, comparaisons et fiches actions.", tone: "slate", status: "Connecté" },
-  { href: "https://ddt95.github.io/urbanisme95/", index: "02", title: "Urbanisme à la parcelle", text: "Cadastre, PLU, prescriptions, servitudes et risques.", tone: "blue", status: "Connecté" },
-  { href: "https://ddt95.github.io/artificialisation-zan95/", index: "03", title: "Artificialisation & ZAN", text: "Occupation du sol, consommation d’espace, trajectoire ZAN et friches.", tone: "violet", status: "Connecté" },
-  { href: "https://ddt95.github.io/agriculture95/", index: "04", title: "Agriculture", text: "Cultures, bio, prairies, haies et enjeux environnementaux.", tone: "green", status: "Connecté" },
-  { href: "https://ddt95.github.io/eau95/", index: "05", title: "Eau", text: "Cours d’eau, zones humides, nappes, stations et débits.", tone: "cyan", status: "Connecté" },
-  { href: "https://ddt95.github.io/observatoire_risques_95/", index: "06", title: "Risques majeurs", text: "Inondations, argiles, cavités, ICPE et sites pollués.", tone: "orange", status: "Connecté" },
-  { href: "https://ddt95.github.io/observatoire_bati/", index: "07", title: "Logement & Habitat", text: "DPE, parc social, vacance, construction et marchés fonciers.", tone: "pink", status: "Connecté" },
-  { href: "https://ddt95.github.io/biodiversite95/", index: "08", title: "Biodiversité", text: "ZNIEFF, Natura 2000, continuités et observations d’espèces.", tone: "leaf", status: "Connecté" },
-  { href: "https://ddt95.github.io/transport95/", index: "09", title: "Mobilités & transports", text: "Réseaux, lignes, pôles et services de mobilité.", tone: "red", status: "Connecté" },
-  { href: "https://ddt95.github.io/transition-energetique95/", index: "10", title: "Transition énergétique", text: "Consommation, production, rénovation et qualité de l’air.", tone: "gold", status: "Connecté" },
+  {
+    href: "https://ddt95.github.io/portail-communal95/",
+    index: "01",
+    title: "Portail communal",
+    text: "Fiches communales, comparaisons et fiches actions.",
+    tone: "slate",
+    status: "Connecté",
+  },
+  {
+    href: "https://ddt95.github.io/urbanisme95/",
+    index: "02",
+    title: "Urbanisme à la parcelle",
+    text: "Cadastre, PLU, prescriptions, servitudes et risques.",
+    tone: "blue",
+    status: "Connecté",
+  },
+  {
+    href: "https://ddt95.github.io/artificialisation-zan95/",
+    index: "03",
+    title: "Artificialisation & ZAN",
+    text: "Occupation du sol, consommation d’espace, trajectoire ZAN et friches.",
+    tone: "violet",
+    status: "Connecté",
+  },
+  {
+    href: "https://ddt95.github.io/agriculture95/",
+    index: "04",
+    title: "Agriculture",
+    text: "Cultures, bio, prairies, haies et enjeux environnementaux.",
+    tone: "green",
+    status: "Connecté",
+  },
+  {
+    href: "https://ddt95.github.io/eau95/",
+    index: "05",
+    title: "Eau",
+    text: "Cours d’eau, zones humides, nappes, stations et débits.",
+    tone: "cyan",
+    status: "Connecté",
+  },
+  {
+    href: "https://ddt95.github.io/observatoire_risques_95/",
+    index: "06",
+    title: "Risques majeurs",
+    text: "Inondations, argiles, cavités, ICPE et sites pollués.",
+    tone: "orange",
+    status: "Connecté",
+  },
+  {
+    href: "https://ddt95.github.io/observatoire_bati/",
+    index: "07",
+    title: "Logement & Habitat",
+    text: "DPE, parc social, vacance, construction et marchés fonciers.",
+    tone: "pink",
+    status: "Connecté",
+  },
+  {
+    href: "https://ddt95.github.io/biodiversite95/",
+    index: "08",
+    title: "Biodiversité",
+    text: "ZNIEFF, Natura 2000, continuités et observations d’espèces.",
+    tone: "leaf",
+    status: "Connecté",
+  },
+  {
+    href: "https://ddt95.github.io/transport95/",
+    index: "09",
+    title: "Mobilités & transports",
+    text: "Réseaux, lignes, pôles et services de mobilité.",
+    tone: "red",
+    status: "Connecté",
+  },
+  {
+    href: "https://ddt95.github.io/transition-energetique95/",
+    index: "10",
+    title: "Transition énergétique",
+    text: "Consommation, production, rénovation et qualité de l’air.",
+    tone: "gold",
+    status: "Connecté",
+  },
 ];
 
-const connectedReferences = themes.filter((theme) => theme.status === "Connecté").length;
+const connectedReferences = themes.filter(
+  (theme) => theme.status === "Connecté",
+).length;
 
 export default function Home() {
   const basePath = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
@@ -32,13 +104,17 @@ export default function Home() {
   const communeLayerRef = useRef<any>(null);
   const [communes, setCommunes] = useState<Commune[]>([]);
   const [query, setQuery] = useState("");
-  const [sourceState, setSourceState] = useState<"loading" | "ok" | "error">("loading");
+  const [sourceState, setSourceState] = useState<"loading" | "ok" | "error">(
+    "loading",
+  );
   const [menuOpen, setMenuOpen] = useState(false);
   const [mapReady, setMapReady] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
-    fetch("https://geo.api.gouv.fr/departements/95/communes?fields=nom,code,codeEpci,centre,contour")
+    fetch(
+      "https://geo.api.gouv.fr/departements/95/communes?fields=nom,code,codeEpci,centre,contour",
+    )
       .then((response) => {
         if (!response.ok) throw new Error("Référentiel indisponible");
         return response.json();
@@ -49,7 +125,9 @@ export default function Home() {
         setSourceState("ok");
       })
       .catch(() => setSourceState("error"));
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -75,7 +153,13 @@ export default function Home() {
         boxZoom: false,
         keyboard: false,
         tap: false,
-      }).fitBounds([[48.89, 1.60], [49.25, 2.60]], { padding: [8, 8] });
+      }).fitBounds(
+        [
+          [48.89, 1.6],
+          [49.25, 2.6],
+        ],
+        { padding: [8, 8] },
+      );
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         opacity: 0.34,
@@ -85,9 +169,12 @@ export default function Home() {
       mapRef.current = map;
       setMapReady(true);
     };
-    const existing = document.querySelector<HTMLScriptElement>('script[data-leaflet="true"]');
+    const existing = document.querySelector<HTMLScriptElement>(
+      'script[data-leaflet="true"]',
+    );
     if (existing) {
-      if ((window as any).L) startMap(); else existing.addEventListener("load", startMap, { once: true });
+      if ((window as any).L) startMap();
+      else existing.addEventListener("load", startMap, { once: true });
     } else {
       const script = document.createElement("script");
       script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
@@ -105,26 +192,43 @@ export default function Home() {
     if (communeLayerRef.current) map.removeLayer(communeLayerRef.current);
     const features = communes
       .filter((commune) => commune.contour)
-      .map((commune) => ({ type: "Feature", properties: { code: commune.code, nom: commune.nom }, geometry: commune.contour }));
-    const layer = L.geoJSON({ type: "FeatureCollection", features }, {
-      style: () => ({
-        color: "#71839d",
-        weight: 0.65,
-        opacity: 0.72,
-        fillColor: "#f4f7fb",
-        fillOpacity: 0.46,
-      }),
-      onEachFeature: (feature: any, featureLayer: any) => {
-        featureLayer.bindTooltip(feature.properties.nom, { sticky: true, direction: "top", className: "atlas-commune-tooltip" });
-        featureLayer.on({
-          mouseover: () => {
-            featureLayer.setStyle({ color: "#496b7b", weight: 1.05, opacity: 0.9, fillColor: "#e6f0f4", fillOpacity: 0.62 });
-          },
-          mouseout: () => layer.resetStyle(featureLayer),
-          click: () => openCommune(feature.properties.code),
-        });
+      .map((commune) => ({
+        type: "Feature",
+        properties: { code: commune.code, nom: commune.nom },
+        geometry: commune.contour,
+      }));
+    const layer = L.geoJSON(
+      { type: "FeatureCollection", features },
+      {
+        style: () => ({
+          color: "#71839d",
+          weight: 0.65,
+          opacity: 0.72,
+          fillColor: "#f4f7fb",
+          fillOpacity: 0.46,
+        }),
+        onEachFeature: (feature: any, featureLayer: any) => {
+          featureLayer.bindTooltip(feature.properties.nom, {
+            sticky: true,
+            direction: "top",
+            className: "atlas-commune-tooltip",
+          });
+          featureLayer.on({
+            mouseover: () => {
+              featureLayer.setStyle({
+                color: "#496b7b",
+                weight: 1.05,
+                opacity: 0.9,
+                fillColor: "#e6f0f4",
+                fillOpacity: 0.62,
+              });
+            },
+            mouseout: () => layer.resetStyle(featureLayer),
+            click: () => openCommune(feature.properties.code),
+          });
+        },
       },
-    }).addTo(map);
+    ).addTo(map);
     communeLayerRef.current = layer;
     map.fitBounds(layer.getBounds(), { padding: [10, 10] });
   }, [communes, mapReady]);
@@ -132,7 +236,9 @@ export default function Home() {
   function submitSearch(event: React.FormEvent) {
     event.preventDefault();
     const normalized = query.trim().toLocaleLowerCase("fr");
-    const match = communes.find((commune) => commune.nom.toLocaleLowerCase("fr").startsWith(normalized));
+    const match = communes.find((commune) =>
+      commune.nom.toLocaleLowerCase("fr").startsWith(normalized),
+    );
     if (match) {
       setQuery(match.nom);
       openCommune(match.code);
@@ -142,59 +248,142 @@ export default function Home() {
   function openCommune(code: string) {
     const commune = communes.find((item) => item.code === code);
     if (!commune) return;
-    const params = new URLSearchParams({ code: commune.code, nom: commune.nom });
-    window.open(`https://ddt95.github.io/portail-communal95/?${params.toString()}`, "_blank", "noopener,noreferrer");
+    const params = new URLSearchParams({
+      code: commune.code,
+      nom: commune.nom,
+    });
+    window.open(
+      `https://ddt95.github.io/portail-communal95/?${params.toString()}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
   }
 
   return (
     <main className="atlas-shell">
       <header className="atlas-header">
-        <a className="republique" href="#accueil" aria-label="Préfet du Val-d’Oise — retour à l’accueil">
-          <img src={`${basePath}/prefet-val-doise-logo.png`} alt="Préfet du Val-d’Oise — Liberté, Égalité, Fraternité" />
+        <a
+          className="republique"
+          href="#accueil"
+          aria-label="Préfet du Val-d’Oise — retour à l’accueil"
+        >
+          <img
+            src={`${basePath}/prefet-val-doise-logo.png`}
+            alt="Préfet du Val-d’Oise — Liberté, Égalité, Fraternité"
+          />
         </a>
         <div className="brand-copy">
           <span>Direction départementale des territoires</span>
           <strong>Atlas territorial du Val-d’Oise</strong>
         </div>
-        <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label="Afficher les thématiques">
+        <button
+          className="menu-button"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-expanded={menuOpen}
+          aria-label="Afficher les thématiques"
+        >
           <span /> <span /> <span />
         </button>
-        <nav className={menuOpen ? "top-nav open" : "top-nav"} aria-label="Navigation principale">
+        <nav
+          className={menuOpen ? "top-nav open" : "top-nav"}
+          aria-label="Navigation principale"
+        >
           <a href="#territoire">Le territoire</a>
           <a href="#thematiques">Les thématiques</a>
           <a href="#comprendre">Comprendre</a>
           <a href="#liens-utiles">Liens utiles</a>
-          <a className="weather-nav" href="https://ddt95.github.io/observatoire_meteo/" target="_blank" rel="noreferrer">Météo ↗</a>
-          <a className="info-nav" href={`${basePath}/?page=donnees`}><i aria-hidden="true">i</i><span>Sources & données</span></a>
+          <a
+            className="weather-nav"
+            href="https://ddt95.github.io/observatoire_meteo/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Météo ↗
+          </a>
+          <a className="info-nav" href={`${basePath}/?page=donnees`}>
+            <i aria-hidden="true">i</i>
+            <span>Sources & données</span>
+          </a>
         </nav>
       </header>
 
       <section className="hero" id="accueil">
         <div className="hero-copy">
           <p className="eyebrow">Observer · comprendre · décider</p>
-          <h1>Le Val-d’Oise,<br /><span>carte après carte.</span></h1>
-          <p className="hero-lead">Une entrée commune vers les données territoriales de la DDT 95 et dix lectures thématiques.</p>
+          <h1>
+            Le Val-d’Oise,
+            <br />
+            <span>carte après carte.</span>
+          </h1>
+          <p className="hero-lead">
+            Une entrée commune vers les données territoriales de la DDT 95 et
+            dix lectures thématiques.
+          </p>
           <form className="territory-search" onSubmit={submitSearch}>
             <label htmlFor="commune-search">Ouvrir une fiche communale</label>
             <div>
-              <input id="commune-search" value={query} onChange={(event) => setQuery(event.target.value)} list="communes-list" placeholder="Pontoise, Argenteuil, Avernes…" />
-              <datalist id="communes-list">{communes.map((commune) => <option key={commune.code} value={commune.nom} />)}</datalist>
+              <input
+                id="commune-search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                list="communes-list"
+                placeholder="Pontoise, Argenteuil, Avernes…"
+              />
+              <datalist id="communes-list">
+                {communes.map((commune) => (
+                  <option key={commune.code} value={commune.nom} />
+                ))}
+              </datalist>
               <button type="submit">Ouvrir</button>
             </div>
           </form>
           <div className="hero-metrics" aria-label="Chiffres clés">
-            <div><strong>{sourceState === "ok" ? communes.length : "—"}</strong><span>communes</span></div>
-            <div><strong>10</strong><span>lectures</span></div>
-            <div><strong>{sourceState === "ok" ? connectedReferences : "—"}</strong><span>{sourceState === "ok" ? "référentiels connectés" : sourceState === "error" ? "connexion à rétablir" : "connexion…"}</span><i className={`source-dot ${sourceState}`} aria-hidden="true" /></div>
+            <div>
+              <strong>{sourceState === "ok" ? communes.length : "—"}</strong>
+              <span>communes</span>
+            </div>
+            <div>
+              <strong>10</strong>
+              <span>lectures</span>
+            </div>
+            <div>
+              <strong>
+                {sourceState === "ok" ? connectedReferences : "—"}
+              </strong>
+              <span>
+                {sourceState === "ok"
+                  ? "référentiels connectés"
+                  : sourceState === "error"
+                    ? "connexion à rétablir"
+                    : "connexion…"}
+              </span>
+              <i className={`source-dot ${sourceState}`} aria-hidden="true" />
+            </div>
           </div>
         </div>
 
         <div className="hero-map-card" id="territoire">
           <div className="map-card-head">
-            <div><span>Vue départementale</span><strong><a className="territory-map-link" href="https://ddt95.github.io/valdoise95/" target="_blank" rel="noreferrer">Val-d’Oise ↗</a></strong></div>
+            <div>
+              <span>Vue départementale</span>
+              <strong>
+                <a
+                  className="territory-map-link"
+                  href="https://ddt95.github.io/valdoise95/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Val-d’Oise ↗
+                </a>
+              </strong>
+            </div>
             <span className="commune-count">183 communes</span>
           </div>
-          <div ref={mapNode} className="atlas-map" aria-label="Carte des communes du Val-d’Oise ; cliquez sur une commune pour ouvrir sa fiche PDF" />
+          <div
+            ref={mapNode}
+            className="atlas-map"
+            aria-label="Carte des communes du Val-d’Oise ; cliquez sur une commune pour ouvrir sa fiche PDF"
+          />
           <div className="map-caption">
             <span className="map-caption-links">
               <a className="map-3d-link" href="https://ddt95.github.io/VO-Insee/" target="_blank" rel="noreferrer">Portrait Insee <small>👁</small><b aria-hidden="true">↗</b></a>
@@ -204,81 +393,399 @@ export default function Home() {
             </span>
           </div>
         </div>
-        <a className="themes-cue" href="#thematiques"><span>Les dix lectures territoriales</span><strong>Découvrir les thématiques</strong></a>
+        <a className="themes-cue" href="#thematiques">
+          <span>Les dix lectures territoriales</span>
+          <strong>Découvrir les thématiques</strong>
+        </a>
       </section>
 
       <section className="themes-section" id="thematiques">
-        <div className="section-heading"><div><p className="eyebrow">Les dix lectures</p><h2>Choisir une thématique</h2></div><p>Une entrée communale et neuf cartes pour lire le territoire à la bonne échelle.</p></div>
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Les dix lectures</p>
+            <h2>Choisir une thématique</h2>
+          </div>
+          <p>
+            Une entrée communale et neuf cartes pour lire le territoire à la
+            bonne échelle.
+          </p>
+        </div>
         <div className="themes-grid">
-          {themes.map((theme) => <article className={`theme-card ${theme.tone}`} key={theme.index}>
-            <div className="theme-top"><span className="theme-index">{theme.index}</span><span className={`theme-status ${theme.status === "Connecté" ? "is-connected" : ""}`}><i aria-hidden="true" />{theme.status}</span></div>
-            <h3>{theme.title}</h3><p>{theme.text}</p>
-            <a href={theme.href} target="_blank" rel="noreferrer">Ouvrir <span aria-hidden="true">↗</span></a>
-          </article>)}
+          {themes.map((theme) => (
+            <article className={`theme-card ${theme.tone}`} key={theme.index}>
+              <div className="theme-top">
+                <span className="theme-index">{theme.index}</span>
+                <span
+                  className={`theme-status ${theme.status === "Connecté" ? "is-connected" : ""}`}
+                >
+                  <i aria-hidden="true" />
+                  {theme.status}
+                </span>
+              </div>
+              <h3>{theme.title}</h3>
+              <p>{theme.text}</p>
+              <a href={theme.href} target="_blank" rel="noreferrer">
+                Ouvrir <span aria-hidden="true">↗</span>
+              </a>
+            </article>
+          ))}
         </div>
       </section>
 
       <section className="understand-section" id="comprendre">
         <style>{`.projects-story{background:linear-gradient(145deg,#f1e6ff,#7b5ac8 52%,#143a70)}.projects-story:before,.projects-story:after{content:"";position:absolute;inset:18% 12%;border:2px solid #fff9;transform:rotate(-5deg)}.projects-story:after{inset:34% 23% 10% 34%;border-color:#ffd66b}.projects-story i{position:absolute;width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 0 0 5px #ffffff44}.projects-story i:nth-child(1){left:18%;top:24%;background:#e24a62}.projects-story i:nth-child(2){left:52%;bottom:18%;background:#ffd66b}.projects-story i:nth-child(3){right:16%;top:30%;background:#35c28b}.projects-story b{position:absolute;right:24%;bottom:20%;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#000091;color:#fff;font-size:15px}`}</style>
         <div className="understand-heading">
-          <div><p className="eyebrow">Comprendre le territoire</p><h2>Des données aux<br /><span>clés de lecture.</span></h2></div>
+          <div>
+            <p className="eyebrow">Comprendre le territoire</p>
+            <h2>
+              Des données aux
+              <br />
+              <span>clés de lecture.</span>
+            </h2>
+          </div>
         </div>
         <div className="understand-grid">
-          <a className="understand-card featured" href="https://ddt95.github.io/val-doise-domicile-travail/" target="_blank" rel="noreferrer">
-            <div className="story-visual flow-story" aria-hidden="true"><i /><i /><i /><b>95</b></div>
-            <div className="story-copy"><span className="story-status live">Connecté</span><small>Mobilités · INSEE 2022</small><h3>Où vont travailler les habitants ?</h3><p>Explorez les flux domicile-travail, commune par commune, et observez les polarités du territoire.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          <a
+            className="understand-card featured"
+            href="https://ddt95.github.io/val-doise-domicile-travail/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual flow-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>95</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Mobilités · INSEE 2022</small>
+              <h3>Où vont travailler les habitants ?</h3>
+              <p>
+                Explorez les flux domicile-travail, commune par commune, et
+                observez les polarités du territoire.
+              </p>
+              <strong>
+                Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
           </a>
-          <a className="understand-card warm is-live" href="https://ddt95.github.io/val-doise-sol-formes-urbaines/" target="_blank" rel="noreferrer">
-            <div className="story-visual land-story" aria-hidden="true"><i /><i /><i /></div>
-            <div className="story-copy"><span className="story-status live">Connecté</span><small>Sol · formes urbaines</small><h3>Comment le territoire se transforme‑t‑il ?</h3><p>Une lecture accessible de l’artificialisation, des friches et de la trajectoire ZAN.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          <a
+            className="understand-card warm is-live"
+            href="https://ddt95.github.io/val-doise-sol-formes-urbaines/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual land-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Sol · formes urbaines</small>
+              <h3>Comment le territoire se transforme‑t‑il ?</h3>
+              <p>
+                Une lecture accessible de l’artificialisation, des friches et de
+                la trajectoire ZAN.
+              </p>
+              <strong>
+                Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
           </a>
-          <a className="understand-card green-story-card is-live" href="https://ddt95.github.io/val-doise-nature-adaptation/" target="_blank" rel="noreferrer">
-            <div className="story-visual nature-story" aria-hidden="true"><i /><i /><i /></div>
-            <div className="story-copy"><span className="story-status live">Connecté</span><small>Nature · adaptation</small><h3>Où le vivant résiste‑t‑il ?</h3><p>Continuités écologiques, eau et refuges potentiels de fraîcheur racontés par la carte.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          <a
+            className="understand-card green-story-card is-live"
+            href="https://ddt95.github.io/val-doise-nature-adaptation/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual nature-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Nature · adaptation</small>
+              <h3>Où le vivant résiste‑t‑il ?</h3>
+              <p>
+                Continuités écologiques, eau et refuges potentiels de fraîcheur
+                racontés par la carte.
+              </p>
+              <strong>
+                Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
           </a>
-          <a className="understand-card habitat-story-card is-live" href="https://ddt95.github.io/val-doise-logement-habitat/" target="_blank" rel="noreferrer">
-            <div className="story-visual habitat-story" aria-hidden="true"><i /><i /><i /><b /></div>
-            <div className="story-copy"><span className="story-status live">Connecté</span><small>Habitat · modes de vie</small><h3>Comment se loge‑t‑on dans le Val‑d’Oise ?</h3><p>Parc social, vacance, construction et rénovation expliqués à hauteur de territoire.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          <a
+            className="understand-card habitat-story-card is-live"
+            href="https://ddt95.github.io/val-doise-logement-habitat/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual habitat-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b />
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Habitat · modes de vie</small>
+              <h3>Comment se loge‑t‑on dans le Val‑d’Oise ?</h3>
+              <p>
+                Parc social, vacance, construction et rénovation expliqués à
+                hauteur de territoire.
+              </p>
+              <strong>
+                Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
           </a>
-          <a className="understand-card security-story-card is-live" href="https://ddt95.github.io/val-doise-securite/" target="_blank" rel="noreferrer">
-            <div className="story-visual security-story" aria-hidden="true"><i /><i /><i /><b>17</b><b>18</b></div>
-            <div className="story-copy"><span className="story-status live">Connecté</span><small>Sécurité · secours</small><h3>Qui intervient, où et comment ?</h3><p>Police, gendarmerie, pompiers et périmètres d’intervention dans le Val-d’Oise.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          <a
+            className="understand-card security-story-card is-live"
+            href="https://ddt95.github.io/val-doise-securite/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual security-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>17</b>
+              <b>18</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Sécurité · secours</small>
+              <h3>Qui intervient, où et comment ?</h3>
+              <p>
+                Police, gendarmerie, pompiers et périmètres d’intervention dans
+                le Val-d’Oise.
+              </p>
+              <strong>
+                Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
           </a>
-          <a className="understand-card transport-story-card is-live" href="https://ddt95.github.io/bus-trains-95/?v=9cd955c" target="_blank" rel="noreferrer">
-            <div className="story-visual transport-story" aria-hidden="true"><i /><i /><i /><b>BUS</b><b>H</b></div>
-            <div className="story-copy"><span className="story-status live">Connecté</span><small>Mobilités · bus & trains</small><h3>Comment circulent les bus et les trains ?</h3><p>Horaires théoriques des bus et trains, et circulation ferroviaire en temps réel.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          <a
+            className="understand-card transport-story-card is-live"
+            href="https://ddt95.github.io/bus-trains-95/?v=9cd955c"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual transport-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>BUS</b>
+              <b>H</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Mobilités · bus & trains</small>
+              <h3>Comment circulent les bus et les trains ?</h3>
+              <p>
+                Horaires théoriques des bus et trains, et circulation
+                ferroviaire en temps réel.
+              </p>
+              <strong>
+                Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
           </a>
-          <a className="understand-card access-story-card is-live" href="https://ddt95.github.io/acces-services95/?v=20260816-2205" target="_blank" rel="noreferrer">
-            <div className="story-visual access-story" aria-hidden="true"><i /><i /><i /><b>5</b><b>15</b></div>
-            <div className="story-copy"><span className="story-status live">Connecté</span><small>Services · accessibilité</small><h3>Quels services sont à portée de main&nbsp;?</h3><p>Services publics et essentiels, horaires, contacts et temps d’accès à pied ou en voiture.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          <a
+            className="understand-card decision-story-card is-live"
+            href="https://ddt95.github.io/diagnostic-aide-decision-95/?page=decision"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual decision-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>15</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Instruction · aide à la décision</small>
+              <h3>Que permet ce site&nbsp;?</h3>
+              <p>
+                Diagnostic au point : urbanisme, risques, bâti, environnement,
+                logement et accessibilité à 15 minutes.
+              </p>
+              <strong>
+                Ouvrir l’analyse <b>↗</b>
+              </strong>
+            </div>
           </a>
-          <a className="understand-card heat-story-card is-live" href="https://ddt95.github.io/chaleur-refuges-95/" target="_blank" rel="noreferrer">
-            <div className="story-visual heat-story" aria-hidden="true"><i /><i /><i /><b /></div>
-            <div className="story-copy"><span className="story-status live">Connecté</span><small>Climat · adaptation</small><h3>Où la chaleur s’accumule-t-elle ?</h3><p>Îlots de chaleur, contrastes jour-nuit et refuges climatiques potentiels.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          <a
+            className="understand-card access-story-card is-live"
+            href="https://ddt95.github.io/acces-services95/?v=20260816-2205"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual access-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>5</b>
+              <b>15</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Services · accessibilité</small>
+              <h3>Quels services sont à portée de main&nbsp;?</h3>
+              <p>
+                Services publics et essentiels, horaires, contacts et temps
+                d’accès à pied ou en voiture.
+              </p>
+              <strong>
+                Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
           </a>
-          <a className="understand-card nuisance-story-card is-live" href="https://ddt95.github.io/val-doise-nuisances/" target="_blank" rel="noreferrer">
-            <div className="story-visual nuisance-story" aria-hidden="true"><i /><i /><i /><b>✈</b></div>
-            <div className="story-copy"><span className="story-status live">Connecté</span><small>Environnement · santé</small><h3>Où les nuisances se cumulent-elles&nbsp;?</h3><p>Bruit des transports, qualité de l’air et survols observés en direct.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          <a
+            className="understand-card heat-story-card is-live"
+            href="https://ddt95.github.io/chaleur-refuges-95/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual heat-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b />
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Climat · adaptation</small>
+              <h3>Où la chaleur s’accumule-t-elle ?</h3>
+              <p>
+                Îlots de chaleur, contrastes jour-nuit et refuges climatiques
+                potentiels.
+              </p>
+              <strong>
+                Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
           </a>
-          <a className="understand-card projects-story-card is-live" href="https://ddt95.github.io/projets-transformations-95/" target="_blank" rel="noreferrer">
-            <div className="story-visual projects-story" aria-hidden="true"><i /><i /><i /><b>↗</b></div>
-            <div className="story-copy"><span className="story-status live">Connecté</span><small>Aménagement · projets</small><h3>Quels projets transforment le territoire&nbsp;?</h3><p>Grands projets, infrastructures, quartiers et cadre de vie, étape par étape.</p><strong>Ouvrir le décryptage <b>↗</b></strong></div>
+          <a
+            className="understand-card nuisance-story-card is-live"
+            href="https://ddt95.github.io/val-doise-nuisances/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual nuisance-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>✈</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Environnement · santé</small>
+              <h3>Où les nuisances se cumulent-elles&nbsp;?</h3>
+              <p>
+                Bruit des transports, qualité de l’air et survols observés en
+                direct.
+              </p>
+              <strong>
+                Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
+          </a>
+          <a
+            className="understand-card projects-story-card is-live"
+            href="https://ddt95.github.io/projets-transformations-95/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual projects-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>↗</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Aménagement · projets</small>
+              <h3>Quels projets transforment le territoire&nbsp;?</h3>
+              <p>
+                Grands projets, infrastructures, quartiers et cadre de vie,
+                étape par étape.
+              </p>
+              <strong>
+                Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
           </a>
         </div>
       </section>
 
       <section className="quick-links" id="liens-utiles">
-        <div className="quick-links-heading"><p className="eyebrow">Vérifier · approfondir · télécharger</p><h2>Services publics utiles</h2><p>Des ressources officielles complémentaires, proposées par des services extérieurs à l’Atlas.</p></div>
+        <div className="quick-links-heading">
+          <p className="eyebrow">Vérifier · approfondir · télécharger</p>
+          <h2>Services publics utiles</h2>
+          <p>
+            Des ressources officielles complémentaires, proposées par des
+            services extérieurs à l’Atlas.
+          </p>
+        </div>
         <nav aria-label="Services publics de référence">
-          <a href="https://www.val-doise.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>Préfecture du Val-d’Oise</strong><span>Services de l’État</span></a>
-          <a href="https://cartes.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>Cartes.gouv.fr</strong><span>Cartographie publique</span></a>
-          <a href="https://www.geoportail-urbanisme.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>Géoportail de l’urbanisme</strong><span>Documents d’urbanisme</span></a>
-          <a href="https://www.georisques.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>Géorisques</strong><span>Risques naturels et technologiques</span></a>
-          <a href="https://www.cadastre.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>Cadastre</strong><span>Plans cadastraux</span></a>
-          <a href="https://www.data.gouv.fr/" target="_blank" rel="noreferrer"><small>Source extérieure</small><strong>data.gouv.fr</strong><span>Données publiques ouvertes</span></a>
+          <a
+            href="https://www.val-doise.gouv.fr/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <small>Source extérieure</small>
+            <strong>Préfecture du Val-d’Oise</strong>
+            <span>Services de l’État</span>
+          </a>
+          <a href="https://cartes.gouv.fr/" target="_blank" rel="noreferrer">
+            <small>Source extérieure</small>
+            <strong>Cartes.gouv.fr</strong>
+            <span>Cartographie publique</span>
+          </a>
+          <a
+            href="https://www.geoportail-urbanisme.gouv.fr/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <small>Source extérieure</small>
+            <strong>Géoportail de l’urbanisme</strong>
+            <span>Documents d’urbanisme</span>
+          </a>
+          <a
+            href="https://www.georisques.gouv.fr/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <small>Source extérieure</small>
+            <strong>Géorisques</strong>
+            <span>Risques naturels et technologiques</span>
+          </a>
+          <a
+            href="https://www.cadastre.gouv.fr/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <small>Source extérieure</small>
+            <strong>Cadastre</strong>
+            <span>Plans cadastraux</span>
+          </a>
+          <a href="https://www.data.gouv.fr/" target="_blank" rel="noreferrer">
+            <small>Source extérieure</small>
+            <strong>data.gouv.fr</strong>
+            <span>Données publiques ouvertes</span>
+          </a>
         </nav>
       </section>
-      <footer><span>DDT du Val-d’Oise – Pôle géomatique</span><a href={`${basePath}/?page=donnees`}>Sources, état et méthode</a></footer>
+      <footer>
+        <span>DDT du Val-d’Oise – Pôle géomatique</span>
+        <a href={`${basePath}/?page=donnees`}>Sources, état et méthode</a>
+      </footer>
     </main>
   );
 }
