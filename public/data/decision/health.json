@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-04T12:27:42.669Z",
+  "generatedAt": "2026-09-04T12:56:58.119Z",
   "status": "ok",
   "sources": [
     {
@@ -11,8 +11,8 @@
       "critical": true,
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-09-04T12:27:40.748Z",
-      "durationMs": 254
+      "checkedAt": "2026-09-04T12:56:54.635Z",
+      "durationMs": 633
     },
     {
       "id": "cadastre",
@@ -23,8 +23,8 @@
       "critical": true,
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-09-04T12:27:40.804Z",
-      "durationMs": 284
+      "checkedAt": "2026-09-04T12:56:55.933Z",
+      "durationMs": 1903
     },
     {
       "id": "gpu",
@@ -35,8 +35,8 @@
       "critical": true,
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-09-04T12:27:40.718Z",
-      "durationMs": 197
+      "checkedAt": "2026-09-04T12:56:54.984Z",
+      "durationMs": 953
     },
     {
       "id": "sup",
@@ -47,8 +47,8 @@
       "critical": true,
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-09-04T12:27:40.904Z",
-      "durationMs": 383
+      "checkedAt": "2026-09-04T12:56:55.223Z",
+      "durationMs": 1191
     },
     {
       "id": "risques",
@@ -59,8 +59,8 @@
       "critical": true,
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-09-04T12:27:40.764Z",
-      "durationMs": 242
+      "checkedAt": "2026-09-04T12:56:55.494Z",
+      "durationMs": 1461
     },
     {
       "id": "services",
@@ -71,8 +71,8 @@
       "critical": true,
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-09-04T12:27:40.955Z",
-      "durationMs": 433
+      "checkedAt": "2026-09-04T12:56:54.917Z",
+      "durationMs": 883
     },
     {
       "id": "isochrones",
@@ -83,8 +83,8 @@
       "critical": true,
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-09-04T12:27:40.777Z",
-      "durationMs": 255
+      "checkedAt": "2026-09-04T12:56:55.267Z",
+      "durationMs": 1233
     },
     {
       "id": "ddt95-open-data",
@@ -95,8 +95,8 @@
       "critical": false,
       "status": "ok",
       "httpStatus": 200,
-      "checkedAt": "2026-09-04T12:27:40.757Z",
-      "durationMs": 234
+      "checkedAt": "2026-09-04T12:56:55.345Z",
+      "durationMs": 1310
     }
   ]
 }
