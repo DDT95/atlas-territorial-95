@@ -61,7 +61,7 @@ export default function AgriculturePage() {
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { pane: "baseTiles", maxZoom: 19, attribution: "© OpenStreetMap contributors" }).addTo(map);
       map.on("zoomend", () => setMapZoom(map.getZoom()));
       layerCatalog.forEach((item) => {
-        const layer = L.tileLayer(wmtsUrl(item.layer), { minZoom: 6, maxZoom: 19, opacity: item.id === "cultures" ? .72 : .78, attribution: "© IGN · ASP · PatriNat" });
+        const layer = L.tileLayer(wmtsUrl(item.layer), { minZoom: 6, maxZoom: 19, ...(item.id === "cultures" ? { maxNativeZoom: 16 } : {}), opacity: item.id === "cultures" ? .72 : .78, attribution: "© IGN · ASP · PatriNat" });
         overlaysRef.current[item.id] = layer;
         if (item.active) layer.addTo(map);
       });
