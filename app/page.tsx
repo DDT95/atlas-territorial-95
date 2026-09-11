@@ -753,6 +753,31 @@ export default function Home() {
               </strong>
             </div>
           </a>
+          <a
+            className="understand-card air-traffic-story-card is-live"
+            href="https://ddt95.github.io/trafic-aerien-95/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual air-traffic-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>✈</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Mobilités · trafic aérien</small>
+              <h3>Comment le Val-d’Oise est-il survolé&nbsp;?</h3>
+              <p>
+                Trajectoires, altitudes et densité des passages observés sur
+                une journée.
+              </p>
+              <strong>
+                Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
+          </a>
         </div>
       </section>
 
