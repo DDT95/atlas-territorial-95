@@ -92,6 +92,43 @@
   font-size: 12px;
 }
 
+.air-traffic-story {
+  background:
+    radial-gradient(circle at 76% 25%, #ffd66b 0 5%, transparent 6%),
+    linear-gradient(145deg, #d9f3ff 0%, #7cc7e8 52%, #294fa3 100%);
+}
+
+.air-traffic-story::before,
+.air-traffic-story::after,
+.air-traffic-story i {
+  content: "";
+  position: absolute;
+  height: 2px;
+  border-radius: 999px;
+  background: #fff;
+  transform: rotate(-11deg);
+}
+
+.air-traffic-story::before { width: 72%; left: -4%; top: 35%; }
+.air-traffic-story::after { width: 62%; right: -3%; bottom: 24%; background: #070047; }
+.air-traffic-story i:nth-child(1) { width: 42%; left: 16%; bottom: 30%; }
+.air-traffic-story i:nth-child(2) { width: 8px; height: 8px; left: 17%; top: 27%; border-radius: 50%; background: #fff; box-shadow: 0 0 0 5px #ffffff55; }
+.air-traffic-story i:nth-child(3) { width: 9px; height: 9px; right: 15%; top: 45%; border-radius: 50%; background: #e1000f; box-shadow: 0 0 0 5px #ffffff55; }
+.air-traffic-story b {
+  position: absolute;
+  left: 49%;
+  top: 42%;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fff;
+  color: #000091;
+  font-size: 18px;
+  box-shadow: 0 0 0 7px #ffffff55;
+}
+
 .understand-card:hover,
 .understand-card.featured:hover,
 .understand-card.is-live:hover {
