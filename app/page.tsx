@@ -729,31 +729,6 @@ export default function Home() {
             </div>
           </a>
           <a
-            className="understand-card decision-story-card is-live"
-            href="https://ddt95.github.io/diagnostic-aide-decision-95/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <div className="story-visual decision-story" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-              <b>15</b>
-            </div>
-            <div className="story-copy">
-              <span className="story-status live">Connecté</span>
-              <small>Instruction · aide à la décision</small>
-              <h3>Outils d’aide à la décision</h3>
-              <p>
-                Diagnostic au point : urbanisme, risques, bâti, environnement,
-                logement et accessibilité à 15 minutes.
-              </p>
-              <strong>
-                Ouvrir l’analyse <b>↗</b>
-              </strong>
-            </div>
-          </a>
-          <a
             className="understand-card air-traffic-story-card is-live"
             href="https://ddt95.github.io/trafic-aerien-95/"
             target="_blank"
@@ -775,6 +750,56 @@ export default function Home() {
               </p>
               <strong>
                 Ouvrir le décryptage <b>↗</b>
+              </strong>
+            </div>
+          </a>
+          <a
+            className="understand-card loupe-story-card is-live"
+            href="https://ddt95.github.io/val-doise-a-la-loupe/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual loupe-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>95</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Données · portraits communaux</small>
+              <h3>Le Val-d’Oise à la loupe</h3>
+              <p>
+                Survolez une commune et retrouvez en un regard ses habitants,
+                logements, emplois, services et mobilités.
+              </p>
+              <strong>
+                Ouvrir les portraits <b>↗</b>
+              </strong>
+            </div>
+          </a>
+          <a
+            className="understand-card decision-story-card is-live"
+            href="https://ddt95.github.io/diagnostic-aide-decision-95/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual decision-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>15</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Instruction · aide à la décision</small>
+              <h3>Outils d’aide à la décision</h3>
+              <p>
+                Diagnostic au point : urbanisme, risques, bâti, environnement,
+                logement et accessibilité à 15 minutes.
+              </p>
+              <strong>
+                Ouvrir l’analyse <b>↗</b>
               </strong>
             </div>
           </a>
