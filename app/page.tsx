@@ -803,6 +803,31 @@ export default function Home() {
               </strong>
             </div>
           </a>
+          <a
+            className="understand-card fuel-story-card is-live"
+            href="https://ddt95.github.io/carte_carburant_95/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual fuel-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>⛽</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Mobilités · prix carburant</small>
+              <h3>Où le carburant est-il le moins cher&nbsp;?</h3>
+              <p>
+                Prévisions à 7 et 14 jours des prix par station, à partir du
+                flux temps réel prix-carburants.gouv.fr.
+              </p>
+              <strong>
+                Ouvrir la carte <b>↗</b>
+              </strong>
+            </div>
+          </a>
         </div>
       </section>
 
