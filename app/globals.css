@@ -223,6 +223,9 @@ body{font-family:"Marianne",Arial,sans-serif}
 /* Aide à la décision — carte d'entrée */
 .decision-story{background:linear-gradient(145deg,#dff7f3,#7fd4c1 48%,#007f72)}.decision-story:before{content:"";position:absolute;inset:14px;border:2px solid #fff;border-radius:11px;transform:rotate(-4deg)}.decision-story i{position:absolute;width:11px;height:11px;border-radius:50%;background:#000091;box-shadow:0 0 0 5px #fff8}.decision-story i:nth-child(1){left:18%;top:28%}.decision-story i:nth-child(2){left:48%;bottom:20%;background:#e1000f}.decision-story i:nth-child(3){right:18%;top:24%;background:#18753c}.decision-story b{position:absolute;right:25%;bottom:18%;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#000091;color:#fff;font-size:12px}
 
+/* Prix carburant — carte d'entrée */
+.fuel-story{background:linear-gradient(145deg,#fff3d6,#f2a33d 52%,#b5461f)}.fuel-story:before,.fuel-story:after{content:"";position:absolute;border-radius:50%;filter:blur(6px)}.fuel-story:before{width:60px;height:60px;left:14%;top:12%;background:#ffe08a}.fuel-story:after{width:70px;height:70px;right:10%;bottom:-20px;background:#e1000f}.fuel-story i{position:absolute;width:11px;height:11px;border-radius:50%;background:#fff;box-shadow:0 0 0 5px #ffffff55}.fuel-story i:nth-child(1){left:20%;bottom:24%}.fuel-story i:nth-child(2){left:50%;top:20%;background:#000091}.fuel-story i:nth-child(3){right:18%;top:44%;background:#18753c}.fuel-story b{position:absolute;right:22%;bottom:16%;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:#fff;font-size:16px;box-shadow:0 0 0 6px #ffffff55}
+
 /* Aide à la décision — espace métier */
 
 /* Alignement strict sur le gabarit cartographique DDT95 */
