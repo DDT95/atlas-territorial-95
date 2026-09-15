@@ -804,6 +804,32 @@ export default function Home() {
             </div>
           </a>
           <a
+            className="understand-card election-story-card is-live"
+            href="https://ddt95.github.io/elections/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="story-visual election-story" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <b>95</b>
+            </div>
+            <div className="story-copy">
+              <span className="story-status live">Connecté</span>
+              <small>Instruction · panorama électoral</small>
+              <h3>Atlas électoral du Val-d’Oise</h3>
+              <p>
+                Résultats par commune, bureau de vote, canton et
+                circonscription — présidentielle, législatives, européennes,
+                départementales, municipales.
+              </p>
+              <strong>
+                Ouvrir l’atlas électoral <b>↗</b>
+              </strong>
+            </div>
+          </a>
+          <a
             className="understand-card fuel-story-card is-live"
             href="https://ddt95.github.io/carte_carburant_95/"
             target="_blank"
